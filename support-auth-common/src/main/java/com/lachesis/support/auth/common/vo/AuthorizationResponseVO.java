@@ -3,12 +3,21 @@ package com.lachesis.support.auth.common.vo;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class LocalUserVO{
+public class AuthorizationResponseVO {
 	private String id;
 	private String username;
-	private String password;
 	private Collection<String> roles = new ArrayList<String>();
 	private Collection<String> permissions = new ArrayList<String>();
+
+	public AuthorizationResponseVO() {
+		super();
+	}
+
+	public AuthorizationResponseVO(String id, String username) {
+		super();
+		this.id = id;
+		this.username = username;
+	}
 
 	public String getId() {
 		return id;
@@ -24,14 +33,6 @@ public class LocalUserVO{
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public Collection<String> getRoles() {
@@ -50,9 +51,15 @@ public class LocalUserVO{
 	}
 
 	public void setPermissions(Collection<String> permissions) {
-		if(permissions != null){
+		if (permissions != null) {
 			this.permissions.clear();
 			this.permissions.addAll(permissions);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "AuthorizationResponseVO [id=" + id + ", username=" + username + ", roles=" + roles + ", permissions="
+				+ permissions + "]";
 	}
 }

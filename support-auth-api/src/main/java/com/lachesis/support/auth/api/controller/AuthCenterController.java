@@ -67,8 +67,8 @@ public class AuthCenterController {
 		return tokenResp;
 	}
 
-	@RequestMapping(value="token",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.GET)
-	public AuthResponse authorize(@RequestParam("token") String token, @RequestParam("ip") String ip) {
+	@RequestMapping(value="authorization/{tokenid}",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.GET)
+	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authentication for [token:%s,ip:%s]", token, ip));
 		}
