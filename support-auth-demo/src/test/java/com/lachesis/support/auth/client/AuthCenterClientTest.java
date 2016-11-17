@@ -27,6 +27,8 @@ public class AuthCenterClientTest {
 	String baseUrl = "http://127.0.0.1:9090/authcenter/api/v1";
 	String authenticationBaseUrl = baseUrl + "/token";
 	String authorizationBaseUrl = baseUrl + "/authorization";
+	
+	int maxSizeToExecute = 100000;
 
 	@Before
 	public void setUp() throws Exception {
@@ -89,7 +91,6 @@ public class AuthCenterClientTest {
 
 	@Test
 	public void testAuthorizeInBatch() {
-		int maxSizeToRun = 10000;
 		String username = "283";
 		String password = "123";
 
@@ -97,7 +98,7 @@ public class AuthCenterClientTest {
 		AuthenticationRequestVO vo = new AuthenticationRequestVO(username, password);
 
 		try {
-			for (int i = 0; i < maxSizeToRun; i++) {
+			for (int i = 0; i < maxSizeToExecute; i++) {
 				AuthenticationResponseVO authenticationResp = restTemplate.postForObject(url, prepareHttpEntity(vo),
 						AuthenticationResponseVO.class, uriVars);
 				Assert.assertThat(authenticationResp, Matchers.notNullValue());
