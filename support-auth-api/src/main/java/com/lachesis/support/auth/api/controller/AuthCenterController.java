@@ -35,7 +35,7 @@ public class AuthCenterController {
 	@RequestMapping(value="token",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.POST)
 	public AuthResponse authenticate(@RequestBody AuthenticationRequest tokenRequest, HttpServletRequest request) {
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("request token for [username:%s]", tokenRequest.getUsername()));
+			LOG.info(String.format("authenticate for [username:%s]", tokenRequest.getUsername()));
 		}
 
 		if (isBlank(tokenRequest.getUsername()) || isBlank(tokenRequest.getPassword())) {
@@ -70,7 +70,7 @@ public class AuthCenterController {
 	@RequestMapping(value="authorization/{tokenid}",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.GET)
 	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip) {
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("authentication for [token:%s,ip:%s]", token, ip));
+			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
 
 		if (isBlank(token) || isBlank(ip)) {

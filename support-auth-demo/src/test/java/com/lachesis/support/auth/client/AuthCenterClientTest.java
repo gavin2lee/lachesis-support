@@ -24,7 +24,9 @@ public class AuthCenterClientTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthCenterClientTest.class);
 	RestTemplate restTemplate;
 	Map<String, String> uriVars;
-	String baseUrl = "http://127.0.0.1:9090/authcenter/api/v1/token";
+	String baseUrl = "http://127.0.0.1:9090/authcenter/api/v1";
+	String authenticationBaseUrl = baseUrl + "/token";
+	String authorizationBaseUrl = baseUrl + "/authorization";
 
 	@Before
 	public void setUp() throws Exception {
@@ -37,59 +39,96 @@ public class AuthCenterClientTest {
 		String username = "283";
 		String password = "123";
 
-		String url = baseUrl;
+		String url = authenticationBaseUrl;
 
 		AuthenticationRequestVO vo = new AuthenticationRequestVO(username, password);
 
 		try {
-			AuthenticationResponseVO respVO = restTemplate.postForObject(url, prepareHttpEntity(vo), AuthenticationResponseVO.class, uriVars);
+			AuthenticationResponseVO respVO = restTemplate.postForObject(url, prepareHttpEntity(vo),
+					AuthenticationResponseVO.class, uriVars);
 			Assert.assertThat(respVO, Matchers.notNullValue());
 			Assert.assertThat(respVO.getToken(), Matchers.notNullValue());
-			
-			LOG.debug("token returned:"+respVO.getToken());
+
+			LOG.debug("token returned:" + respVO.getToken());
 		} catch (Exception e) {
 			LOG.error("fail", e);
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
-	public void testAuthorize(){
+	public void testAuthorize() {
 		String username = "283";
 		String password = "123";
 
-		String url = baseUrl;
+		String url = authenticationBaseUrl;
 
 		AuthenticationRequestVO vo = new AuthenticationRequestVO(username, password);
 
 		try {
-			AuthenticationResponseVO authenticationResp = restTemplate.postForObject(url, prepareHttpEntity(vo), AuthenticationResponseVO.class, uriVars);
+			AuthenticationResponseVO authenticationResp = restTemplate.postForObject(url, prepareHttpEntity(vo),
+					AuthenticationResponseVO.class, uriVars);
 			Assert.assertThat(authenticationResp, Matchers.notNullValue());
 			Assert.assertThat(authenticationResp.getToken(), Matchers.notNullValue());
-			
-			LOG.debug("token returned:"+authenticationResp.getToken());
-			
+
+			LOG.debug("token returned:" + authenticationResp.getToken());
+
 			String token = authenticationResp.getToken();
 			String ip = "127.0.0.1";
-			url = String.format("%s/%s?ip=%s", url, token, ip);
-			
-			AuthorizationResponseVO authorizationResp = restTemplate.getForObject(url, AuthorizationResponseVO.class, uriVars);
+			String authorizeUrl = String.format("%s/%s?ip=%s", authorizationBaseUrl, token, ip);
+
+			AuthorizationResponseVO authorizationResp = restTemplate.getForObject(authorizeUrl,
+					AuthorizationResponseVO.class, uriVars);
 			Assert.assertThat(authorizationResp, Matchers.notNullValue());
-			LOG.debug("authorizationResp:"+authorizationResp);
+			LOG.debug("authorizationResp:" + authorizationResp);
 		} catch (Exception e) {
 			LOG.error("fail", e);
 			Assert.fail(e.getMessage());
 		}
 	}
-	
-	private HttpEntity<String> prepareHttpEntity(Object requestParams){
+
+	@Test
+	public void testAuthorizeInBatch() {
+		int maxSizeToRun = 10000;
+		String username = "283";
+		String password = "123";
+
+		String url = authenticationBaseUrl;
+		AuthenticationRequestVO vo = new AuthenticationRequestVO(username, password);
+
+		try {
+			for (int i = 0; i < maxSizeToRun; i++) {
+				AuthenticationResponseVO authenticationResp = restTemplate.postForObject(url, prepareHttpEntity(vo),
+						AuthenticationResponseVO.class, uriVars);
+				Assert.assertThat(authenticationResp, Matchers.notNullValue());
+				Assert.assertThat(authenticationResp.getToken(), Matchers.notNullValue());
+
+				LOG.debug("token returned:" + authenticationResp.getToken());
+
+				String token = authenticationResp.getToken();
+				String ip = "127.0.0.1";
+				String authorizeUrl = String.format("%s/%s?ip=%s", authorizationBaseUrl, token, ip);
+
+				AuthorizationResponseVO authorizationResp = restTemplate.getForObject(authorizeUrl,
+						AuthorizationResponseVO.class, uriVars);
+				Assert.assertThat(authorizationResp, Matchers.notNullValue());
+				LOG.debug("authorizationResp:" + authorizationResp);
+
+			}
+		} catch (Exception e) {
+			LOG.error("fail", e);
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	private HttpEntity<String> prepareHttpEntity(Object requestParams) {
 		JSONObject jsonObj = JSONObject.fromObject(requestParams);
 		HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), prepareHeaders());
-		
+
 		return formEntity;
 	}
-	
-	private HttpHeaders prepareHeaders(){
+
+	private HttpHeaders prepareHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
 		headers.setContentType(type);
