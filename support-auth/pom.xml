@@ -9,9 +9,7 @@
 		<version>0.01</version>
 	</parent>
 
-	<groupId>com.lachesis.support</groupId>
 	<artifactId>support-auth</artifactId>
-	<version>0.01</version>
 
 	<name>support-auth</name>
 	<packaging>jar</packaging>

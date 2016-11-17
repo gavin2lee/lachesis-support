@@ -9,7 +9,6 @@
 		<version>0.01</version>
 	</parent>
 
-	<groupId>com.lachesis.support</groupId>
 	<artifactId>support-auth-api</artifactId>
 
 	<name>authcenter</name>
