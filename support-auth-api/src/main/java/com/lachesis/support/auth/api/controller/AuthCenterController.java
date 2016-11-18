@@ -6,7 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,8 +93,9 @@ public class AuthCenterController {
 	}
 	
 	@RequestMapping(value="token/{tokenid}",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.DELETE)
-	public void logout(@PathVariable("tokenid")String token, HttpServletRequest request){
+	public ResponseEntity<String> logout(@PathVariable("tokenid")String token, HttpServletRequest request){
 		authSupporter.logout(token);
+		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
 
 	private String determineTerminalIpAddress(HttpServletRequest request) {
