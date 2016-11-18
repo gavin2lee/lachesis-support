@@ -27,11 +27,11 @@
 	</bean>
 	<bean id="subjectFactory"
 		class="com.lachesis.support.auth.demo.shiro.TokenAndIpDefaultWebSubjectFactory" />
-		
+
 	<bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
 		<property name="sessionValidationSchedulerEnabled" value="false" />
 	</bean>
-	
+
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="tokenAuthorizingRealm" />
 		<property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled"
@@ -39,6 +39,8 @@
 		<property name="subjectFactory" ref="subjectFactory" />
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 
 	<bean
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -50,6 +52,15 @@
 	<bean id="tokenAccessControlFilter"
 		class="com.lachesis.support.auth.demo.shiro.TokenAccessControlFilter" />
 
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+		
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="filters">
@@ -59,7 +70,7 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/nurses/**=tokenAuthc
+				/nurses/**=tokenAuthc,roles[user]
 			</value>
 		</property>
 	</bean>
