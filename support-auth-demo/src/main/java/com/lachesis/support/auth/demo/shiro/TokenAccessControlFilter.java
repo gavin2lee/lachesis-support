@@ -9,6 +9,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.springframework.http.HttpHeaders;
 
@@ -30,7 +31,8 @@ public class TokenAccessControlFilter extends AccessControlFilter {
 		StatelessToken sToken = new StatelessToken(token, terminalIpAddress, params);
 
 		try {
-			getSubject(request, response).login(sToken);
+			Subject subject = getSubject(request, response);
+			subject.login(sToken);
 		} catch (Exception e) {
 			onLoginFail(response);
 			return false;

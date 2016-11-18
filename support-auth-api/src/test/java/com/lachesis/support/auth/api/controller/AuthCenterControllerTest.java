@@ -1,7 +1,5 @@
 package com.lachesis.support.auth.api.controller;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
