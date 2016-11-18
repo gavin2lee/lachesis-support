@@ -100,7 +100,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>authdemo</finalName>
+		<finalName>demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,7 +118,7 @@
 				<configuration>
 					<uriEncoding>UTF-8</uriEncoding>
 					<port>9091</port>
-					<path>/authdemo/api/v1</path>
+					<path>/demo/api/v1</path>
 				</configuration>
 			</plugin>
 		</plugins>
