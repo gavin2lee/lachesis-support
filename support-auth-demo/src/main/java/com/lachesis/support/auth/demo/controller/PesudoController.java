@@ -29,31 +29,31 @@ public class PesudoController {
 	@RequestMapping("/greeting")
 	public Greeting getGreeting(@RequestParam(name="toname") String toName, HttpServletRequest request){
 		
-		String token = determineToken(request);
-		String ip = determineIpAddress(request);
-		String url = determineUrlToRequest(token, ip);
-		
-		Map<String,String> vars = new HashMap<String,String>();
-		//vars.put("token", token);
-		//vars.put("ip", ip);
-		
-		RestTemplate  restTemplate = new RestTemplate();
-		String result = "";
-		try{
-			result = restTemplate.getForObject(url, String.class, vars);
-		}catch(HttpClientErrorException ex){
-			System.out.println(ex.getMessage());
-			System.out.println(ex.getResponseBodyAsString());
-			System.out.println(ex.getStatusCode());
-			System.out.println(ex.getStatusText());
-		}
-		SimpleUserVo vo = convertToObject(result);
-		
-		String owner = "dummy";
-		if(vo != null){
-			owner = vo.getUsername();
-		}
-		return createNewGreeting(toName, owner);
+//		String token = determineToken(request);
+//		String ip = determineIpAddress(request);
+//		String url = determineUrlToRequest(token, ip);
+//		
+//		Map<String,String> vars = new HashMap<String,String>();
+//		//vars.put("token", token);
+//		//vars.put("ip", ip);
+//		
+//		RestTemplate  restTemplate = new RestTemplate();
+//		String result = "";
+//		try{
+//			result = restTemplate.getForObject(url, String.class, vars);
+//		}catch(HttpClientErrorException ex){
+//			System.out.println(ex.getMessage());
+//			System.out.println(ex.getResponseBodyAsString());
+//			System.out.println(ex.getStatusCode());
+//			System.out.println(ex.getStatusText());
+//		}
+//		SimpleUserVo vo = convertToObject(result);
+//		
+//		String owner = "dummy";
+//		if(vo != null){
+//			owner = vo.getUsername();
+//		}
+		return createNewGreeting(toName, "dummy");
 	}
 	
 	private SimpleUserVo convertToObject(String json){
