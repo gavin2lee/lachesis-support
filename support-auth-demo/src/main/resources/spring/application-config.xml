@@ -32,7 +32,7 @@
 		
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"> 
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/rest/page/login"/>
+        <property name="loginUrl" value="/errors/unlogin"/>
         <property name="successUrl" value="/rest/index"/>
         <property name="unauthorizedUrl" value="/rest/page/401"/>
         <property name="filterChainDefinitions">
@@ -40,10 +40,15 @@
                 /app/**=anon
                 /assets/**=anon
                 /rest/user/login=anon
+                /errors/**=anon
+                /greetings/**=anon
+                /nurse/**=authc
                 /**=authc
             </value>
         </property>
     </bean>
+    
+    <bean id="securityRealm" class="com.lachesis.support.auth.demo.realm.LocalShiroRealm"></bean>
   
     <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
