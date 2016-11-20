@@ -24,7 +24,7 @@ public class AuthCenterClientTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthCenterClientTest.class);
 	RestTemplate restTemplate;
 	Map<String, String> uriVars;
-	String baseUrl = "http://127.0.0.1:9090/authcenter/api/v1";
+	String baseUrl = "http://127.0.0.1:9090/authc/api/v1";
 	String authenticationBaseUrl = baseUrl + "/token";
 	String authorizationBaseUrl = baseUrl + "/authorization";
 	

@@ -24,6 +24,8 @@ public class AuthenticationResponseVO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "AuthenticationResponseVO [token=" + token + ", userId=" + userId + "]";
+	}
 }

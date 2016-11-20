@@ -28,5 +28,9 @@ public class AuthenticationRequestVO{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "AuthenticationRequestVO [username=" + username + ", password=" + password + "]";
+	}
 
 }

@@ -34,7 +34,7 @@ public class AuthCenterController {
 	@Autowired
 	private CentralizedAuthSupporter authSupporter;
 
-	@RequestMapping(value="token",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.POST)
+	@RequestMapping(value="token",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.POST)
 	public AuthResponse authenticate(@RequestBody AuthenticationRequest tokenRequest, HttpServletRequest request) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authenticate for [username:%s]", tokenRequest.getUsername()));
@@ -69,7 +69,7 @@ public class AuthCenterController {
 		return tokenResp;
 	}
 
-	@RequestMapping(value="authorization/{tokenid}",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.GET)
+	@RequestMapping(value="authorization/{tokenid}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.GET)
 	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
@@ -92,7 +92,7 @@ public class AuthCenterController {
 		return resp;
 	}
 	
-	@RequestMapping(value="token/{tokenid}",produces={MediaType.APPLICATION_JSON_VALUE},method=RequestMethod.DELETE)
+	@RequestMapping(value="token/{tokenid}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.DELETE)
 	public ResponseEntity<String> logout(@PathVariable("tokenid")String token, HttpServletRequest request){
 		authSupporter.logout(token);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
