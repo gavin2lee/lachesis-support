@@ -26,8 +26,8 @@ public class AuthCenterClientTest {
 	RestTemplate restTemplate;
 	Map<String, String> uriVars;
 	String baseUrl = "http://127.0.0.1:9090/authc/api/v1";
-	String authenticationBaseUrl = baseUrl + "/token";
-	String authorizationBaseUrl = baseUrl + "/authorization";
+	String authenticationBaseUrl = baseUrl + "/tokens";
+	String authorizationBaseUrl = baseUrl + "/authorizations";
 	
 	int maxSizeToExecute = 100000;
 
