@@ -52,7 +52,10 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 			return null;
 		}
 		//TODO getAuthorization
-		return new SimpleAuthorizationResult(String.valueOf(user.getId()), user.getUsername(), user.getPassword());
+		
+		SimpleAuthorizationResult result = new SimpleAuthorizationResult(String.valueOf(user.getId()), user.getUsername(), user.getPassword());
+		
+		return result;
 	}
 
 }
