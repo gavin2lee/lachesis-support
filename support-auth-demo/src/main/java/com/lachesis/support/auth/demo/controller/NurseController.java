@@ -35,6 +35,8 @@ public class NurseController {
 			String remoteIpAddress = request.getRemoteAddr();
 			LOG.debug("REMOTE IP ADDR:"+remoteIpAddress);
 			
+			
+			LOG.debug("THREAD:"+Thread.currentThread().getName());
 		} catch (UnknownHostException e) {
 			LOG.error("errors", e);
 		}

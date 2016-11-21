@@ -19,18 +19,5 @@
 		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/cache  
     	http://www.springframework.org/schema/cache/spring-cache.xsd">
-	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="securityManager" ref="securityManager" />
-		<property name="filters">
-			<util:map>
-				<entry key="tokenAuthc" value-ref="tokenAccessControlFilter" />
-			</util:map>
-		</property>
-		<property name="filterChainDefinitions">
-			<value>
-				/nurses/**=tokenAuthc,roles[user]
-				/**=anon
-			</value>
-		</property>
-	</bean>
+	<context:component-scan base-package="com.lachesis.support.auth.demo.service" />
 </beans>

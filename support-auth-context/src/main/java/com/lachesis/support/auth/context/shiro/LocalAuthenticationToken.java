@@ -1,22 +1,19 @@
-package com.lachesis.support.auth.demo.shiro;
+package com.lachesis.support.auth.context.shiro;
 
 import java.util.Map;
 
 import org.apache.shiro.authc.AuthenticationToken;
 
-public class StatelessToken implements AuthenticationToken {
-	
-
+public class LocalAuthenticationToken implements AuthenticationToken {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5576063679753382282L;
-	
+	private static final long serialVersionUID = 8022840809330562105L;
 	private String token;
 	private String terminalIpAddress;
 	private Map<String,?> params;
 	
-	public StatelessToken(String token, String terminalIpAddress, Map<String, ?> params) {
+	public LocalAuthenticationToken(String token, String terminalIpAddress, Map<String, ?> params) {
 		super();
 		this.token = token;
 		this.terminalIpAddress = terminalIpAddress;
