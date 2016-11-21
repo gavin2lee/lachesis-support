@@ -1,5 +1,8 @@
 package com.lachesis.support.auth.api.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -89,6 +92,13 @@ public class AuthCenterController {
 		AuthorizationResponse resp = new AuthorizationResponse();
 		resp.setId(authResult.getId());
 		resp.setUsername(authResult.getUserid());
+		
+		//TODO
+		List<String> roles = new ArrayList<String>();
+		roles.add("user");
+		roles.add("admin");
+		
+		resp.setRoles(roles);
 		return resp;
 	}
 	
