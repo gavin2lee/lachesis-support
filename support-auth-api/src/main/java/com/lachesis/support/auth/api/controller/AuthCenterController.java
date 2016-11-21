@@ -73,7 +73,7 @@ public class AuthCenterController {
 	}
 
 	@RequestMapping(value="authorizations/{tokenid}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.GET)
-	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip) {
+	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip, HttpServletRequest request) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
@@ -103,7 +103,7 @@ public class AuthCenterController {
 	}
 	
 	@RequestMapping(value="authorizations",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.GET)
-	public AuthResponse authorizeWithUsername(@RequestParam("username") String username){
+	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request){
 		//TODO
 		return null;
 	}
