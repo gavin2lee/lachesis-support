@@ -21,7 +21,7 @@ public class MockNurseService implements NurseService {
 	}
 
 	@Override
-	@RequiresRoles({"admin"})
+	@RequiresRoles({"superadmin"})
 	public List<SimpleUserVo> listAllOfDepartment(String deptId) {
 		return nurses.get(deptId);
 	}

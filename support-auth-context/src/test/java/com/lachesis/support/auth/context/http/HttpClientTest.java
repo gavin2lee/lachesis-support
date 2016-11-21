@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lachesis.support.auth.common.vo.AuthenticationRequestVO;
 import com.lachesis.support.auth.common.vo.AuthenticationResponseVO;
 
+@Ignore
 public class HttpClientTest {
 	static final Logger LOG = LoggerFactory.getLogger(HttpClientTest.class);
 
-	String authcHttpReqUrlTemplate = "http://127.0.0.1:9090/authc/api/v1/token";
+	String authcHttpReqUrlTemplate = "http://127.0.0.1:9090/authc/api/v1/tokens";
 
 	@Before
 	public void setUp() throws Exception {

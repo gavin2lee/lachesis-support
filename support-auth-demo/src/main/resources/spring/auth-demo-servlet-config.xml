@@ -12,12 +12,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<mvc:annotation-driven/>
 	<context:component-scan base-package="com.lachesis.support.auth.demo.controller" />
-	
-	<!-- 
-	<bean id="handlerExceptionResolver"
-		class="com.lachesis.support.auth.api.exception.LocalResponseStatusExceptionResolver">
+	 
+	 <bean id="handlerExceptionResolver"
+		class="com.lachesis.support.auth.demo.handler.LocalResponseStatusExceptionResolver">
 	</bean>
-	 -->
 	 
 	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
         <property name="messageConverters">
