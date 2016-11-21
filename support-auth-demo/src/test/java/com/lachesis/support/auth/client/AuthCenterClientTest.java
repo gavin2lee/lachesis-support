@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,7 @@ public class AuthCenterClientTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testAuthorizeInBatch() {
 		String username = "283";

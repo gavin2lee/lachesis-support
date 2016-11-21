@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.lachesis.support</groupId>
-			<artifactId>support-auth-service</artifactId>
+			<artifactId>support-auth-manager</artifactId>
 			<version>0.01</version>
 		</dependency>
 
