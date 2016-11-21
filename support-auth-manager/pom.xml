@@ -9,9 +9,9 @@
 		<version>0.01</version>
 	</parent>
 
-	<artifactId>support-auth-service</artifactId>
+	<artifactId>support-auth-manager</artifactId>
 
-	<name>support-auth-service</name>
+	<name>support-auth-manager</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

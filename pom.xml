@@ -33,7 +33,7 @@
 
 	<modules>
 		<module>support-auth-common</module>
-		<module>support-auth-service</module>
+		<module>support-auth-manager</module>
 		<module>support-auth-context</module>
 		<module>support-auth-api</module>
 		<module>support-auth-demo</module>
