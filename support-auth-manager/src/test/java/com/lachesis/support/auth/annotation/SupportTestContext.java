@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ContextConfiguration(locations = { "classpath:spring/service-config-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring/support-auth-manager-service-test.xml" })
 public @interface SupportTestContext {
 
 }

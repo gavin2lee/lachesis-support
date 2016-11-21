@@ -15,20 +15,8 @@
      http://mybatis.org/schema/mybatis-spring.xsd
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<bean id="cacheManager"
-		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:ehcache.xml" />
-		<property name="shared" value="true"/>
-	</bean>
-
-	<bean id="authTokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-		<property name="cacheName" value="authTokenCache" />
-		<property name="cacheManager" ref="cacheManager" />
-	</bean>
-
-	<bean id="authorizationResultCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-		<property name="cacheName" value="authorizationResultCache" />
-		<property name="cacheManager" ref="cacheManager" />
-	</bean>
+	<import resource="support-auth-manager-datasource.xml"/>
+	<import resource="support-auth-manager-repository.xml"/>
+	<import resource="support-auth-manager-ehcache.xml"/>
+	<import resource="support-auth-manager-service.xml"/>
 </beans>

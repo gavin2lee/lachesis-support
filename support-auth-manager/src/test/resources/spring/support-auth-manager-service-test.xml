@@ -15,8 +15,8 @@
      http://mybatis.org/schema/mybatis-spring.xsd
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context.xsd">
-	<import resource="datasource-config-test.xml"/>
-	<import resource="repository-config.xml"/>
-	<import resource="ehcache-config.xml"/>
-	<import resource="service-config.xml"/>
+	<import resource="support-auth-manager-datasource-test.xml"/>
+	<import resource="support-auth-manager-repository.xml"/>
+	<import resource="support-auth-manager-ehcache.xml"/>
+	<import resource="support-auth-manager-service.xml"/>
 </beans>
