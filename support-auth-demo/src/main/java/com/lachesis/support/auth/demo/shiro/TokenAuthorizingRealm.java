@@ -23,10 +23,10 @@ public class TokenAuthorizingRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		AuthorizationResponseVO vo = AuthThreadLocalContext.get();
-		if(vo == null){
+		if (vo == null) {
 			throw new RuntimeException("AuthThreadLocalContext error");
 		}
-		
+
 		SimpleAuthorizationInfo sai = new SimpleAuthorizationInfo();
 		sai.addRoles(vo.getRoles());
 		return sai;
@@ -36,11 +36,13 @@ public class TokenAuthorizingRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		RestTemplate restTemplate = new RestTemplate();
 		String authorizeUrl = String.format("%s/%s?ip=%s", requestUrl, token.getPrincipal(), token.getCredentials());
+		AuthorizationResponseVO authorizationResp = AuthThreadLocalContext.get();
 
 		try {
-			AuthorizationResponseVO authorizationResp = restTemplate.getForObject(authorizeUrl,
-					AuthorizationResponseVO.class);
-			if(authorizationResp != null){
+			if (authorizationResp == null) {
+				authorizationResp = restTemplate.getForObject(authorizeUrl, AuthorizationResponseVO.class);
+			}
+			if (authorizationResp != null) {
 				AuthThreadLocalContext.set(authorizationResp);
 				return new SimpleAuthenticationInfo(authorizationResp.getUsername(), token.getCredentials(), getName());
 			}
