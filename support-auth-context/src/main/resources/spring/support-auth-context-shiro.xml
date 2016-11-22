@@ -52,6 +52,9 @@
 	<bean id="tokenAccessControlFilter"
 		class="com.lachesis.support.auth.context.shiro.TokenAuthorizationAccessControlFilter" />
 
+	<bean id="localRolesAuthorizationFilter"
+		class="com.lachesis.support.auth.context.shiro.LocalRolesAuthorizationFilter" />
+
 	<bean
 		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		depends-on="lifecycleBeanPostProcessor" />
@@ -61,9 +64,14 @@
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 
-	<!--  <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"> 
+	<util:map id="predefinedFilters">
+		<entry key="tokenAuthc" value-ref="tokenAccessControlFilter" />
+		<entry key="roles" value-ref="localRolesAuthorizationFilter" />
+	</util:map>
+
+	<!-- <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"> 
 		<property name="securityManager" ref="securityManager" /> <property name="filters"> 
 		<util:map> <entry key="tokenAuthc" value-ref="tokenAccessControlFilter" /> 
 		</util:map> </property> <property name="filterChainDefinitions"> <value> 
-		/nurses/**=tokenAuthc,roles[user] /**=anon </value> </property> </bean>  -->
+		/nurses/**=tokenAuthc,roles[user] /**=anon </value> </property> </bean> -->
 </beans>

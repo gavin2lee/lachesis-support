@@ -21,11 +21,7 @@
     	http://www.springframework.org/schema/cache/spring-cache.xsd">
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="filters">
-			<util:map>
-				<entry key="tokenAuthc" value-ref="tokenAccessControlFilter" />
-			</util:map>
-		</property>
+		<property name="filters" ref="predefinedFilters"/>
 		<property name="filterChainDefinitions">
 			<value>
 				/nurses/**=tokenAuthc,roles[NURSE]
