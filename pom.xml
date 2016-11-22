@@ -37,6 +37,7 @@
 		<module>support-auth-context</module>
 		<module>support-auth-api</module>
 		<module>support-auth-demo</module>
+		<module>support-auth-aat</module>
 	</modules>
 
 
