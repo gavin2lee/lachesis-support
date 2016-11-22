@@ -9,7 +9,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		classpath*:spring/public-support-auth-context.xml,
-		classpath*:spring/support-auth-demo-shiro.xml,
 		classpath*:spring/support-auth-demo-application.xml
 		</param-value>
 	</context-param>

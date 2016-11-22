@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
-import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
+import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
-public class LocalRolesAuthorizationFilter extends RolesAuthorizationFilter {
+public class LocalPermissionsAuthorizationFilter extends PermissionsAuthorizationFilter {
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
 
 		Subject subject = getSubject(request, response);
@@ -24,7 +24,7 @@ public class LocalRolesAuthorizationFilter extends RolesAuthorizationFilter {
 			} else {
 				response.setContentType("application/json;charset=utf-8");
 				WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				WebUtils.toHttp(response).getWriter().write(String.format("{\"msg\":\"%s\"}", "roles not qualified"));
+				WebUtils.toHttp(response).getWriter().write(String.format("{\"msg\":\"%s\"}", "permissions not qualified"));
 			}
 		}
 		return false;

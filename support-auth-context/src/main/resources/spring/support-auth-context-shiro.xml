@@ -54,6 +54,8 @@
 
 	<bean id="localRolesAuthorizationFilter"
 		class="com.lachesis.support.auth.context.shiro.LocalRolesAuthorizationFilter" />
+		
+	<bean id="localPermissionsAuthorizationFilter" class="com.lachesis.support.auth.context.shiro.LocalPermissionsAuthorizationFilter"/>
 
 	<bean
 		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
@@ -65,13 +67,18 @@
 	</bean>
 
 	<util:map id="predefinedFilters">
-		<entry key="tokenAuthc" value-ref="tokenAccessControlFilter" />
+		<entry key="authcToken" value-ref="tokenAccessControlFilter" />
 		<entry key="roles" value-ref="localRolesAuthorizationFilter" />
+		<entry key="perms" value-ref="localPermissionsAuthorizationFilter" />
 	</util:map>
 	
 	<bean id="baseShiroFilter" class="com.lachesis.support.auth.context.shiro.LocalShiroFilterFactoryBean" abstract="true">
 		<property name="securityManager" ref="securityManager" />
 		<property name="filters" ref="predefinedFilters"/>
+	</bean>
+	
+	<bean id="shiroFilter" parent="baseShiroFilter">
+		<property name="iniResourcePath" value="classpath:shiro.properties"/>
 	</bean>
 	
 	<!-- 
