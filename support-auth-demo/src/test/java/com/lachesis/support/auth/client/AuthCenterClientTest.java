@@ -21,6 +21,7 @@ import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
 
 import net.sf.json.JSONObject;
 
+@Ignore
 public class AuthCenterClientTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthCenterClientTest.class);
 	RestTemplate restTemplate;
