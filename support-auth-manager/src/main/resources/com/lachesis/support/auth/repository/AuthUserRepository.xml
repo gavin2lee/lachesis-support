@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.AuthUserRepository" >
+	<select id="findById"  resultType="AuthUser">
+	 SELECT   ID			id,
+			  CODE 			code,
+	          USERNAME 		username,
+	          PASSWORD 		password,
+	          NAME 			name,
+	          GENDER 		gender,
+	          MOBILE_PHONE 	mobilePhone,
+	          TELEPHONE 	telephone,
+	          EMAIL 		email
+	  FROM	T_USER
+	  WHERE ID = #{id}
+	  AND IS_ACTIVE = 'Y'
+	  AND IS_LOCKED = 'N'
+	  AND IS_DELETED = 'N'
+	</select>
+	
+	<select id="findByUsername" parameterType="java.lang.String" resultType="AuthUser">
+	 SELECT   ID			id,
+			  CODE 			code,
+	          USERNAME 		username,
+	          PASSWORD 		password,
+	          NAME 			name,
+	          GENDER 		gender,
+	          MOBILE_PHONE 	mobilePhone,
+	          TELEPHONE 	telephone,
+	          EMAIL 		email
+	  FROM	T_USER
+	  WHERE USERNAME = #{username}
+	  AND IS_ACTIVE = 'Y'
+	  AND IS_LOCKED = 'N'
+	  AND IS_DELETED = 'N'
+	</select>
+</mapper>

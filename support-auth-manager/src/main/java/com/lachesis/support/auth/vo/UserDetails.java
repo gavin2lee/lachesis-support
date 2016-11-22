@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 public interface UserDetails extends Serializable{
 	String getId();
-	String getUserid();
+	String getUsername();
 }

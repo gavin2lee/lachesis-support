@@ -28,7 +28,7 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/nurses/**=tokenAuthc,roles[user]
+				/nurses/**=tokenAuthc,roles[NURSE]
 				/**=anon
 			</value>
 		</property>

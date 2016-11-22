@@ -92,7 +92,7 @@ public class DefaultCentralizedAuthSupporterTest {
 		AuthUser u = new AuthUser();
 		u.setId(3L);
 		u.setUsername("283");
-		u.setUserCode("000283");
+		u.setCode("000283");
 		u.setPassword("123");
 
 		return u;

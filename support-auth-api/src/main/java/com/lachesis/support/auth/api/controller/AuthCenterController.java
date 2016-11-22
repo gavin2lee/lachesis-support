@@ -1,8 +1,5 @@
 package com.lachesis.support.auth.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -89,16 +86,16 @@ public class AuthCenterController {
 			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_TOKEN, "无效token");
 		}
 
+		return convertAuthorizationResult(authResult);
+	}
+	
+	private AuthorizationResponse convertAuthorizationResult(AuthorizationResult result){
 		AuthorizationResponse resp = new AuthorizationResponse();
-		resp.setId(authResult.getId());
-		resp.setUsername(authResult.getUserid());
+		resp.setId(result.getId());
+		resp.setUsername(result.getUsername());
+		resp.setRoles(result.getRoles());
+		resp.setPermissions(result.getPermissions());
 		
-		//TODO
-		List<String> roles = new ArrayList<String>();
-		roles.add("user");
-		roles.add("admin");
-		
-		resp.setRoles(roles);
 		return resp;
 	}
 	

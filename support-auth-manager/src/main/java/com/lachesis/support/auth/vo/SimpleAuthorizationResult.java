@@ -11,7 +11,7 @@ public class SimpleAuthorizationResult implements AuthorizationResult {
 	 */
 	private static final long serialVersionUID = -4072057897019711567L;
 	private String id;
-	private String userid;
+	private String username;
 	private String password;
 	private Collection<String> roles = new ArrayList<String>();
 	private Collection<String> permissions = new ArrayList<String>();
@@ -27,7 +27,7 @@ public class SimpleAuthorizationResult implements AuthorizationResult {
 	public SimpleAuthorizationResult(String id, String userid, String password, Collection<String> roles,
 			Collection<String> permissions) {
 		this.id = id;
-		this.userid = userid;
+		this.username = userid;
 		this.password = password;
 		if(roles!=null){
 			this.roles.addAll(roles);
@@ -38,8 +38,8 @@ public class SimpleAuthorizationResult implements AuthorizationResult {
 	}
 
 	@Override
-	public String getUserid() {
-		return userid;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getPassword() {

@@ -44,7 +44,7 @@ public class DatabaseBasedAuthUserServiceTest {
 	}
 	
 	private void initFindAuthUserByUserid(){
-		when(authUserRepo.findByUserid(any(String.class))).thenReturn(mockAuthUser());
+		when(authUserRepo.findByUsername(any(String.class))).thenReturn(mockAuthUser());
 	}
 	
 	private AuthUser mockAuthUser(){
@@ -52,7 +52,7 @@ public class DatabaseBasedAuthUserServiceTest {
 		u.setId(3L);
 		u.setUsername("283");
 		u.setPassword("123");
-		u.setUserCode("000283");
+		u.setCode("000283");
 		
 		return u;
 	}

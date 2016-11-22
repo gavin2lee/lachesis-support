@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.demo.service.NurseService;
@@ -21,7 +21,7 @@ public class MockNurseService implements NurseService {
 	}
 
 	@Override
-	@RequiresRoles({"superadmin"})
+	@RequiresPermissions("NURSE:LIST")
 	public List<SimpleUserVo> listAllOfDepartment(String deptId) {
 		return nurses.get(deptId);
 	}

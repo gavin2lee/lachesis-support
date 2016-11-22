@@ -55,7 +55,7 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 	}
 
 	private String assemblePlainTokenValue(UserDetails userDetails, String terminalIpAddress) {
-		return (new AuthTokenValueAssembler(userDetails.getUserid(), terminalIpAddress).buildTokenValue());
+		return (new AuthTokenValueAssembler(userDetails.getUsername(), terminalIpAddress).buildTokenValue());
 	}
 
 	protected AuthorizationResult doAuthorize(String token, String terminalIpAddress) {

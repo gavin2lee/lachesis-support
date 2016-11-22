@@ -21,7 +21,7 @@
         <File>logs/support-auth-api/main.log</File>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>log/main-%d{yyyyMMdd}.log
+            <FileNamePattern>logs/main-%d{yyyyMMdd}.log
             </FileNamePattern>
             <MaxHistory>2</MaxHistory>
         </rollingPolicy>
