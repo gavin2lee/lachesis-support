@@ -71,10 +71,18 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 				return createAuthenticationInfo(token, resp);
 			}
 		} catch (Exception e) {
-			throw new AuthenticationException("authentication failed", e);
+			throw new AuthenticationException("authentication errors:"+findRootCause(e).getMessage(), e);
 		}
 
 		throw new AuthenticationException("authentication failed");
+	}
+	
+	private Throwable findRootCause(Throwable ex){
+		if(ex.getCause() == null){
+			return ex;
+		}
+		
+		return findRootCause(ex.getCause());
 	}
 	
 	private AuthenticationInfo createAuthenticationInfo(AuthenticationToken token, AuthorizationResponseVO info){

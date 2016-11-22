@@ -25,7 +25,7 @@ public class HttpServletRequestWrapper {
 	public String getAuthorizationToken() {
 		String authrization = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if (authrization == null) {
-			throw new AuthenticationException("cannot find Authorization header");
+			throw new AuthenticationException("authorization header [Authorization token ###] missing");
 		}
 
 		String token = authrization.substring(6);
