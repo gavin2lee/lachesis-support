@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,7 @@ public class NurseController {
 	@Autowired
 	private NurseService nurseService;
 	
-	@RequestMapping(value="nurses",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="nurses",produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
 	public List<SimpleUserVo> listNurses(@RequestParam("deptid") String deptid,HttpServletRequest request){
 		InetAddress addr = null;
 		try {
@@ -41,5 +43,11 @@ public class NurseController {
 			LOG.error("errors", e);
 		}
 		return nurseService.listAllOfDepartment(deptid);
+	}
+	
+	@RequestMapping(value="nurses/{id}",produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
+	public SimpleUserVo findNurse(@PathVariable("id") String id,HttpServletRequest request){
+		return nurseService.findOneUser(id);
+		
 	}
 }

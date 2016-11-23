@@ -1,6 +1,7 @@
 package com.lachesis.support.auth.demo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class MockNurseService implements NurseService {
 	}
 
 	@Override
-	@RequiresPermissions("NURSE:LIST")
+	@RequiresPermissions("DEPT:LIST")
 	public List<SimpleUserVo> listAllOfDepartment(String deptId) {
 		return nurses.get(deptId);
 	}
@@ -33,6 +34,19 @@ public class MockNurseService implements NurseService {
 		}
 		
 		nurses.put(ID_DEPT_SURGERY, usersOfSurgery);
+	}
+
+	@Override
+	public SimpleUserVo findOneUser(String userId) {
+		Collection<List<SimpleUserVo>> nurseValues = nurses.values();
+		for(List<SimpleUserVo> voList : nurseValues){
+			for(SimpleUserVo vo : voList){
+				if(vo.getUserId().equals(userId)){
+					return vo;
+				}
+			}
+		}
+		return null;
 	}
 	
 

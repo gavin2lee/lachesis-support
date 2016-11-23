@@ -6,4 +6,5 @@ import com.lachesis.support.auth.demo.vo.SimpleUserVo;
 
 public interface NurseService {
 	List<SimpleUserVo> listAllOfDepartment(String deptId);
+	SimpleUserVo findOneUser(String userId);
 }
