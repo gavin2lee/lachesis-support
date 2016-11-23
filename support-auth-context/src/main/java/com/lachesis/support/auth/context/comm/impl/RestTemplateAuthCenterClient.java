@@ -1,5 +1,8 @@
 package com.lachesis.support.auth.context.comm.impl;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,23 @@ public class RestTemplateAuthCenterClient implements AuthCenterClient {
 
 	@Value("${support.auth.context.authc.authorize.url}")
 	private String authorizingUrl;
+	
+	@PostConstruct
+	public void afterPropertySet(){
+		if(restTemplate == null){
+			LOG.error("RestTemplate must be provided");
+			throw new RuntimeException("RestTemplate must be provided.");
+		}
+		
+		if(StringUtils.isBlank(authorizingUrl)){
+			LOG.error("authorization server URL must be specified.");
+			throw new RuntimeException("authorization server URL must be specified.");
+		}
+		
+		if(LOG.isInfoEnabled()){
+			LOG.info(String.format("current authorization server URL:%s", authorizingUrl));
+		}
+	}
 
 	@Override
 	public AuthorizationResponseVO authorize(String token, String terminalIpAddress) {
