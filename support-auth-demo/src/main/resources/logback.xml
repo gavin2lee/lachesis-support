@@ -18,10 +18,10 @@
     <appender name="rollingFile"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
-        <File>logs/support-auth-context/main.log</File>
+        <File>logs/support-auth-demo/main.log</File>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>log/main-%d{yyyyMMdd}.log
+            <FileNamePattern>logs/support-auth-demo/main-%d{yyyyMMdd}.log
             </FileNamePattern>
             <MaxHistory>2</MaxHistory>
         </rollingPolicy>
