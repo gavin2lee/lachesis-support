@@ -32,7 +32,9 @@
     </appender>
 
     <logger name="com.lachesis.support.auth" level="debug">
+    <!-- 
     	<appender-ref ref="console" />
+     -->
     </logger> 
          
     <root level="warn">
