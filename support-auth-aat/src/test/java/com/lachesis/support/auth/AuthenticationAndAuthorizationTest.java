@@ -77,7 +77,7 @@ public class AuthenticationAndAuthorizationTest {
 	}
 	
 	private void pause() throws IOException{
-		System.in.read();
+//		System.in.read();
 	}
 	
 	private AuthenticationResponseVO authenticate(String username, String password) throws RestClientException, JsonProcessingException{
