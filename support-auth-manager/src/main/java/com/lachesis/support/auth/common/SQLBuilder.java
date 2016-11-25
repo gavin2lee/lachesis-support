@@ -15,30 +15,41 @@ public final class SQLBuilder {
 				{
 					INSERT_INTO(buildTableName(clazz));
 					Field[] fs = clazz.getDeclaredFields();
+					boolean atLeastOneFieldToPresent = false;
 					for (Field f : fs) {
-						f.setAccessible(true);
-						if(f.get(t) == null ){
-							continue;
+						if (needToPresents(t, f)) {
+							atLeastOneFieldToPresent = true;
+							VALUES(buildValuesLabel(f), buildValuesParamPlaceHolder(f));
 						}
-						if(f.getName().equals("id")){
-							continue;
-						}
-						VALUES(buildValuesLabel(f), buildValuesParamPlaceHolder(f));
+					}
+					
+					if(!atLeastOneFieldToPresent){
+						throw new RuntimeException("at least one field should be assigned value.");
 					}
 				}
 			}.toString();
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			throw new RuntimeException("errors while buildSaveOne", e);
 		}
-		
-		return null;
 	}
-	
-	private String buildValuesLabel(Field f){
+
+	private boolean needToPresents(Object t, Field f) throws IllegalArgumentException, IllegalAccessException {
+		f.setAccessible(true);
+		if (f.get(t) == null) {
+			return false;
+		}
+		if (f.getName().equals("id")) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private String buildValuesLabel(Field f) {
 		return buildCamelColumnName(f.getName());
 	}
-	
-	private String buildValuesParamPlaceHolder(Field f){
+
+	private String buildValuesParamPlaceHolder(Field f) {
 		return String.format("#{t.%s}", f.getName());
 	}
 
