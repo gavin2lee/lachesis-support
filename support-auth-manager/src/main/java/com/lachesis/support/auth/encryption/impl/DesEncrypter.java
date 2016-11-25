@@ -27,7 +27,7 @@ public class DesEncrypter implements Encrypter {
 	private static final String ENCRYPTION_ALGORITHM_DES = "DES";
 	private static final String ENCODING  = "UTF-8";
 		
-	private String encryptionKey = "LX123456";//TODO configurable here and read from file
+	private String encryptionKey = "LX123456";
 
 	@Override
 	public String encrypt(String plainText) {
