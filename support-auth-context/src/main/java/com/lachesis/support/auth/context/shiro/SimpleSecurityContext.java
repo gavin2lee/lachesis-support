@@ -57,7 +57,7 @@ class SimpleSecurityContext implements SecurityContext {
 
 	@Override
 	public String toString() {
-		return "SimpleSecurityContext [principal=" + principal + ", token=" + token + ", terminalIpAddress="
+		return "SecurityContext [principal=" + principal + ", token=" + token + ", terminalIpAddress="
 				+ terminalIpAddress + ", roles=" + roles + ", permissions=" + permissions + "]";
 	}
 

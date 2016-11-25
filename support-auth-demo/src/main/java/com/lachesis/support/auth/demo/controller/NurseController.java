@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lachesis.support.auth.context.common.AuthContextConstants;
+import com.lachesis.support.auth.context.vo.SecurityContext;
 import com.lachesis.support.auth.demo.service.NurseService;
 import com.lachesis.support.auth.demo.vo.SimpleUserVo;
 
@@ -42,6 +44,9 @@ public class NurseController {
 		} catch (UnknownHostException e) {
 			LOG.error("errors", e);
 		}
+		
+		SecurityContext ctx = (SecurityContext) request.getAttribute(AuthContextConstants.REQUEST_ATTR_SECURITY_CONTEXT);
+		LOG.debug("GET FROM REQUEST:"+ctx.toString());
 		return nurseService.listAllOfDepartment(deptid);
 	}
 	
