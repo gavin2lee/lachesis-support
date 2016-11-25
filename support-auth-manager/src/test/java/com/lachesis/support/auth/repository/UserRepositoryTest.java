@@ -30,5 +30,12 @@ public class UserRepositoryTest {
 		
 		Assert.assertThat(u, Matchers.notNullValue());
 	}
+	
+	@Test
+	public void testSaveOne(){
+		User u = new User();
+		u.setUsername("9999");
+		userRepo.saveOne(u, User.class);
+	}
 
 }

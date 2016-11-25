@@ -11,7 +11,9 @@ import com.lachesis.support.auth.common.SQLBuilder;
 public interface BaseRepository<T> {
 	@SelectProvider(type=SQLBuilder.class,method="buildFindOneById")
 	T findOneById(@Param("id") Serializable id, @Param("clazz")Class<T> clazz);
-	//int saveOne(T t);
+	
+	@SelectProvider(type=SQLBuilder.class,method="buildSaveOne")
+	void saveOne(@Param("t") T t, @Param("clazz") Class<T> clazz);
 	//int updateOne(T t);
 	//int deleteOne(T t);
 }
