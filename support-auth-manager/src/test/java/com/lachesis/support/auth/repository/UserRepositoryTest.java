@@ -23,10 +23,10 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void testFindOneById() {
+	public void testFindOne() {
 		Assert.assertThat(userRepo, Matchers.notNullValue());
 		
-		User u = userRepo.findOneById(1, User.class);
+		User u = userRepo.findOne(1, User.class);
 		
 		Assert.assertThat(u, Matchers.notNullValue());
 	}
@@ -36,6 +36,18 @@ public class UserRepositoryTest {
 		User u = new User();
 		u.setUsername("9999");
 		userRepo.saveOne(u, User.class);
+	}
+	
+	@Test
+	public void testUpdateOne(){
+		User u = userRepo.findOne(1, User.class);
+		u.setGender("M");
+		userRepo.updateOne(u, User.class);
+		
+		u = userRepo.findOne(1, User.class);
+		
+		Assert.assertThat(u, Matchers.notNullValue());
+		
 	}
 
 }

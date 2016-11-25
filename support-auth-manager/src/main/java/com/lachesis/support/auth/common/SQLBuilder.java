@@ -28,8 +28,34 @@ public final class SQLBuilder {
 					}
 				}
 			}.toString();
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("errors while buildSaveOne", e);
+		}
+	}
+	
+	public String buildUpdateOne(final @Param("t") Object t, final @Param("clazz") Class<?> clazz){
+		try {
+			return new SQL(){
+				{
+					
+				}
+			}.toString();
+			
+		}catch(Exception e){
+			throw new RuntimeException("errors while buildUpdateOne", e);
+		}
+	}
+	
+	public String buildDeleteOne(final @Param("t") Object t, final @Param("clazz") Class<?> clazz){
+		try {
+			return new SQL(){
+				{
+					
+				}
+			}.toString();
+			
+		}catch(Exception e){
+			throw new RuntimeException("errors while buildUpdateOne", e);
 		}
 	}
 
@@ -53,7 +79,7 @@ public final class SQLBuilder {
 		return String.format("#{t.%s}", f.getName());
 	}
 
-	public String buildFindOneById(@Param("id") final Serializable id, @Param("clazz") final Class<?> clazz) {
+	public String buildFindOne(@Param("id") final Serializable id, @Param("clazz") final Class<?> clazz) {
 		return new SQL() {
 			{
 				Field[] fs = clazz.getDeclaredFields();
