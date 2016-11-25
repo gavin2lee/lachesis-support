@@ -63,13 +63,18 @@ public final class SQLBuilder {
 				}
 
 				FROM(buildTableName(clazz));
-				WHERE(buildWhere());
+				WHERE(buildWhereID());
+				WHERE(buildWhereIsDeleted());
 			}
 		}.toString();
 	}
 
-	private String buildWhere() {
+	private String buildWhereID() {
 		return "ID = #{id}";
+	}
+	
+	private String buildWhereIsDeleted() {
+		return "IS_DELETED = 'N'";
 	}
 
 	private String buildTableName(Class<?> clazz) {
