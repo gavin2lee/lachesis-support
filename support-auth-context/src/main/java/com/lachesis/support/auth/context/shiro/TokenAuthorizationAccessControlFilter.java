@@ -2,6 +2,7 @@ package com.lachesis.support.auth.context.shiro;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,9 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
+import com.lachesis.support.auth.context.common.AuthContextConstants;
+import com.lachesis.support.auth.context.vo.SecurityContext;
 import com.lachesis.support.auth.context.wrapper.HttpServletRequestWrapper;
 
 public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
@@ -35,6 +39,8 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 			AuthenticationToken localToken = createToken(request, response);
 			Subject subject = getSubject(request, response);
 			subject.login(localToken);
+
+			cacheSecurityContext(localToken, request);
 		} catch (Exception e) {
 			LOG.error("errors while login", e);
 			onLoginFail(e, response);
@@ -43,6 +49,40 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 
 		return true;
 
+	}
+
+	protected void cacheSecurityContext(AuthenticationToken localToken, ServletRequest request) {
+		SecurityContext securityContext = buildSecurityContext(localToken);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("cache :"+securityContext.toString());
+		}
+		
+		request.setAttribute(AuthContextConstants.REQUEST_ATTR_SECURITY_CONTEXT, securityContext);
+	}
+
+	protected SecurityContext buildSecurityContext(AuthenticationToken localToken) {
+		String principal = null;
+		Collection<String> roles = null;
+		Collection<String> permissions = null;
+		String token = null;
+		String terminalIpAddress = null;
+		AuthorizationResponseVO authzRespVO = ThreadLocalAuthContext.get();
+		if (authzRespVO == null) {
+			if (LOG.isWarnEnabled()) {
+				LOG.warn("cannot get authorization infomation from thread local auth context.");
+			}
+		} else {
+			principal = authzRespVO.getUsername();
+			roles = authzRespVO.getRoles();
+			permissions = authzRespVO.getPermissions();
+		}
+
+		if ( (localToken instanceof LocalAuthenticationToken) && (localToken != null) ) {
+			token = (String) localToken.getPrincipal();
+			terminalIpAddress = (String) localToken.getCredentials();
+		}
+		
+		return new SimpleSecurityContext(principal, token, terminalIpAddress, roles, permissions);
 	}
 
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
