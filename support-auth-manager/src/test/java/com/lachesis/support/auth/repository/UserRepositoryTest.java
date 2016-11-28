@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.lachesis.support.auth.annotation.RepositoryTestContext;
 import com.lachesis.support.auth.model.User;
 
-@Ignore
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @RepositoryTestContext
 public class UserRepositoryTest {
@@ -26,6 +26,7 @@ public class UserRepositoryTest {
 	public void setUp() throws Exception {
 	}
 
+	@Ignore
 	@Test
 	public void testFindOne() {
 		Assert.assertThat(userRepo, Matchers.notNullValue());
@@ -34,27 +35,32 @@ public class UserRepositoryTest {
 		
 		Assert.assertThat(u, Matchers.notNullValue());
 	}
-	
+	@Ignore
 	@Test
 	public void testSaveOne(){
 		User u = new User();
 		u.setUsername("9999");
-		userRepo.saveOne(u, User.class);
+		Integer numbers = userRepo.saveOne(u, User.class);
+		
+		Assert.assertThat(numbers, Matchers.greaterThan(0));
 	}
+	
 	
 	@Test
 	public void testUpdateOne(){
 		User u = new User();
 		u.setId(1L);
 		u.setMobilePhone("13966668888");
-		userRepo.updateOne(u, User.class);
+		int numbers = userRepo.updateOne(u, User.class);
 		
 		u = userRepo.findOne(1, User.class);
 		
 		Assert.assertThat(u, Matchers.notNullValue());
+		Assert.assertThat(numbers, Matchers.greaterThan(0));
 		
 	}
 	
+	@Ignore
 	@Test
 	public void testDeleteOne(){
 		userRepo.deleteOne(5L, User.class);
@@ -63,6 +69,7 @@ public class UserRepositoryTest {
 		Assert.assertThat(u, Matchers.nullValue());
 	}
 	
+	@Ignore
 	@Test
 	public void testFindListByCriteria(){
 		User template = new User();
