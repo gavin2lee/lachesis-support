@@ -144,7 +144,7 @@
 				<configuration>
 					<uriEncoding>UTF-8</uriEncoding>
 					<port>9091</port>
-					<path>/demo/api/v1</path>
+					<path>/demo</path>
 				</configuration>
 			</plugin>
 		</plugins>

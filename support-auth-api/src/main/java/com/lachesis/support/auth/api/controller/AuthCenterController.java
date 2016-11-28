@@ -26,15 +26,15 @@ import com.lachesis.support.auth.service.CentralizedAuthSupporter;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
 
+
 @RestController
-@RequestMapping("/")
-public class AuthCenterController {
+public class AuthCenterController extends AbstractRestController{
 	private static final Logger LOG = LoggerFactory.getLogger(AuthCenterController.class);
 
 	@Autowired
 	private CentralizedAuthSupporter authSupporter;
 
-	@RequestMapping(value="tokens",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.POST)
+	@RequestMapping(value = "tokens", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.POST)
 	public AuthResponse authenticate(@RequestBody AuthenticationRequest tokenRequest, HttpServletRequest request) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authenticate for [username:%s]", tokenRequest.getUsername()));
@@ -69,8 +69,10 @@ public class AuthCenterController {
 		return tokenResp;
 	}
 
-	@RequestMapping(value="authorizations/{tokenid}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.GET)
-	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip, HttpServletRequest request) {
+	@RequestMapping(value = "authorizations/{tokenid}", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
+	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip,
+			HttpServletRequest request) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
@@ -88,25 +90,27 @@ public class AuthCenterController {
 
 		return convertAuthorizationResult(authResult);
 	}
-	
-	private AuthorizationResponse convertAuthorizationResult(AuthorizationResult result){
+
+	private AuthorizationResponse convertAuthorizationResult(AuthorizationResult result) {
 		AuthorizationResponse resp = new AuthorizationResponse();
 		resp.setId(result.getId());
 		resp.setUsername(result.getUsername());
 		resp.setRoles(result.getRoles());
 		resp.setPermissions(result.getPermissions());
-		
+
 		return resp;
 	}
-	
-	@RequestMapping(value="authorizations",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.GET)
-	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request){
-		//TODO
+
+	@RequestMapping(value = "authorizations", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
+	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request) {
+		// TODO
 		return null;
 	}
-	
-	@RequestMapping(value="tokens/{tokenid}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE},method=RequestMethod.DELETE)
-	public ResponseEntity<String> logout(@PathVariable("tokenid")String token, HttpServletRequest request){
+
+	@RequestMapping(value = "tokens/{tokenid}", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.DELETE)
+	public ResponseEntity<String> logout(@PathVariable("tokenid") String token, HttpServletRequest request) {
 		authSupporter.logout(token);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}

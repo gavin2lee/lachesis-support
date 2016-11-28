@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.context.common.AuthContextConstants;
 import com.lachesis.support.auth.context.vo.SecurityContext;
+import com.lachesis.support.auth.demo.annotation.BaseRequestMapping;
 import com.lachesis.support.auth.demo.service.NurseService;
 import com.lachesis.support.auth.demo.vo.SimpleUserVo;
 
 @RestController
-@RequestMapping("/")
+@BaseRequestMapping
 public class NurseController {
 	private static final Logger LOG = LoggerFactory.getLogger(NurseController.class);
 	@Autowired

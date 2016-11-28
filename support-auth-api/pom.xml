@@ -67,7 +67,7 @@
 				<configuration>
 					<uriEncoding>UTF-8</uriEncoding>
 					<port>9090</port>
-                    <path>/authc/api/v1</path>
+                    <path>/authc</path>
 				</configuration>
 			</plugin>
 		</plugins>
