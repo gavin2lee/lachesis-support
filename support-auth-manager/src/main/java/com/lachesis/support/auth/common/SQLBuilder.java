@@ -51,7 +51,7 @@ public final class SQLBuilder {
 					Field[] fs = clazz.getDeclaredFields();
 					boolean atLeastOneFieldToPresent = false;
 					for (Field f : fs) {
-						if (needToPresents(t, f)) {
+						if (needToPresentsInSave(t, f)) {
 							atLeastOneFieldToPresent = true;
 							VALUES(buildValuesLabel(f), buildValuesParamPlaceHolder(f));
 						}
@@ -148,13 +148,13 @@ public final class SQLBuilder {
 		return (id != null);
 	}
 
-	private boolean needToPresents(Object t, Field f) throws IllegalArgumentException, IllegalAccessException {
+	private boolean needToPresentsInSave(Object t, Field f) throws IllegalArgumentException, IllegalAccessException {
 		f.setAccessible(true);
 		if (f.get(t) == null) {
 			return false;
 		}
 		if (f.getName().equals("id")) {
-			return false;
+			throw new RuntimeException("ID has already been assigned.");
 		}
 
 		return true;

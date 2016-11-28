@@ -45,7 +45,18 @@ public class UserRepositoryTest {
 		Assert.assertThat(numbers, Matchers.greaterThan(0));
 	}
 	
+	@Ignore
+	@Test(expected = RuntimeException.class)
+	public void testSaveOneWithException(){
+		User u = new User();
+		u.setId(1L);
+		u.setUsername("9999");
+		Integer numbers = userRepo.saveOne(u, User.class);
+		
+		Assert.assertThat(numbers, Matchers.greaterThan(0));
+	}
 	
+	@Ignore
 	@Test
 	public void testUpdateOne(){
 		User u = new User();
