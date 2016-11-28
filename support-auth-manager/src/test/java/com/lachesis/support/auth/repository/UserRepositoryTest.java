@@ -26,7 +26,7 @@ public class UserRepositoryTest {
 	public void setUp() throws Exception {
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void testFindOne() {
 		Assert.assertThat(userRepo, Matchers.notNullValue());
