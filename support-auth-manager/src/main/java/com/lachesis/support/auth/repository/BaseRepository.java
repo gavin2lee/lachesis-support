@@ -17,5 +17,5 @@ public interface BaseRepository<T> {
 	void updateOne(@Param("t")T entity, @Param("clazz") Class<T> type);
 	
 	@SelectProvider(type=SQLBuilder.class,method="buildDeleteOne")
-	void deleteOne(@Param("t")T entity, @Param("clazz") Class<T> type);
+	void deleteOne(@Param("id")Object id, @Param("clazz") Class<T> type);
 }

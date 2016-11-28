@@ -37,7 +37,20 @@ public final class SQLBuilder {
 		try {
 			return new SQL(){
 				{
+					UPDATE(buildTableName(clazz));
 					
+					Field[] fs = clazz.getDeclaredFields();
+					for(Field f : fs){
+						if(!checkIfAppropriateToUpdate(f, t)){
+							throw new RuntimeException("No ID assigned.");
+						}
+						
+						if(needToUpdate(f,t)){
+							SET(buildSet(f));
+						}
+					}
+					
+					WHERE(buildUpdateWhere());
 				}
 			}.toString();
 			
@@ -46,17 +59,58 @@ public final class SQLBuilder {
 		}
 	}
 	
-	public String buildDeleteOne(final @Param("t") Object t, final @Param("clazz") Class<?> clazz){
+	private String buildUpdateWhere(){
+		return "ID = #{t.id}";
+	}
+	
+	private String buildSet(Field f){
+		return String.format("%s = #{t.%s}", buildCamelColumnName(f.getName()), f.getName());
+	}
+	
+	private boolean needToUpdate(Field f, Object obj) throws IllegalArgumentException, IllegalAccessException{
+		if(f.getName().equals("id")){
+			return false;
+		}
+		f.setAccessible(true);
+		if(f.get(obj) == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	private boolean checkIfAppropriateToUpdate(Field f, Object obj) throws IllegalArgumentException, IllegalAccessException{
+		if (f.getName().equals("id")) {
+			f.setAccessible(true);
+			if(f.get(obj) == null){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		
+		return true;
+	}
+	
+	public String buildDeleteOne(final @Param("id") Object id, final @Param("clazz") Class<?> clazz){
 		try {
 			return new SQL(){
 				{
-					
+					if(!checkIfAppropriateToDelete(id)){
+						throw new RuntimeException("No ID assigned.");
+					}
+					DELETE_FROM(buildTableName(clazz));
+					WHERE("id = #{id}");
 				}
 			}.toString();
 			
 		}catch(Exception e){
 			throw new RuntimeException("errors while buildUpdateOne", e);
 		}
+	}
+	
+	private boolean checkIfAppropriateToDelete(Object id){
+		return (id != null);
 	}
 
 	private boolean needToPresents(Object t, Field f) throws IllegalArgumentException, IllegalAccessException {
