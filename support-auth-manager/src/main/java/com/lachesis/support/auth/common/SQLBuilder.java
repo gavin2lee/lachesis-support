@@ -16,7 +16,7 @@ public final class SQLBuilder {
 					Field[] fs = clazz.getDeclaredFields();
 
 					for (Field f : fs) {
-						SELECT(build(f));
+						SELECT(buildSelectField(f));
 					}
 
 					FROM(buildTableName(clazz));
@@ -174,7 +174,7 @@ public final class SQLBuilder {
 				Field[] fs = clazz.getDeclaredFields();
 
 				for (Field f : fs) {
-					SELECT(build(f));
+					SELECT(buildSelectField(f));
 				}
 
 				FROM(buildTableName(clazz));
@@ -196,7 +196,7 @@ public final class SQLBuilder {
 		return "T_" + clazz.getSimpleName().toUpperCase();
 	}
 
-	private String build(Field f) {
+	private String buildSelectField(Field f) {
 		return String.format("%s as %s", buildCamelColumnName(f.getName()), f.getName());
 	}
 
