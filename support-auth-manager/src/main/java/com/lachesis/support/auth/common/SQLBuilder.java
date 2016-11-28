@@ -8,6 +8,15 @@ import org.apache.ibatis.jdbc.SQL;
 
 public final class SQLBuilder {
 	public static final char UNDER_SCORE = '_';
+	public static final String FIND_ONE = "buildFindOne";
+	public static final String FIND_LIST_BY_CRITERIA = "buildFindListByCriteria";
+	public static final String SAVE_ONE = "buildSaveOne";
+	public static final String UPDATE_ONE = "buildUpdateOne";
+	public static final String DELETE_ONE = "buildDeleteOne";
+	
+	public static final String P_NAME_TYPE = "clazz";
+	public static final String P_NAME_ENTITY = "t";
+	public static final String P_NAME_ID = "id";
 
 	public String buildFindListByCriteria(final @Param("t") Object t, final @Param("clazz") Class<?> clazz) {
 		try {

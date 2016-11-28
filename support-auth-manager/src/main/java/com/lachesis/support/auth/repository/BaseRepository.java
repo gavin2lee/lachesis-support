@@ -1,6 +1,7 @@
 package com.lachesis.support.auth.repository;
 
 import java.util.List;
+import static com.lachesis.support.auth.common.SQLBuilder.*;
 
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -11,18 +12,18 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import com.lachesis.support.auth.common.SQLBuilder;
 
 public interface BaseRepository<T> {
-	@SelectProvider(type = SQLBuilder.class, method = "buildFindOne")
-	T findOne(@Param("id") Object id, @Param("clazz") Class<T> type);
+	@SelectProvider(type = SQLBuilder.class, method = FIND_ONE)
+	T findOne(@Param(P_NAME_ID) Object id, @Param(P_NAME_TYPE) Class<T> type);
 
-	@SelectProvider(type = SQLBuilder.class, method = "buildFindListByCriteria")
-	List<T> findListByCriteria(@Param("t") T criteria, @Param("clazz") Class<T> type);
+	@SelectProvider(type = SQLBuilder.class, method = FIND_LIST_BY_CRITERIA)
+	List<T> findListByCriteria(@Param(P_NAME_ENTITY) T criteria, @Param(P_NAME_TYPE) Class<T> type);
 
-	@InsertProvider(type = SQLBuilder.class, method = "buildSaveOne")
-	Integer saveOne(@Param("t") T entity, @Param("clazz") Class<T> type);
+	@InsertProvider(type = SQLBuilder.class, method = SAVE_ONE)
+	Integer saveOne(@Param(P_NAME_ENTITY) T entity, @Param(P_NAME_TYPE) Class<T> type);
 
-	@UpdateProvider(type = SQLBuilder.class, method = "buildUpdateOne")
-	Integer updateOne(@Param("t") T entity, @Param("clazz") Class<T> type);
+	@UpdateProvider(type = SQLBuilder.class, method = UPDATE_ONE)
+	Integer updateOne(@Param(P_NAME_ENTITY) T entity, @Param(P_NAME_TYPE) Class<T> type);
 
-	@DeleteProvider(type = SQLBuilder.class, method = "buildDeleteOne")
-	Integer deleteOne(@Param("id") Object id, @Param("clazz") Class<T> type);
+	@DeleteProvider(type = SQLBuilder.class, method = DELETE_ONE)
+	Integer deleteOne(@Param(P_NAME_ID) Object id, @Param(P_NAME_TYPE) Class<T> type);
 }
