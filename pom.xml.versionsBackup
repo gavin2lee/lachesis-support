@@ -5,7 +5,7 @@
 
 	<groupId>com.lachesis.support</groupId>
 	<artifactId>lachesis-support</artifactId>
-	<version>1.0.0.0-SNAPSHOT</version>
+	<version>0.01-SNAPSHOT</version>
 
 	<name>LachesisSupport</name>
 	<packaging>pom</packaging>

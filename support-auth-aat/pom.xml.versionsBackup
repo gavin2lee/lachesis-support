@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.lachesis.support</groupId>
 		<artifactId>lachesis-support</artifactId>
-		<version>1.0.0.0-SNAPSHOT</version>
+		<version>0.01</version>
 	</parent>
 
-	<artifactId>support-auth-context</artifactId>
+	<artifactId>support-auth-aat</artifactId>
 
-	<name>support-auth-context</name>
+	<name>support-auth-aat</name>
 	<packaging>jar</packaging>
 
 
@@ -63,40 +63,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
 		</dependency>
 	</dependencies>
 </project>
