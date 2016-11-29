@@ -1,5 +1,6 @@
 package com.lachesis.support.auth.demo.vo;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -20,11 +21,11 @@ public class ResponseVO extends ResponseEntity<Object> {
 	public static ResponseVO internalServerError(Object body) {
 		return new ResponseVO(body, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	public static ResponseVO ok(Object body){
+
+	public static ResponseVO ok(Object body) {
 		return new ResponseVO(body);
 	}
-	
+
 	public ResponseVO(Object body) {
 		super(body, HttpStatus.OK);
 	}
@@ -43,6 +44,40 @@ public class ResponseVO extends ResponseEntity<Object> {
 
 	public ResponseVO(HttpStatus statusCode) {
 		super(statusCode);
+	}
+
+	public static class ResponseBuilder {
+		private HttpStatus httpStatus = HttpStatus.OK;
+		private Object body;
+		private final HttpHeaders headers = new HttpHeaders();
+
+		public ResponseBuilder(Object body) {
+			this.body = body;
+		}
+
+		public ResponseVO build() {
+			return new ResponseVO(body, headers, httpStatus);
+		}
+
+		public static ResponseBuilder body(Object body) {
+			return new ResponseBuilder(body);
+		}
+
+		public ResponseBuilder status(HttpStatus status) {
+			if (status != null) {
+				this.httpStatus = status;
+			}else{
+				throw new IllegalArgumentException("status must be specified.");
+			}
+			return this;
+		}
+
+		public ResponseBuilder headers(HttpHeaders headers) {
+			if (headers != null) {
+				this.headers.putAll(headers);
+			}
+			return this;
+		}
 	}
 
 }
