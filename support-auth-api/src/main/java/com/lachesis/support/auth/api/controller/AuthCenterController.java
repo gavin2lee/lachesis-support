@@ -36,59 +36,101 @@ public class AuthCenterController extends AbstractRestController{
 
 	@RequestMapping(value = "tokens", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.POST)
 	public AuthResponse authenticate(@RequestBody AuthenticationRequest tokenRequest, HttpServletRequest request) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("authenticate for [username:%s]", tokenRequest.getUsername()));
-		}
+		logAuthenticate(tokenRequest);
+		validateAuthenticationRequest(tokenRequest);
 
-		if (isBlank(tokenRequest.getUsername()) || isBlank(tokenRequest.getPassword())) {
-			LOG.error(String.format("errors with [username:%s]", tokenRequest.getUsername()));
-			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_ARGS, "用户名或密码为空");
-		}
-
-		String userid = tokenRequest.getUsername();
-		String psword = tokenRequest.getPassword();
 		String ip = determineTerminalIpAddress(request);
 
-		String token = authSupporter.authenticate(userid, psword, ip);
-		if (isBlank(token)) {
-			LOG.error(String.format("authenticating failed for [userid:%s, ip:%s]", userid, ip));
-			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证错误");
-		}
-
-		UserDetails userDetails = authSupporter.authorize(token, ip);
-		if (userDetails == null) {
-			LOG.error("cannot get userdetails with token:" + token);
-			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证失败");
-		}
-
-		String resourceId = userDetails.getId();
-
-		AuthenticationResponse tokenResp = new AuthenticationResponse();
-		tokenResp.setToken(token);
-		tokenResp.setUserId(resourceId);
-		return tokenResp;
+		String token = internalAuthenticate(tokenRequest.getUsername(), tokenRequest.getPassword(), determineTerminalIpAddress(request));
+		UserDetails userDetails = prepareUserDetails(token, ip);
+		return convertAuthenticationResult(token, userDetails.getId());
 	}
 
 	@RequestMapping(value = "authorizations/{tokenid}", produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
 	public AuthResponse authorize(@PathVariable("tokenid") String token, @RequestParam("ip") String ip,
 			HttpServletRequest request) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
-		}
+		logAuthorize(token, ip);
+		validateAuthorizeParameters(token, ip);
+		
+		return convertAuthorizationResult(internalAuthorize(token, ip));
+	}
+	
+	@RequestMapping(value = "authorizations", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
+	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request) {
+		throw new UnsupportedOperationException();
+	}
 
+	@RequestMapping(value = "tokens/{tokenid}", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.DELETE)
+	public ResponseEntity<String> logout(@PathVariable("tokenid") String token, HttpServletRequest request) {
+		authSupporter.logout(token);
+		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+	}
+	
+	private AuthorizationResult internalAuthorize(String token, String ip){
+		AuthorizationResult authzResult = authSupporter.authorize(token, ip);
+		if (authzResult == null) {
+			LOG.error(String.format("authentication failed with [token:%s, ip:%s]", token, ip));
+			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_TOKEN, "无效token");
+		}
+		
+		return authzResult;
+	}
+	
+	private void validateAuthorizeParameters(String token, String ip){
 		if (isBlank(token) || isBlank(ip)) {
 			LOG.error(String.format("errors with [token:%s, ip:%s]", token, ip));
 			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_ARGS, "token或IP为空");
 		}
-
-		AuthorizationResult authResult = authSupporter.authorize(token, ip);
-		if (authResult == null) {
-			LOG.error(String.format("authentication failed with [token:%s, ip:%s]", token, ip));
-			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_TOKEN, "无效token");
+	}
+	
+	private void logAuthorize(String token, String ip){
+		if (LOG.isInfoEnabled()) {
+			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
-
-		return convertAuthorizationResult(authResult);
+	}
+	
+	private void logAuthenticate(AuthenticationRequest request){
+		if (LOG.isInfoEnabled()) {
+			LOG.info(String.format("authenticate for [username:%s]", request.getUsername()));
+		}
+	}
+	
+	private void validateAuthenticationRequest(AuthenticationRequest request){
+		if (isBlank(request.getUsername()) || isBlank(request.getPassword())) {
+			LOG.error(String.format("errors with [username:%s]", request.getUsername()));
+			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_ARGS, "用户名或密码为空");
+		}
+	}
+	
+	private String internalAuthenticate(String userid, String psword,String ip){
+		String token = authSupporter.authenticate(userid, psword, ip);
+		if (isBlank(token)) {
+			LOG.error(String.format("authenticating failed for [userid:%s, ip:%s]", userid, ip));
+			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证错误");
+		}
+		
+		return token;
+	}
+	
+	private UserDetails prepareUserDetails(String token, String ip){
+		UserDetails userDetails = authSupporter.authorize(token, ip);
+		if (userDetails == null) {
+			LOG.error("cannot get userdetails with token:" + token);
+			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证失败");
+		}
+		
+		return userDetails;
+	}
+	
+	private AuthenticationResponse convertAuthenticationResult(String token, String userId){
+		AuthenticationResponse tokenResp = new AuthenticationResponse();
+		tokenResp.setToken(token);
+		tokenResp.setUserId(userId);
+		
+		return tokenResp;
 	}
 
 	private AuthorizationResponse convertAuthorizationResult(AuthorizationResult result) {
@@ -100,21 +142,7 @@ public class AuthCenterController extends AbstractRestController{
 
 		return resp;
 	}
-
-	@RequestMapping(value = "authorizations", produces = {
-			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
-	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request) {
-		// TODO
-		return null;
-	}
-
-	@RequestMapping(value = "tokens/{tokenid}", produces = {
-			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.DELETE)
-	public ResponseEntity<String> logout(@PathVariable("tokenid") String token, HttpServletRequest request) {
-		authSupporter.logout(token);
-		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-	}
-
+	
 	private String determineTerminalIpAddress(HttpServletRequest request) {
 		String ip = request.getRemoteAddr();
 		return ip;
