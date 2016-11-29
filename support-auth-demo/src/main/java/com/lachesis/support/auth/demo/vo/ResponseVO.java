@@ -9,6 +9,8 @@ public class ResponseVO extends ResponseEntity<Object> {
 	public static final ResponseVO NO_CONTENT = new ResponseVO(HttpStatus.NO_CONTENT);
 	public static final ResponseVO NOT_FOUND = new ResponseVO(HttpStatus.NOT_FOUND);
 	public static final ResponseVO INTERNAL_SERVER_ERROR = new ResponseVO(HttpStatus.INTERNAL_SERVER_ERROR);
+	public static final ResponseVO UNAUTHORIZED = new ResponseVO(HttpStatus.UNAUTHORIZED);
+	public static final ResponseVO FORBIDDEN = new ResponseVO(HttpStatus.FORBIDDEN);
 
 	public static ResponseVO unAuthorized(Object body) {
 		return new ResponseVO(body, HttpStatus.UNAUTHORIZED);
