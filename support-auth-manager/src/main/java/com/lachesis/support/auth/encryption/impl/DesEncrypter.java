@@ -58,7 +58,7 @@ public class DesEncrypter implements Encrypter {
 	private String doDecrypt(String cryptograph){
 		byte[] decodedCipherBytes = Base64.decodeBase64(cryptograph);
 		if(decodedCipherBytes == null){
-			LOG.error("decoding failed");
+			LOG.warn("decoding failed");
 			return null;
 		}
 		
@@ -66,12 +66,12 @@ public class DesEncrypter implements Encrypter {
 		try {
 			decryptedBytes = deDecryptWithDes(decodedCipherBytes, getEncryptionKey());
 		} catch (Exception e) {
-			LOG.error("decryption error.", e);
+			LOG.warn("decryption error.", e);
 			decryptedBytes = null;
 		}
 		
 		if(decryptedBytes == null){
-			LOG.error("decrypting failed");
+			LOG.warn("decrypting failed");
 			return null;
 		}
 		
@@ -79,7 +79,7 @@ public class DesEncrypter implements Encrypter {
 		try {
 			plainText =  new String(decryptedBytes, ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			LOG.error("error while creating plain text", e);
+			LOG.warn("error while creating plain text", e);
 		}
 		
 		return plainText;
@@ -102,7 +102,7 @@ public class DesEncrypter implements Encrypter {
 		try {
 			cipherBytes = doEncryptStringWithDes(plainText, getEncryptionKey());
 		} catch (Exception e) {
-			LOG.error("error while encrypting.", e);
+			LOG.warn("error while encrypting.", e);
 			cipherBytes = null;
 		}
 		

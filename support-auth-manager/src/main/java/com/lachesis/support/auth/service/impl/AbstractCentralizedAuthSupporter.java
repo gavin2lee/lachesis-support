@@ -18,7 +18,7 @@ public abstract class AbstractCentralizedAuthSupporter implements CentralizedAut
 		String passwordMask = (isBlank(password) ? null : "***");
 
 		if (isBlank(userid) || isBlank(password) || isBlank(terminalIpAddress)) {
-			LOG.error(String.format("generating token failed for [userid:%s,password:%s,ip:%s]", userid, passwordMask,
+			LOG.error(String.format("authenticate failed for [userid:%s,password:%s,ip:%s]", userid, passwordMask,
 					terminalIpAddress));
 			throw new RuntimeException("generating token failed");
 		}
@@ -32,7 +32,7 @@ public abstract class AbstractCentralizedAuthSupporter implements CentralizedAut
 		}
 
 		if (isBlank(token) || isBlank(terminalIpAddress)) {
-			LOG.error(String.format("authenticating failed for [token:%s,ip:%s]", token, terminalIpAddress));
+			LOG.warn(String.format("authenticating failed for [token:%s,ip:%s]", token, terminalIpAddress));
 			return null;
 		}
 
