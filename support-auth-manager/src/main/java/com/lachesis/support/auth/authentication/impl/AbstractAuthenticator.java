@@ -17,15 +17,12 @@ public abstract class AbstractAuthenticator implements Authenticator {
 			throw new IllegalArgumentException();
 		}
 
-		String userid = credential.getUsername();
-		String password = credential.getPassword();
-
-		if (StringUtils.isBlank(userid) || StringUtils.isBlank(password)) {
+		if (StringUtils.isBlank(credential.getUsername()) || StringUtils.isBlank(credential.getPassword())) {
 			LOG.error("invalid credential");
 			throw new IllegalArgumentException();
 		}
 
-		return doAuthenticate(userid, password);
+		return doAuthenticate(credential.getUsername(), credential.getPassword());
 	}
 
 	protected abstract UserDetails doAuthenticate(String userid, String password);

@@ -40,9 +40,8 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 			return null;
 		}
 
-		UserDetails userDetails = new SimpleAuthorizationResult(String.valueOf(user.getId()), user.getUsername(),
+		return new SimpleAuthorizationResult(String.valueOf(user.getId()), user.getUsername(),
 				user.getPassword());
-		return userDetails;
 	}
 
 	protected AuthUser getAuthUser(String userId) {
@@ -61,10 +60,9 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 			return null;
 		}
 
-		SimpleAuthorizationResult result = new SimpleAuthorizationResult(String.valueOf(user.getId()),
+		return new SimpleAuthorizationResult(String.valueOf(user.getId()),
 				user.getUsername(), user.getPassword(), extractRoleNames(user.getRoles()),
 				extractPermissionNames(user.getPermissions()));
-		return result;
 	}
 
 	private Collection<String> extractRoleNames(Collection<AuthRole> roles) {

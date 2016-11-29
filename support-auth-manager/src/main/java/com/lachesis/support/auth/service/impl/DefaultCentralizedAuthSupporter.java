@@ -44,13 +44,13 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 		String plainTokenValue = assemblePlainTokenValue(userDetails, terminalIpAddress);
 		String tokenValue = encryptionProvider.getEncrypter().encrypt(plainTokenValue);
 
-		AuthToken token = assembleAuthToken(userid, password, terminalIpAddress, tokenValue);
+		AuthToken token = buildAuthToken(userid, password, terminalIpAddress, tokenValue);
 		tokenManager.store(token);
 
 		return tokenValue;
 	}
 
-	private AuthToken assembleAuthToken(String userid, String password, String terminalIpAddress, String tokenValue) {
+	private AuthToken buildAuthToken(String userid, String password, String terminalIpAddress, String tokenValue) {
 		return (new AuthTokenGenerator(userid, password, terminalIpAddress, tokenValue).generate());
 	}
 
