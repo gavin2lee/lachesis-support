@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,19 @@ public class BookController extends AbstractRestController {
 		}
 		
 		return new ResponseVO(books);
+	}
+	
+	@RequestMapping(value="books/{id}", method=RequestMethod.GET)
+	public ResponseVO getBook(@PathVariable("id")Long id){
+		if(id == 1){
+			return ResponseVO.ok(null);
+		}else if(id == 2){
+			return ResponseVO.notFound(null);
+		}else if(id == 3){
+			return ResponseVO.INTERNAL_SERVER_ERROR;
+		}else{
+			return ResponseVO.ok(create());
+		}
 	}
 	
 	private Book create(){

@@ -21,6 +21,10 @@ public class ResponseVO extends ResponseEntity<Object> {
 	public static ResponseVO internalServerError(Object body) {
 		return new ResponseVO(body, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	public static ResponseVO notFound(Object body) {
+		return new ResponseVO(body,HttpStatus.NOT_FOUND);
+	}
 
 	public static ResponseVO ok(Object body) {
 		return new ResponseVO(body);
