@@ -1,0 +1,44 @@
+package com.lachesis.support.auth.demo.vo;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+
+public class ResponseVO extends ResponseEntity<Object> {
+	public static final ResponseVO NO_CONTENT = new ResponseVO(HttpStatus.NO_CONTENT);
+	public static final ResponseVO NOT_FOUND = new ResponseVO(HttpStatus.NOT_FOUND);
+	public static final ResponseVO INTERNAL_SERVER_ERROR = new ResponseVO(HttpStatus.INTERNAL_SERVER_ERROR);
+
+	public static ResponseVO unAuthorized(Object body) {
+		return new ResponseVO(body, HttpStatus.UNAUTHORIZED);
+	}
+
+	public static ResponseVO forbidden(Object body) {
+		return new ResponseVO(body, HttpStatus.FORBIDDEN);
+	}
+
+	public static ResponseVO internalServerError(Object body) {
+		return new ResponseVO(body, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	public ResponseVO(Object body) {
+		super(body, HttpStatus.OK);
+	}
+
+	public ResponseVO(MultiValueMap<String, String> headers, HttpStatus statusCode) {
+		super(headers, statusCode);
+	}
+
+	public ResponseVO(Object body, HttpStatus statusCode) {
+		super(body, statusCode);
+	}
+
+	public ResponseVO(Object body, MultiValueMap<String, String> headers, HttpStatus statusCode) {
+		super(body, headers, statusCode);
+	}
+
+	public ResponseVO(HttpStatus statusCode) {
+		super(statusCode);
+	}
+
+}
