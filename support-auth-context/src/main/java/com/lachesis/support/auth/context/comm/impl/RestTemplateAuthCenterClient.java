@@ -53,7 +53,7 @@ public class RestTemplateAuthCenterClient implements AuthCenterClient {
 		try {
 			resp = restTemplate.getForObject(url, AuthorizationResponseVO.class);
 		} catch (Exception e) {
-			LOG.error("errors while communicating with auth center", e);
+			LOG.warn("errors while communicating with auth center", e);
 			throw new TokenAuthorizationException(e);
 		}
 		

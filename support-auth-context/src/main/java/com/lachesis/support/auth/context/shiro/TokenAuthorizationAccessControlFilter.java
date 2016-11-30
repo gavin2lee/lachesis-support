@@ -42,7 +42,7 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 
 			cacheSecurityContext(localToken, request);
 		} catch (Exception e) {
-			LOG.error("errors while login", e);
+			LOG.warn("errors while login", e);
 			onLoginFail(e, response);
 			return false;
 		}
