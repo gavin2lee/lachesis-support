@@ -8,11 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
 import com.lachesis.support.auth.context.comm.AuthCenterClient;
-import com.lachesis.support.auth.context.comm.TokenAuthorizationException;
+import com.lachesis.support.auth.context.comm.AuthorizationException;
 
 @Component("restTemplateAuthCenterClient")
 public class RestTemplateAuthCenterClient implements AuthCenterClient {
@@ -41,7 +42,7 @@ public class RestTemplateAuthCenterClient implements AuthCenterClient {
 	}
 
 	@Override
-	public AuthorizationResponseVO authorize(String token, String terminalIpAddress) {
+	public AuthorizationResponseVO authorize(String token, String terminalIpAddress) throws AuthorizationException{
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("authorization api:" + authorizingUrl);
 			LOG.debug(String.format("authorize for [token:%s,ip:%s]", token, terminalIpAddress));
@@ -52,13 +53,16 @@ public class RestTemplateAuthCenterClient implements AuthCenterClient {
 
 		try {
 			resp = restTemplate.getForObject(url, AuthorizationResponseVO.class);
+		}catch(ResourceAccessException rae){
+			LOG.error("connection errors", rae);
+			throw new AuthorizationException(rae);
 		} catch (Exception e) {
 			LOG.warn("errors while communicating with auth center", e);
-			throw new TokenAuthorizationException(e);
+			throw new AuthorizationException(e);
 		}
 		
 		if(resp == null){
-			throw new TokenAuthorizationException();
+			throw new AuthorizationException();
 		}
 		
 		if(LOG.isDebugEnabled()){
