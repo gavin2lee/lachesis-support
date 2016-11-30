@@ -32,7 +32,7 @@
 	</properties>
 
 	<modules>
-		<module>support-auth-common</module>
+		<module>support-model</module>
 		<module>support-auth-manager</module>
 		<module>support-auth-context</module>
 		<module>support-auth-api</module>
