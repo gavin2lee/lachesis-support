@@ -80,20 +80,4 @@
 	<bean id="shiroFilter" parent="baseShiroFilter">
 		<property name="iniResourcePath" value="classpath:shiro.properties"/>
 	</bean>
-	
-	<!-- 
-	<bean id="baseShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" abstract="true">
-		<property name="securityManager" ref="securityManager" />
-		<property name="filters" ref="predefinedFilters"/>
-	</bean>
-	<bean id="shiroFilter" parent="baseShiroFilter">
-		<property name="filterChainDefinitions">
-			<value>
-				/greetings/**=anon
-				/nurses/**=tokenAuthc,roles[NURSE]
-				/**=tokenAuthc
-			</value>
-		</property>
-	</bean>
-	 -->
 </beans>
