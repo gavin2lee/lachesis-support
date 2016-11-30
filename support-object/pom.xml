@@ -9,9 +9,9 @@
 		<version>1.0.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>support-model</artifactId>
+	<artifactId>support-object</artifactId>
 
-	<name>support-model</name>
+	<name>support-object</name>
 	<packaging>jar</packaging>
 
 	<dependencies>
