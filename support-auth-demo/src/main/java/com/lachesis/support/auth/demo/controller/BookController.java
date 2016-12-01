@@ -58,7 +58,7 @@ public class BookController extends AbstractRestController {
 		b1.setAuthor("A");
 		b1.setIssueDate(new Date());
 		b1.setPrice(100000.000187438);
-		b1.setName("希望的田野");
+		b1.setName("企业文化");
 		
 		return b1;
 	}
