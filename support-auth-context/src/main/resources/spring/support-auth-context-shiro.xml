@@ -19,59 +19,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/cache  
     	http://www.springframework.org/schema/cache/spring-cache.xsd">
-	<context:component-scan base-package="com.lachesis.support.auth.context.shiro" />
-
-	<bean id="tokenAuthorizationRealm"
-		class="com.lachesis.support.auth.context.shiro.TokenAuthorizationRealm">
-		<property name="cachingEnabled" value="false" />
-	</bean>
-	<bean id="tokenAuthorizationWebSubjectFactory"
-		class="com.lachesis.support.auth.context.shiro.TokenAuthorizationWebSubjectFactory" />
-
-	<bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
-		<property name="sessionValidationSchedulerEnabled" value="false" />
-	</bean>
-
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="tokenAuthorizationRealm" />
-		<property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled"
-			value="false" />
-		<property name="subjectFactory" ref="tokenAuthorizationWebSubjectFactory" />
-		<property name="sessionManager" ref="sessionManager" />
-	</bean>
-
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="org.apache.shiro.SecurityUtils.setSecurityManager" />
-		<property name="arguments" ref="securityManager" />
-	</bean>
-
-	<bean id="tokenAccessControlFilter"
-		class="com.lachesis.support.auth.context.shiro.TokenAuthorizationAccessControlFilter" />
-
-	<bean id="localRolesAuthorizationFilter"
-		class="com.lachesis.support.auth.context.shiro.LocalRolesAuthorizationFilter" />
-		
-	<bean id="localPermissionsAuthorizationFilter" class="com.lachesis.support.auth.context.shiro.LocalPermissionsAuthorizationFilter"/>
-
-	<bean
-		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-		depends-on="lifecycleBeanPostProcessor" />
-
-	<bean
-		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager" />
-	</bean>
-
-	<util:map id="predefinedFilters">
-		<entry key="authcToken" value-ref="tokenAccessControlFilter" />
-		<entry key="roles" value-ref="localRolesAuthorizationFilter" />
-		<entry key="perms" value-ref="localPermissionsAuthorizationFilter" />
-	</util:map>
-	
+	<context:component-scan base-package="com.lachesis.support.auth.context.config,com.lachesis.support.auth.context.shiro" />
 	<bean id="baseShiroFilter" class="com.lachesis.support.auth.context.shiro.LocalShiroFilterFactoryBean" abstract="true">
 		<property name="securityManager" ref="securityManager" />
 		<property name="filters" ref="predefinedFilters"/>

@@ -23,7 +23,7 @@ public class LocalRolesAuthorizationFilter extends RolesAuthorizationFilter {
 				WebUtils.issueRedirect(request, response, unauthorizedUrl);
 			} else {
 				response.setContentType("application/json;charset=utf-8");
-				WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
 				WebUtils.toHttp(response).getWriter().write(String.format("{\"msg\":\"%s\"}", "roles not qualified"));
 			}
 		}
