@@ -17,7 +17,7 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lachesis.support.auth.context.common.AuthContextConstants;
+import com.lachesis.support.auth.context.util.SecurityContextUtils;
 import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 import com.lachesis.support.auth.context.wrapper.HttpServletRequestWrapper;
 import com.lachesis.support.vo.SecurityContext;
@@ -57,7 +57,7 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 			LOG.debug("cache :"+securityContext.toString());
 		}
 		
-		request.setAttribute(AuthContextConstants.REQUEST_ATTR_SECURITY_CONTEXT, securityContext);
+		SecurityContextUtils.setSecurityContext(request, securityContext);;
 	}
 
 	protected SecurityContext buildSecurityContext(AuthenticationToken localToken) {
