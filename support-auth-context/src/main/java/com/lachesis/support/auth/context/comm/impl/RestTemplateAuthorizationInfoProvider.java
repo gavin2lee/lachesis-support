@@ -47,6 +47,25 @@ public class RestTemplateAuthorizationInfoProvider implements AuthCenterClient, 
 
 	@Override
 	public AuthorizationResponseVO authorize(String token, String terminalIpAddress) throws AuthorizationException{
+		return internalAuthorize(token,terminalIpAddress);
+	}
+
+	@Override
+	public AuthorizationInfoVO provide(AuthenticationToken token) throws AuthorizationException{
+		if(token == null){
+			LOG.error("token must be specified.");
+			throw new RuntimeException();
+		}
+		AuthorizationResponseVO resp = internalAuthorize((String)token.getPrincipal(), (String)token.getCredentials());
+		if(resp == null){
+			throw new AuthorizationException("Cannot normally gained authorization infomation.");
+		}
+		UserDetailVO user = new UserDetailVO(resp.getUserId(), resp.getUsername());
+		
+		return new AuthorizationInfoVO(user, resp.getRoles(), resp.getPermissions());
+	}
+	
+	protected AuthorizationResponseVO internalAuthorize(String token, String terminalIpAddress) throws AuthorizationException{
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("authorization api:" + authorizingUrl);
 			LOG.debug(String.format("authorize for [token:%s,ip:%s]", token, terminalIpAddress));
@@ -73,20 +92,5 @@ public class RestTemplateAuthorizationInfoProvider implements AuthCenterClient, 
 			LOG.debug(String.format("%s", resp.toString()));
 		}
 		return resp;
-	}
-
-	@Override
-	public AuthorizationInfoVO provide(AuthenticationToken token) throws AuthorizationException{
-		if(token == null){
-			LOG.error("token must be specified.");
-			throw new RuntimeException();
-		}
-		AuthorizationResponseVO resp = authorize((String)token.getPrincipal(), (String)token.getCredentials());
-		if(resp == null){
-			throw new AuthorizationException("Cannot normally gained authorization infomation.");
-		}
-		UserDetailVO user = new UserDetailVO(resp.getUserId(), resp.getUsername());
-		
-		return new AuthorizationInfoVO(user, resp.getRoles(), resp.getPermissions());
 	}
 }
