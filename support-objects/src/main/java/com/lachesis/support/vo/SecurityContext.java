@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.context.vo;
+package com.lachesis.support.vo;
 
 import java.util.Collection;
 

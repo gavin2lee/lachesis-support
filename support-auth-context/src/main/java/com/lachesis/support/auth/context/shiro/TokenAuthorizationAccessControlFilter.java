@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import com.lachesis.support.auth.context.common.AuthContextConstants;
 import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
-import com.lachesis.support.auth.context.vo.SecurityContext;
 import com.lachesis.support.auth.context.wrapper.HttpServletRequestWrapper;
+import com.lachesis.support.vo.SecurityContext;
 
 public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 	private static final Logger LOG = LoggerFactory.getLogger(TokenAuthorizationAccessControlFilter.class);
