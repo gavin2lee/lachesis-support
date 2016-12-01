@@ -17,8 +17,8 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
 import com.lachesis.support.auth.context.common.AuthContextConstants;
+import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 import com.lachesis.support.auth.context.vo.SecurityContext;
 import com.lachesis.support.auth.context.wrapper.HttpServletRequestWrapper;
 
@@ -66,13 +66,13 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 		Collection<String> permissions = null;
 		String token = null;
 		String terminalIpAddress = null;
-		AuthorizationResponseVO authzRespVO = ThreadLocalAuthContext.get();
+		AuthorizationInfoVO authzRespVO = ThreadLocalAuthContext.get();
 		if (authzRespVO == null) {
 			if (LOG.isWarnEnabled()) {
 				LOG.warn("cannot get authorization infomation from thread local auth context.");
 			}
 		} else {
-			principal = authzRespVO.getUsername();
+			principal = authzRespVO.getUser().getUsername();
 			roles = authzRespVO.getRoles();
 			permissions = authzRespVO.getPermissions();
 		}

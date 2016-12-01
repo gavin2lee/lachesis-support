@@ -3,6 +3,7 @@ package com.lachesis.support.auth.context.comm.impl;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,13 @@ import org.springframework.web.client.RestTemplate;
 import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
 import com.lachesis.support.auth.context.comm.AuthCenterClient;
 import com.lachesis.support.auth.context.comm.AuthorizationException;
+import com.lachesis.support.auth.context.comm.AuthorizationInfoProvider;
+import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
+import com.lachesis.support.auth.context.vo.UserDetailVO;
 
-@Component("restTemplateAuthCenterClient")
-public class RestTemplateAuthCenterClient implements AuthCenterClient {
-	private static final Logger LOG = LoggerFactory.getLogger(RestTemplateAuthCenterClient.class);
+@Component("restTemplateAuthorizationInfoProvider")
+public class RestTemplateAuthorizationInfoProvider implements AuthCenterClient, AuthorizationInfoProvider {
+	private static final Logger LOG = LoggerFactory.getLogger(RestTemplateAuthorizationInfoProvider.class);
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -69,5 +73,20 @@ public class RestTemplateAuthCenterClient implements AuthCenterClient {
 			LOG.debug(String.format("%s", resp.toString()));
 		}
 		return resp;
+	}
+
+	@Override
+	public AuthorizationInfoVO provide(AuthenticationToken token) throws AuthorizationException{
+		if(token == null){
+			LOG.error("token must be specified.");
+			throw new RuntimeException();
+		}
+		AuthorizationResponseVO resp = authorize((String)token.getPrincipal(), (String)token.getCredentials());
+		if(resp == null){
+			throw new AuthorizationException("Cannot normally gained authorization infomation.");
+		}
+		UserDetailVO user = new UserDetailVO(resp.getUserId(), resp.getUsername());
+		
+		return new AuthorizationInfoVO(user, resp.getRoles(), resp.getPermissions());
 	}
 }

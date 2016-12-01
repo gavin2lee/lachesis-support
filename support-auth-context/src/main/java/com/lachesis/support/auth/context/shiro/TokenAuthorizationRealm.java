@@ -12,21 +12,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
-import com.lachesis.support.auth.context.comm.AuthCenterClient;
+import com.lachesis.support.auth.context.comm.AuthorizationInfoProvider;
+import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 
 public class TokenAuthorizationRealm extends AuthorizingRealm {
 	private static final Logger LOG = LoggerFactory.getLogger(TokenAuthorizationRealm.class);
 	
 	@Autowired
-	private AuthCenterClient authCenterClient;
+	private AuthorizationInfoProvider authorizationInfoProvider;
 	
-	public void setAuthCenterClient(AuthCenterClient authCenterClient) {
-		this.authCenterClient = authCenterClient;
+	public AuthorizationInfoProvider getAuthorizationInfoProvider() {
+		return authorizationInfoProvider;
 	}
 
-	protected AuthCenterClient getAuthCenterClient() {
-		return authCenterClient;
+	public void setAuthorizationInfoProvider(AuthorizationInfoProvider authorizationInfoProvider) {
+		this.authorizationInfoProvider = authorizationInfoProvider;
 	}
 
 	public boolean supports(AuthenticationToken token) {
@@ -35,7 +35,7 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		AuthorizationResponseVO info = ThreadLocalAuthContext.get();
+		AuthorizationInfoVO info = ThreadLocalAuthContext.get();
 		if (info == null) {
 			LOG.error("cannot find authorization info.");
 			throw new RuntimeException("AuthThreadLocalContext error");
@@ -54,21 +54,21 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		AuthorizationResponseVO resp = ThreadLocalAuthContext.get();
+		AuthorizationInfoVO infoVO = ThreadLocalAuthContext.get();
 		
-		if(resp != null){
+		if(infoVO != null){
 			if(LOG.isDebugEnabled()){
-				LOG.debug(String.format("found authentication info [%s]", resp));
+				LOG.debug(String.format("found authentication info [%s]", infoVO));
 			}
 			
-			return createAuthenticationInfo(token, resp);
+			return createAuthenticationInfo(token, infoVO);
 		}
 		
 		try {
-			resp = authCenterClient.authorize((String)token.getPrincipal(), (String)token.getCredentials());
-			if (resp != null) {
-				ThreadLocalAuthContext.set(resp);
-				return createAuthenticationInfo(token, resp);
+			infoVO = authorizationInfoProvider.provide(token);
+			if (infoVO != null) {
+				ThreadLocalAuthContext.set(infoVO);
+				return createAuthenticationInfo(token, infoVO);
 			}
 		} catch (Exception e) {
 			throw new AuthenticationException("authentication errors:"+findRootCause(e).getMessage(), e);
@@ -85,8 +85,8 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 		return findRootCause(ex.getCause());
 	}
 	
-	private AuthenticationInfo createAuthenticationInfo(AuthenticationToken token, AuthorizationResponseVO info){
-		return new SimpleAuthenticationInfo(info.getUsername(), token.getCredentials(), getName());
+	private AuthenticationInfo createAuthenticationInfo(AuthenticationToken token, AuthorizationInfoVO info){
+		return new SimpleAuthenticationInfo(info.getUser().getUsername(), token.getCredentials(), getName());
 	}
 
 }

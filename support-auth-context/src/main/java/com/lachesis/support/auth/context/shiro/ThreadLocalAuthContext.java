@@ -1,17 +1,17 @@
 package com.lachesis.support.auth.context.shiro;
 
-import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
+import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 
 public final class ThreadLocalAuthContext {
 	private ThreadLocalAuthContext(){}
 	
-	private static final ThreadLocal<AuthorizationResponseVO> authorizations = new ThreadLocal<AuthorizationResponseVO>();
+	private static final ThreadLocal<AuthorizationInfoVO> authorizations = new ThreadLocal<AuthorizationInfoVO>();
 	
-	public static void set(AuthorizationResponseVO authorization){
+	public static void set(AuthorizationInfoVO authorization){
 		authorizations.set(authorization);
 	}
 	
-	public static AuthorizationResponseVO get(){
+	public static AuthorizationInfoVO get(){
 		return authorizations.get();
 	}
 }

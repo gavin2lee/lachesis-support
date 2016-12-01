@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class AuthorizationResponseVO {
-	private String id;
+	private String userId;
 	private String username;
 	private Collection<String> roles = new ArrayList<String>();
 	private Collection<String> permissions = new ArrayList<String>();
@@ -13,18 +13,18 @@ public class AuthorizationResponseVO {
 		super();
 	}
 
-	public AuthorizationResponseVO(String id, String username) {
+	public AuthorizationResponseVO(String userId, String username) {
 		super();
-		this.id = id;
+		this.userId = userId;
 		this.username = username;
 	}
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String id) {
+		this.userId = id;
 	}
 
 	public String getUsername() {
@@ -59,7 +59,7 @@ public class AuthorizationResponseVO {
 
 	@Override
 	public String toString() {
-		return "AuthorizationResponseVO [id=" + id + ", username=" + username + ", roles=" + roles + ", permissions="
+		return "AuthorizationResponseVO [id=" + userId + ", username=" + username + ", roles=" + roles + ", permissions="
 				+ permissions + "]";
 	}
 }
