@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+@SuppressWarnings("unchecked")
 public class ResponseVO extends ResponseEntity<Object> {
 	public static final ResponseVO NO_CONTENT = new ResponseVO(HttpStatus.NO_CONTENT);
 	public static final ResponseVO NOT_FOUND = new ResponseVO(HttpStatus.NOT_FOUND);
@@ -52,6 +53,7 @@ public class ResponseVO extends ResponseEntity<Object> {
 		super(statusCode);
 	}
 
+	
 	public static class ResponseBuilder {
 		private HttpStatus httpStatus = HttpStatus.OK;
 		private Object body;
