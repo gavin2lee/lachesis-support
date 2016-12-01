@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,6 +21,7 @@ import com.lachesis.support.auth.data.AuthUserService;
 import com.lachesis.support.auth.model.AuthUser;
 import com.lachesis.support.auth.vo.UserDetails;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @SupportTestContext
 public class DefaultCentralizedAuthSupporterTest {
