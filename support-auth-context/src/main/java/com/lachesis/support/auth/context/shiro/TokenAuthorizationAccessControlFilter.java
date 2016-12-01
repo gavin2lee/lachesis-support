@@ -42,7 +42,7 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 
 			cacheSecurityContext(localToken, request);
 		} catch (Exception e) {
-			LOG.warn("errors while login", e);
+			LOG.warn("errors while login:"+e.getMessage());
 			onLoginFail(e, response);
 			return false;
 		}
@@ -108,7 +108,6 @@ public class TokenAuthorizationAccessControlFilter extends AccessControlFilter {
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter writer = ((HttpServletResponse) response).getWriter();
 			writer.write(String.format("{\"msg\":\"%s\"}", ex.getMessage()));
-			// writer.close();
 		}
 
 	}
