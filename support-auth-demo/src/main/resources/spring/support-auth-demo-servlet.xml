@@ -13,27 +13,30 @@
 	<context:property-placeholder
 		location="classpath:support-auth-demo-version.properties"
 		ignore-unresolvable="true" />
-	<mvc:annotation-driven/>
+	<bean id="handlerMapping"
+		class="com.lachesis.support.auth.demo.handler.PrefixEnabledRequestMappingHandlerMapping" />
 	<context:component-scan base-package="com.lachesis.support.auth.demo.controller" />
-	 
-	 <bean id="handlerExceptionResolver"
+	<mvc:annotation-driven />
+
+	<bean id="handlerExceptionResolver"
 		class="com.lachesis.support.auth.demo.handler.LocalResponseStatusExceptionResolver">
 	</bean>
-	 
-	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
-        <property name="messageConverters">
-            <list>
-                <ref bean="mappingJacksonHttpMessageConverter"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="mappingJacksonHttpMessageConverter"  
-          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
-        <property name="supportedMediaTypes">  
-            <list>  
-                <value>text/plain;charset=UTF-8</value>  
-                <value>application/json;charset=UTF-8</value>  
-            </list>  
-        </property>  
-    </bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
 </beans>
