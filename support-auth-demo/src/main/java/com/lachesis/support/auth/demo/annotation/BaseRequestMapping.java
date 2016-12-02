@@ -15,5 +15,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Target(ElementType.TYPE)
 @RequestMapping("/api/${support.auth.demo.version}")
 public @interface BaseRequestMapping {
-
 }
