@@ -22,12 +22,13 @@ import com.lachesis.support.auth.demo.vo.SimpleUserVo;
 import com.lachesis.support.vo.SecurityContext;
 
 @RestController
+@RequestMapping(value="nurses")
 public class NurseController extends AbstractRestController{
 	private static final Logger LOG = LoggerFactory.getLogger(NurseController.class);
 	@Autowired
 	private NurseService nurseService;
 	
-	@RequestMapping(value="nurses",produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
+	@RequestMapping(produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
 	public List<SimpleUserVo> listNurses(@RequestParam("deptid") String deptid,HttpServletRequest request){
 		InetAddress addr = null;
 		try {
@@ -49,7 +50,7 @@ public class NurseController extends AbstractRestController{
 		return nurseService.listAllOfDepartment(deptid);
 	}
 	
-	@RequestMapping(value="nurses/{id}",produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
+	@RequestMapping(value="/{id}",produces={MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.GET)
 	public SimpleUserVo findNurse(@PathVariable("id") String id,HttpServletRequest request){
 		return nurseService.findOneUser(id);
 		

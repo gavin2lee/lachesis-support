@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lachesis.support.auth.demo.vo.Greeting;
 
 @RestController
+@RequestMapping("/greetings")
 public class GreetingController extends AbstractRestController{
 	private AtomicLong count = new AtomicLong();
 	
-	@RequestMapping("/greetings")
+	@RequestMapping
 	public Greeting getGreeting(@RequestParam(name="toname") String toName, HttpServletRequest request){
 		
 		return createNewGreeting(toName, "dummy");

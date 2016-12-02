@@ -2,7 +2,6 @@ package com.lachesis.support.auth.demo.handler;
 
 import java.lang.reflect.Method;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -10,9 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class PrefixEnabledRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 	public static final String URL_SLASH = "/";
 
-	@Value("${support.auth.demo.version}")
-	private String apiVersion = "v1";
-	private String contextPrefix = "/api/" + apiVersion;
+	private String contextPrefix;
 
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
 		RequestMappingInfo info = super.getMappingForMethod(method, handlerType);

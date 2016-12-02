@@ -16,11 +16,11 @@ import com.lachesis.support.auth.demo.vo.ErrorMsgVO;
 import com.lachesis.support.vo.ResponseVO;
 
 @RestController
-@RequestMapping
+@RequestMapping("books")
 public class BookController extends AbstractRestController {
 	private AtomicLong count = new AtomicLong();
 	
-	@RequestMapping(value="books", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseVO getBooks(){
 		List<Book> books = new ArrayList<Book>();
 		
@@ -40,7 +40,7 @@ public class BookController extends AbstractRestController {
 		return new ResponseVO(books);
 	}
 	
-	@RequestMapping(value="books/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="{id}", method=RequestMethod.GET)
 	public ResponseVO getBook(@PathVariable("id")Long id){
 		if(id == 1){
 			return ResponseVO.ok(null);
