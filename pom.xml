@@ -39,8 +39,18 @@
 		<module>support-auth-demo</module>
 		<module>support-auth-aat</module>
 	</modules>
-
-
+	
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>http://10.2.2.10:8081/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://10.2.2.10:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
