@@ -16,6 +16,7 @@ import com.lachesis.support.auth.demo.vo.ErrorMsgVO;
 import com.lachesis.support.vo.ResponseVO;
 
 @RestController
+@RequestMapping("/module")
 public class BookController extends AbstractRestController {
 	private AtomicLong count = new AtomicLong();
 	
