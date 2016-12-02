@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 public class PrefixEnabledRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 	public static final String URL_SLASH = "/";
+
 	@Value("${support.auth.demo.version}")
 	private String apiVersion = "v1";
 	private String contextPrefix = "/api/" + apiVersion;
@@ -16,21 +17,18 @@ public class PrefixEnabledRequestMappingHandlerMapping extends RequestMappingHan
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
 		RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
 
-		RequestMappingInfo enrichedInfo = null;
+		RequestMappingInfo prefixedInfo = null;
 		if (info != null) {
 			PatternsRequestCondition patt = info.getPatternsCondition();
-			String[] patterns = new String[patt.getPatterns().size()];
-
-			String[] prefixedPatts = prefixPatterns(patt.getPatterns().toArray(patterns));
-
+			String[] prefixedPatts = prefixPatterns(patt.getPatterns().toArray(new String[patt.getPatterns().size()]));
 			PatternsRequestCondition patternsCondition = new PatternsRequestCondition(prefixedPatts,
 					this.getUrlPathHelper(), this.getPathMatcher(), this.useSuffixPatternMatch(),
 					this.useTrailingSlashMatch(), this.getFileExtensions());
-			enrichedInfo = new RequestMappingInfo(info.getName(), patternsCondition, info.getMethodsCondition(),
+			prefixedInfo = new RequestMappingInfo(info.getName(), patternsCondition, info.getMethodsCondition(),
 					info.getParamsCondition(), info.getHeadersCondition(), info.getConsumesCondition(),
 					info.getProducesCondition(), info.getCustomCondition());
 		}
-		return enrichedInfo;
+		return prefixedInfo;
 	}
 
 	public String getContextPrefix() {
@@ -49,7 +47,7 @@ public class PrefixEnabledRequestMappingHandlerMapping extends RequestMappingHan
 		for (int i = 0; i < patts.length; i++) {
 			if (patts[i].startsWith(URL_SLASH)) {
 				prefixedPatts[i] = getContextPrefix() + patts[i];
-			}else{
+			} else {
 				prefixedPatts[i] = getContextPrefix() + URL_SLASH + patts[i];
 			}
 		}
