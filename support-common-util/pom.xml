@@ -69,7 +69,7 @@
 						<artifactId>maven-jar-plugin</artifactId>
 						<version>3.0.2</version>
 						<configuration>
-							<outputDirectory>../etc/bin/crypt-utils/libs</outputDirectory>
+							<outputDirectory>../etc/local-tools/crypt-utils/libs</outputDirectory>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -90,7 +90,7 @@
 							<includeScope>runtime</includeScope>
 							<overWriteSnapshots>true</overWriteSnapshots>
 							<type>jar</type>
-							<outputDirectory>../etc/bin/crypt-utils/libs</outputDirectory>
+							<outputDirectory>../etc/local-tools/crypt-utils/libs</outputDirectory>
 						</configuration>
 					</plugin>
 				</plugins>
