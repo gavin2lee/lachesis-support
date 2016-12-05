@@ -40,7 +40,7 @@
 		<module>support-auth-demo</module>
 		<module>support-auth-aat</module>
 	</modules>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
@@ -316,6 +316,12 @@
 				<artifactId>json-lib</artifactId>
 				<version>2.4</version>
 				<classifier>jdk15</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.5</version>
 			</dependency>
 
 			<!-- ====== common testing ====== -->
