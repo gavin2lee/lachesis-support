@@ -14,7 +14,9 @@ set "EXECUTOR="
 
 if not "%JAVA_HOME%" == "" (
     set "EXECUTOR=%JAVA_HOME%\bin\java.exe"
-)else set "EXECUTOR=java"
+) else (
+		set "EXECUTOR=java"
+)
 
 set "MAIN=com.lachesis.support.common.util.crypt.ConfigCryptTool"
 
