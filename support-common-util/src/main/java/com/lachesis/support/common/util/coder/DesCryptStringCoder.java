@@ -98,4 +98,8 @@ public class DesCryptStringCoder implements StringCoder {
 	private String getEncryptionKey() {
 		return encryptionKey;
 	}
+
+	public void setEncryptionKey(String encryptionKey) {
+		this.encryptionKey = encryptionKey;
+	}
 }
