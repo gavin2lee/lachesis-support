@@ -24,7 +24,7 @@ public class PasswordCryptTool {
 	
 	private static void printUsage(PrintStream ps){
 		String msg = "Usage:\n";
-		msg += "java com.lachesis.support.common.util.crypt <password>";
+		msg += "java com.lachesis.support.common.util.crypt.PasswordCryptTool <password>";
 		
 		ps.println(msg);
 	}
