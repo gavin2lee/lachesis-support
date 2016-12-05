@@ -1,6 +1,7 @@
 package com.lachesis.support.common.util.crypt;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
@@ -14,14 +15,14 @@ public class CryptUtils {
 	public static final String INTERNAL_ENCODING = "UTF-8";
 	public static final String DYNAMIC_PARAM_KEY_DIGESTER = "support.crypt.digester";
 	public static final String DYNAMIC_PARAM_KEY_CODER = "support.crypt.coder";
-	
+
 	private static final String DEFAULT_DES_CRYPT_KEY = "LX123456";
 
 	private static final String DEFAULT_DIGESTER = "com.lachesis.support.common.util.digest.Md5BasedMessageDigester";
 	private static final String DEFAULT_CODER = "com.lachesis.support.common.util.coder.DesCryptStringCoder";
 	private static MessageDigester digester;
 	private static StringCoder coder;
-	
+
 	private static String desCryptKey;
 
 	static {
@@ -72,8 +73,8 @@ public class CryptUtils {
 				throw new RuntimeException("the coder type provided is not appropraite.");
 			}
 			coder = (StringCoder) initCoder.newInstance();
-			
-			if(TextUtils.isNotBlank(desCryptKey)){
+
+			if (TextUtils.isNotBlank(desCryptKey)) {
 				coder.setEncryptionKey(desCryptKey);
 			}
 		}
@@ -87,18 +88,27 @@ public class CryptUtils {
 			throw new IllegalStateException("coder must be specified");
 		}
 	}
-	
-	private static void initDesCryptKey(){
+
+	private static void initDesCryptKey() {
+		InputStream is = null;
 		try {
-			String key = IOUtils.toString(CryptUtils.class.getClassLoader().getResourceAsStream(DES_CRYPT_KEY_FILE), INTERNAL_ENCODING);
-			if(TextUtils.isNotBlank(key)){
+			is = CryptUtils.class.getClassLoader().getResourceAsStream(DES_CRYPT_KEY_FILE);
+			String key = IOUtils.toString(is, INTERNAL_ENCODING);
+			if (TextUtils.isNotBlank(key)) {
 				desCryptKey = key;
 			}
 		} catch (IOException e) {
-			
+
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+				}
+			}
 		}
-		
-		if(TextUtils.isBlank(desCryptKey)){
+
+		if (TextUtils.isBlank(desCryptKey)) {
 			desCryptKey = DEFAULT_DES_CRYPT_KEY;
 		}
 	}
