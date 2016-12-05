@@ -33,6 +33,7 @@
 
 	<modules>
 		<module>support-objects</module>
+		<module>support-common-util</module>
 		<module>support-auth-manager</module>
 		<module>support-auth-context</module>
 		<module>support-auth-api</module>
