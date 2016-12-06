@@ -78,8 +78,7 @@ public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, Bean
 
 		private String decrypt(String ciphertext) {
 			try {
-				String result = CryptUtils.decrypt(ciphertext);
-				return result;
+				return CryptUtils.decrypt(ciphertext);
 			} catch (CryptException e) {
 				return ciphertext;
 			}
