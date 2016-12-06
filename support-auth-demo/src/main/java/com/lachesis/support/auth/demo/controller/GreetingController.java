@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.vo.Greeting;
+import com.lachesis.support.restful.context.controller.AbstractRestController;
 
 @RestController
 @RequestMapping("/greetings")
-public class GreetingController extends AbstractRestController{
+public class GreetingController extends AbstractRestController<Greeting>{
 	private AtomicLong count = new AtomicLong();
 	
 	@RequestMapping

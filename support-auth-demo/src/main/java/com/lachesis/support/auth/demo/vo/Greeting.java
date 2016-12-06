@@ -1,6 +1,8 @@
 package com.lachesis.support.auth.demo.vo;
 
-public class Greeting {
+import com.lachesis.support.restful.context.vo.RequestVO;
+
+public class Greeting implements RequestVO{
 	private String id;
 	private String greeting;
 	private String counterparty;

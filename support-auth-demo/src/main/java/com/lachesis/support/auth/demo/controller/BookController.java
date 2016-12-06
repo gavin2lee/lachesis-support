@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.vo.Book;
 import com.lachesis.support.auth.demo.vo.ErrorMsgVO;
+import com.lachesis.support.restful.context.controller.AbstractRestController;
 import com.lachesis.support.restful.context.vo.ResponseVO;
 
 @RestController
@@ -40,7 +41,7 @@ public class BookController extends AbstractRestController {
 		return new ResponseVO(books);
 	}
 	
-	@RequestMapping(value="{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseVO getBook(@PathVariable("id")Long id){
 		if(id == 1){
 			return ResponseVO.ok(null);

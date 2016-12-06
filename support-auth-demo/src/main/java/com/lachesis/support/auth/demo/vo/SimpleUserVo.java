@@ -1,6 +1,8 @@
 package com.lachesis.support.auth.demo.vo;
 
-public class SimpleUserVo {
+import com.lachesis.support.restful.context.vo.RequestVO;
+
+public class SimpleUserVo implements RequestVO{
 	private String userId;
 	private String username;
 	
