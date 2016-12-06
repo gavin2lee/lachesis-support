@@ -18,7 +18,7 @@ import com.lachesis.support.restful.context.vo.ResponseVO;
 
 @RestController
 @RequestMapping("books")
-public class BookController extends AbstractRestController {
+public class BookController extends AbstractRestController<Book> {
 	private AtomicLong count = new AtomicLong();
 	
 	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)

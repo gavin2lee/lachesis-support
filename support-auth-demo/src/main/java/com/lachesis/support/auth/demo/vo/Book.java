@@ -2,7 +2,9 @@ package com.lachesis.support.auth.demo.vo;
 
 import java.util.Date;
 
-public class Book {
+import com.lachesis.support.restful.context.vo.RequestVO;
+
+public class Book implements RequestVO{
 	private Long id;
 	private String name;
 	private String author;
