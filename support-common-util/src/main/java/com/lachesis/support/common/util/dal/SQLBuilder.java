@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.common;
+package com.lachesis.support.common.util.dal;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

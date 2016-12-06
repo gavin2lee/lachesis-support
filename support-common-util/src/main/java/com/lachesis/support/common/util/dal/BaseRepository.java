@@ -1,7 +1,7 @@
-package com.lachesis.support.auth.repository;
+package com.lachesis.support.common.util.dal;
 
 import java.util.List;
-import static com.lachesis.support.auth.common.SQLBuilder.*;
+import static com.lachesis.support.common.util.dal.SQLBuilder.*;
 
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
-import com.lachesis.support.auth.common.SQLBuilder;
+import com.lachesis.support.common.util.dal.SQLBuilder;
 
 public interface BaseRepository<T> {
 	@SelectProvider(type = SQLBuilder.class, method = FIND_ONE)

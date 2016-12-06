@@ -15,7 +15,7 @@ import com.lachesis.support.common.util.exception.CryptException;
 public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, InitializingBean {
 	private static final String CRYPT_FEATURED_PROPERTY_SUFFIX = ".crypt";
 	private Resource[] locations;
-	private String fileEncoding;
+	private String fileEncoding = "UTF-8";
 	private LocalCryptProperties props = new LocalCryptProperties();
 
 	@Override
