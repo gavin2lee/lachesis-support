@@ -20,6 +20,12 @@
 			<artifactId>support-objects</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.lachesis.support</groupId>
+			<artifactId>support-common-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.lachesis.support</groupId>

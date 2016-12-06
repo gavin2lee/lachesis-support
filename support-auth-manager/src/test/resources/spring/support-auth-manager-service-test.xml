@@ -15,6 +15,14 @@
      http://mybatis.org/schema/mybatis-spring.xsd
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context.xsd">
+     <context:property-placeholder
+		location="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" ignore-unresolvable="true"/>
+	
+	<bean id="cryptProperties" class="com.lachesis.support.auth.service.impl.CryptPropertiesFactoryBean">
+		<property name="locations" value="classpath:project-support-auth-config/support-auth-data-access-crypt.properties"/>
+		<property name="fileEncoding" value="UTF-8"/>
+	</bean>
+		
 	<import resource="support-auth-manager-datasource-test.xml"/>
 	<import resource="support-auth-manager-repository.xml"/>
 	<import resource="support-auth-manager-ehcache.xml"/>
