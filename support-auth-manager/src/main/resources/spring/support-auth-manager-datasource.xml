@@ -13,13 +13,22 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<context:property-placeholder
+		properties-ref="cryptProperties"
+		local-override="true"
 		location="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" ignore-unresolvable="true"/>
+		
+	<bean id="cryptProperties"
+		class="com.lachesis.support.auth.common.CryptPropertiesFactoryBean">
+		<property name="locations"
+			value="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${support.auth.data.access.db.driver.classname}" />
 		<property name="url" value="${support.auth.data.access.db.url}" />
-		<property name="username" value="${support.auth.data.access.db.username}" />
-		<property name="password" value="${support.auth.data.access.db.password}" />
+		<property name="username" value="${support.auth.data.access.db.username.crypt}" />
+		<property name="password" value="${support.auth.data.access.db.password.crypt}" />
 		<property name="validationQuery">
 			<value>SELECT 1</value>
 		</property>
