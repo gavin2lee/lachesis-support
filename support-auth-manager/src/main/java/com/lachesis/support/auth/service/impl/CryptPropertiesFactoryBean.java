@@ -3,10 +3,8 @@ package com.lachesis.support.auth.service.impl;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -14,7 +12,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import com.lachesis.support.common.util.crypt.CryptUtils;
 import com.lachesis.support.common.util.exception.CryptException;
 
-public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, BeanFactoryPostProcessor {
+public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, InitializingBean {
 	private static final String CRYPT_FEATURED_PROPERTY_SUFFIX = ".crypt";
 	private Resource[] locations;
 	private String fileEncoding;
@@ -89,7 +87,7 @@ public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, Bean
 		}
 	}
 
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+	public void afterPropertiesSet() throws Exception {
 		loadResources();
 		postPropertiesLoad();
 	}
