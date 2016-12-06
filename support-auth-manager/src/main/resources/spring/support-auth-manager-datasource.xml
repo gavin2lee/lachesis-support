@@ -19,7 +19,7 @@
 		
 	<bean id="cryptProperties"
 		class="com.lachesis.support.auth.common.CryptPropertiesFactoryBean">
-		<property name="locations"
+		<property name="location"
 			value="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" />
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>

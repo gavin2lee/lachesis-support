@@ -52,6 +52,10 @@ public class CryptPropertiesFactoryBean implements FactoryBean<Properties>, Init
 	public void setLocations(Resource[] locations) {
 		this.locations = locations;
 	}
+	
+	public void setLocation(Resource location) {
+		this.locations = new Resource[]{location};
+	}
 
 	public void setFileEncoding(String fileEncoding) {
 		this.fileEncoding = fileEncoding;
