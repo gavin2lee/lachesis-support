@@ -9,9 +9,9 @@
 		<version>1.0.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>support-auth-context</artifactId>
+	<artifactId>support-restful-context</artifactId>
 
-	<name>support-auth-context</name>
+	<name>support-restful-context</name>
 	<packaging>jar</packaging>
 
 
@@ -19,6 +19,12 @@
 		<dependency>
 			<groupId>com.lachesis.support</groupId>
 			<artifactId>support-objects</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.lachesis.support</groupId>
+			<artifactId>support-common-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -60,32 +66,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-core</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>

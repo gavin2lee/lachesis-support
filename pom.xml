@@ -36,6 +36,7 @@
 		<module>support-common-util</module>
 		<module>support-auth-manager</module>
 		<module>support-auth-context</module>
+		<module>support-restful-context</module>
 		<module>support-auth-api</module>
 		<module>support-auth-demo</module>
 		<module>support-auth-aat</module>
@@ -162,6 +163,12 @@
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 
 			<dependency>

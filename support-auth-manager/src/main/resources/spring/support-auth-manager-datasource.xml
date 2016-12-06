@@ -18,7 +18,7 @@
 		location="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" ignore-unresolvable="true"/>
 		
 	<bean id="cryptProperties"
-		class="com.lachesis.support.auth.common.CryptPropertiesFactoryBean">
+		class="com.lachesis.support.common.util.bean.CryptPropertiesFactoryBean">
 		<property name="location"
 			value="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" />
 		<property name="fileEncoding" value="UTF-8" />

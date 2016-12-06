@@ -1,4 +1,4 @@
-package com.lachesis.support.vo;
+package com.lachesis.support.restful.context.vo;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

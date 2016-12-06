@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.vo.Book;
 import com.lachesis.support.auth.demo.vo.ErrorMsgVO;
-import com.lachesis.support.vo.ResponseVO;
+import com.lachesis.support.restful.context.vo.ResponseVO;
 
 @RestController
 @RequestMapping("books")

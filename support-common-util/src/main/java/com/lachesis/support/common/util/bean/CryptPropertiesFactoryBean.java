@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.common;
+package com.lachesis.support.common.util.bean;
 
 import java.io.IOException;
 import java.util.Properties;

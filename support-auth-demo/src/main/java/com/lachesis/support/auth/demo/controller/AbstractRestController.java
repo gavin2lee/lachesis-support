@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lachesis.support.auth.demo.vo.Book;
-import com.lachesis.support.vo.ResponseVO;
+import com.lachesis.support.restful.context.vo.ResponseVO;
 
 public abstract class AbstractRestController {
 	

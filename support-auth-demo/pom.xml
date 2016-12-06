@@ -32,6 +32,12 @@
 			<artifactId>support-auth-context</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.lachesis.support</groupId>
+			<artifactId>support-restful-context</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
