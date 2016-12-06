@@ -33,7 +33,7 @@ public class UserRepositoryTest {
 	public void testFindOne() {
 		Assert.assertThat(userRepo, Matchers.notNullValue());
 		
-		User u = userRepo.findOne(1, User.class);
+		User u = userRepo.findOne(1L, User.class);
 		
 		Assert.assertThat(u, Matchers.notNullValue());
 	}
@@ -105,7 +105,7 @@ public class UserRepositoryTest {
 		u.setMobilePhone("13966668888");
 		int numbers = userRepo.updateOne(u, User.class);
 		
-		u = userRepo.findOne(1, User.class);
+		u = userRepo.findOne(1L, User.class);
 		
 		Assert.assertThat(u, Matchers.notNullValue());
 		Assert.assertThat(numbers, Matchers.greaterThan(0));
@@ -117,7 +117,7 @@ public class UserRepositoryTest {
 	public void testDeleteOne(){
 		userRepo.deleteOne(5L, User.class);
 		
-		User u = userRepo.findOne(5, User.class);
+		User u = userRepo.findOne(5L, User.class);
 		Assert.assertThat(u, Matchers.nullValue());
 	}
 	
