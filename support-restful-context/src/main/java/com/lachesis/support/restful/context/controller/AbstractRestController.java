@@ -17,10 +17,22 @@ public abstract class AbstractRestController< V  extends RequestVO> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRestController.class);
 	
 	@RequestMapping(method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseVO createNew(@RequestBody V requestObject, HttpServletRequest request){
+	public ResponseVO createEntity(@RequestBody V requestObject, HttpServletRequest request){
 		if(LOG.isDebugEnabled()){
 			LOG.debug("RECV:"+requestObject);
 		}
 		return ResponseVO.ok(requestObject);
+	}
+	
+	public ResponseVO updateEntity(){
+		return ResponseVO.ok(null);
+	}
+	
+	public ResponseVO deleteEntity(){
+		return ResponseVO.ok(null);
+	}
+	
+	public ResponseVO retrieveEntity(){
+		return ResponseVO.ok(null);
 	}
 }
