@@ -15,7 +15,7 @@ public abstract class AbstractRestController< V  extends RequestVO> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRestController.class);
 	
 	@RequestMapping(method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseVO createNew(@RequestBody String json){
+	public ResponseVO createNew(@RequestBody V json){
 		if(LOG.isDebugEnabled()){
 			LOG.debug("RECV:"+json);
 		}
