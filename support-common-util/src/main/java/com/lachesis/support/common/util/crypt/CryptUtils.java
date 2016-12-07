@@ -5,7 +5,9 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
+import com.lachesis.support.common.util.coder.DesCryptStringCoder;
 import com.lachesis.support.common.util.coder.StringCoder;
+import com.lachesis.support.common.util.digest.Md5BasedMessageDigester;
 import com.lachesis.support.common.util.digest.MessageDigester;
 import com.lachesis.support.common.util.exception.CryptException;
 import com.lachesis.support.common.util.text.TextUtils;
@@ -18,8 +20,8 @@ public class CryptUtils {
 
 	private static final String DEFAULT_DES_CRYPT_KEY = "LX123456";
 
-	private static final String DEFAULT_DIGESTER = "com.lachesis.support.common.util.digest.Md5BasedMessageDigester";
-	private static final String DEFAULT_CODER = "com.lachesis.support.common.util.coder.DesCryptStringCoder";
+	private static final String DEFAULT_DIGESTER = Md5BasedMessageDigester.class.getName();
+	private static final String DEFAULT_CODER = DesCryptStringCoder.class.getName();
 	private static MessageDigester digester;
 	private static StringCoder coder;
 
