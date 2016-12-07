@@ -33,7 +33,7 @@
 
     <logger name="com.lachesis.support.auth" level="debug">
     	<appender-ref ref="rollingFile" />
-    </logger> 
+    </logger>
          
     <root level="debug">
         <appender-ref ref="console"/>
