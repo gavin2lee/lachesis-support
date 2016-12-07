@@ -13,17 +13,39 @@
 	<context:property-placeholder
 		location="classpath:support-auth-demo-version.properties"
 		ignore-unresolvable="true" />
-		
 	<bean id="handlerMapping"
 		class="com.lachesis.support.auth.demo.handler.PrefixEnabledRequestMappingHandlerMapping">
 		<property name="contextPrefix" value="/api/${support.auth.demo.version}"/>
 	</bean>
-	
 	<context:component-scan base-package="com.lachesis.support.auth.demo.controller" />
-	
 	<mvc:annotation-driven/>
 	
+
 	<bean id="handlerExceptionResolver"
 		class="com.lachesis.support.auth.demo.handler.LocalResponseStatusExceptionResolver">
 	</bean>
+<!-- 
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<ref bean="jackson2MessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="jackson2MessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+ -->
 </beans>
