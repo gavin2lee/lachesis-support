@@ -23,7 +23,7 @@ public class DatabaseBasedAuthUserServiceTest {
 
 	@Mock
 	AuthUserRepository authUserRepo;
-	
+		
 	@InjectMocks
 	private AuthUserService service = new DatabaseBasedAuthUserService();
 	
