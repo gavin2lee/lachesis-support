@@ -110,6 +110,12 @@
 							<includeScope>runtime</includeScope>
 							<overWriteSnapshots>true</overWriteSnapshots>
 							<type>jar</type>
+							<includeGroupIds>
+								org.apache.commons,commons-codec,commons-io
+							</includeGroupIds>
+							<includeArtifactIds>
+								commons-lang3,commons-codec,commons-io
+							</includeArtifactIds>
 							<outputDirectory>../etc/local-tools/crypt-utils/libs</outputDirectory>
 						</configuration>
 					</plugin>
