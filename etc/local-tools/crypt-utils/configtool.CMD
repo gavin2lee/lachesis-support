@@ -24,8 +24,3 @@ rem echo %CLASSPATH%
 
 
 %EXECUTOR% -cp %CLASSPATH% %MAIN% %*
-
-
-
-
-
