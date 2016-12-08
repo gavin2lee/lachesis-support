@@ -20,7 +20,7 @@
 			<artifactId>support-objects</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.lachesis.support</groupId>
 			<artifactId>support-common-util</artifactId>
@@ -32,7 +32,7 @@
 			<artifactId>support-auth-context</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.lachesis.support</groupId>
 			<artifactId>support-restful-context</artifactId>
@@ -128,6 +128,12 @@
 					<artifactId>ehcache-core</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.6.Final</version>
 		</dependency>
 
 		<dependency>
