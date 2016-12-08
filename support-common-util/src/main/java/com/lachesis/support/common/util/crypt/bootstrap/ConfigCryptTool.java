@@ -11,6 +11,7 @@ public class ConfigCryptTool {
 		boolean encrypt = true;
 		if (args.length == 1) {
 			content = args[0];
+			printUsageIfHelp(args[0]);
 		} else if (args.length == 2) {
 			if (!"-d".equalsIgnoreCase(args[0])) {
 				printUsage(System.out);
@@ -36,6 +37,13 @@ public class ConfigCryptTool {
 			printResult(e.getMessage(), System.err);
 		}
 	}
+	
+	private static void printUsageIfHelp(String cmd){
+		if("-h".equalsIgnoreCase(cmd) || "--help".equalsIgnoreCase(cmd)){
+			printUsage(System.out);
+			System.exit(-1);
+		}
+	}
 
 	private static void printResult(String s) {
 		printResult(s, null);
@@ -50,8 +58,10 @@ public class ConfigCryptTool {
 
 	private static void printUsage(PrintStream ps) {
 		String msg = "Usage:\n";
-		msg += "java com.lachesis.support.common.util.crypt.ConfigCryptTool <plaintext>\n";
-		msg += "java com.lachesis.support.common.util.crypt.ConfigCryptTool -d <ciphertext>";
+		msg += "configtool <text>\n";
+		msg += "configtool -d <text>\n";
+		msg += "java com.lachesis.support.common.util.crypt.bootstrap.ConfigCryptTool <plaintext>\n";
+		msg += "java com.lachesis.support.common.util.crypt.bootstrap.ConfigCryptTool -d <ciphertext>";
 
 		ps.println(msg);
 	}

@@ -15,6 +15,8 @@ public class PasswordCryptTool {
 		
 		String plaintext = args[0];
 		
+		printUsageIfHelp(args[0]);
+		
 		try {
 			String digestData = CryptUtils.digest(plaintext);
 			printResult(digestData);
@@ -23,9 +25,17 @@ public class PasswordCryptTool {
 		}
 	}
 	
+	private static void printUsageIfHelp(String cmd){
+		if("-h".equalsIgnoreCase(cmd) || "--help".equalsIgnoreCase(cmd)){
+			printUsage(System.out);
+			System.exit(-1);
+		}
+	}
+	
 	private static void printUsage(PrintStream ps){
 		String msg = "Usage:\n";
-		msg += "java com.lachesis.support.common.util.crypt.PasswordCryptTool <password>";
+		msg += "pwtool <text>\n";
+		msg += "java com.lachesis.support.common.util.crypt.bootstrap.PasswordCryptTool <password>";
 		
 		ps.println(msg);
 	}
