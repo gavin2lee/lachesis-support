@@ -1,7 +1,8 @@
-package com.lachesis.support.common.util.crypt;
+package com.lachesis.support.common.util.crypt.bootstrap;
 
 import java.io.PrintStream;
 
+import com.lachesis.support.common.util.crypt.CryptUtils;
 import com.lachesis.support.common.util.exception.CryptException;
 
 public class PasswordCryptTool {

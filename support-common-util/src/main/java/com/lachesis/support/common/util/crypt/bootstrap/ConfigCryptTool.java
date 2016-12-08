@@ -1,6 +1,8 @@
-package com.lachesis.support.common.util.crypt;
+package com.lachesis.support.common.util.crypt.bootstrap;
 
 import java.io.PrintStream;
+
+import com.lachesis.support.common.util.crypt.CryptUtils;
 
 public class ConfigCryptTool {
 

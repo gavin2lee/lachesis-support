@@ -21,7 +21,7 @@ EXECUTOR="$JAVA_HOME/bin/java.exe"
 
 #echo $JAVA_HOME
 
-MAINCLASS="com.lachesis.support.common.util.crypt.ConfigCryptTool"
+MAINCLASS="com.lachesis.support.common.util.crypt.bootstrap.ConfigCryptTool"
 
 #echo $CLASSPATH
 

@@ -17,7 +17,7 @@ if not "%JAVA_HOME%" == "" (
 		set "EXECUTOR=java"
 )
 
-set "MAIN=com.lachesis.support.common.util.crypt.PasswordCryptTool"
+set "MAIN=com.lachesis.support.common.util.crypt.bootstrap.PasswordCryptTool"
 
 rem echo %CLASSPATH%
 
