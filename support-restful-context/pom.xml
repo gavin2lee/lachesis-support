@@ -27,12 +27,6 @@
 			<artifactId>support-common-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.lachesis.support</groupId>
-			<artifactId>support-auth-context</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
