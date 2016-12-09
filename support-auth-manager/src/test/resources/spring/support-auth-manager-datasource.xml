@@ -14,13 +14,13 @@
 
 	<context:property-placeholder
 		properties-ref="cryptProperties" local-override="true"
-		location="file:${user.home}/project-support-auth-config/support-auth-data-access.properties"
+		location="file:${user.home}/lachesis-config/support-auth-data-access.properties"
 		ignore-unresolvable="true" />
 
 	<bean id="cryptProperties"
 		class="com.lachesis.support.common.util.bean.CryptPropertiesFactoryBean">
 		<property name="location"
-			value="file:${user.home}/project-support-auth-config/support-auth-data-access.properties" />
+			value="file:${user.home}/lachesis-config/support-auth-data-access.properties" />
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
