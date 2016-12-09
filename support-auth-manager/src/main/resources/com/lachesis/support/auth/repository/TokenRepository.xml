@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.TokenRepository" >
+	<select id="findOne"  resultType="Token">
+	 SELECT   TOKEN_VALUE	tokenValue,
+			  TERMINAL_IP	terminalIp,
+	          ACTIVE 		active,
+	          LAST_MODIFIED	lastModified,
+	          USERNAME 		username,
+	          PASSWORD 		password
+	  FROM	T_TOKEN
+	  WHERE TOKEN_VALUE = #{tokenValue}
+	</select>
+</mapper>

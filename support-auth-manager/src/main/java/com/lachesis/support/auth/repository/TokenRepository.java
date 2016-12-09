@@ -8,10 +8,10 @@ import com.lachesis.support.auth.model.Token;
 
 public interface TokenRepository {
 	List<Token> findPagedTokens(@Param("start") Long start, @Param("size") int size);
-
+	
 	Token findOne(@Param("tokenValue") String tokenValue);
 
-	Integer updateOne(@Param("t") Token token);
+	Integer updateOne(@Param("token") Token token);
 
 	Integer updateBatch(@Param("tokens") List<Token> tokens);
 
