@@ -28,6 +28,6 @@ public interface TokenRepository {
 	@Delete("delete from T_TOKEN")
 	Long deleteAll();
 
-	@Delete("delete from T_TOKEN where LAST_MODIFIED > #{expireTime}")
+	@Delete("delete from T_TOKEN where LAST_MODIFIED < #{expireTime}")
 	Integer deleteExpiredInBatch(@Param("expireTime") Date expireTime);
 }

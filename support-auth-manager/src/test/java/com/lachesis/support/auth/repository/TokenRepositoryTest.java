@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hamcrest.Matchers;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -48,11 +49,11 @@ public class TokenRepositoryTest {
 		Assert.assertThat(t, Matchers.notNullValue());
 		Assert.assertThat(sizeAfter, Matchers.is(sizeBefore + 1));
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback
-	public void testSelectPage(){
+	public void testSelectPage() {
 		List<Token> tokensToInsert = new LinkedList<Token>();
 		int maxSize = 300;
 		int pageNo = 1;
@@ -65,10 +66,12 @@ public class TokenRepositoryTest {
 		int ret = repo.insertBatch(tokensToInsert);
 
 		Assert.assertThat(ret, Matchers.equalTo(maxSize));
-		
+
+//		Page<Token> page = PageHelper.startPage(pageNo, pageSize);
 		PageHelper.startPage(pageNo, pageSize);
 		List<Token> pagedTokens = repo.selectPage();
-		
+
+//		Assert.assertThat(page.getPageSize(), Matchers.equalTo(pageSize));
 		Assert.assertThat(pagedTokens, Matchers.notNullValue());
 		Assert.assertThat(pagedTokens.size(), Matchers.equalTo(pageSize));
 	}
@@ -135,9 +138,12 @@ public class TokenRepositoryTest {
 	@Ignore
 	@Test
 	@Transactional
+	@Rollback(false)
 	public void testDeleteAll() {
 		long ret = repo.deleteAll();
+		long totalSize = repo.selectSize();
 		Assert.assertThat(ret, Matchers.greaterThanOrEqualTo(0L));
+		Assert.assertThat(totalSize, Matchers.greaterThanOrEqualTo(0L));
 	}
 
 	@Test
@@ -159,6 +165,33 @@ public class TokenRepositoryTest {
 	@Transactional
 	@Rollback
 	public void testDeleteExpiredInBatch() {
+		int size = prepareTokens();
+		long totalSizeBefore = repo.selectSize();
+		DateTime now = new DateTime(new Date());
+		DateTime twentyOneMinutesAgo = now.minusMinutes(22);
+		DateTime twentyMinutesAgo = now.minusMinutes(20);
+
+		int pageSize = 10;
+		
+		Assert.assertThat(size, Matchers.equalTo(300));
+		Assert.assertThat(totalSizeBefore, Matchers.equalTo(300L));
+
+		PageHelper.startPage(2, pageSize);
+		List<Token> tokensNeedUpdateTime = repo.selectPage();
+		for (Token t : tokensNeedUpdateTime) {
+			Token tNew = new Token();
+			tNew.setTokenValue(t.getTokenValue());
+			tNew.setLastModified(twentyOneMinutesAgo.toDate());
+
+			repo.updateOne(tNew);
+		}
+
+		int ret = repo.deleteExpiredInBatch(twentyMinutesAgo.toDate());
+		Assert.assertThat(ret, Matchers.equalTo(pageSize));
+
+		long totalSize = repo.selectSize();
+		Assert.assertThat(totalSize, Matchers.equalTo(Long.valueOf(size - pageSize)));
+
 	}
 
 	private Token mockToken() {
@@ -171,6 +204,21 @@ public class TokenRepositoryTest {
 		t.setUsername("175994");
 
 		return t;
+	}
+
+	private int prepareTokens() {
+		List<Token> tokensToInsert = new LinkedList<Token>();
+		int maxSize = 300;
+
+		for (int i = 0; i < 300; i++) {
+			tokensToInsert.add(mockToken());
+		}
+
+		int ret = repo.insertBatch(tokensToInsert);
+
+		Assert.assertThat(ret, Matchers.equalTo(maxSize));
+
+		return ret;
 	}
 
 }
