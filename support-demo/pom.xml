@@ -9,9 +9,9 @@
 		<version>1.0.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>support-auth-demo</artifactId>
+	<artifactId>support-demo</artifactId>
 
-	<name>support-auth-demo</name>
+	<name>support-demo</name>
 	<packaging>war</packaging>
 
 	<dependencies>
