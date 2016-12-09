@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.model;
+package com.lachesis.support.auth.entity;
 
 public class User {
 	private Long id;

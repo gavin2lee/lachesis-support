@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.repository;
+package com.lachesis.support.auth.demo.repository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lachesis.support.auth.model.User;
+import com.lachesis.support.auth.entity.User;
 
 
 //@Ignore

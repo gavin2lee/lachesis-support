@@ -2,7 +2,6 @@ package com.lachesis.support.auth.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,10 @@ import com.lachesis.support.auth.api.vo.AuthResponse;
 import com.lachesis.support.auth.api.vo.AuthorizationResponse;
 import com.lachesis.support.auth.service.CentralizedAuthSupporter;
 import com.lachesis.support.auth.vo.AuthorizationResult;
-
+import com.lachesis.support.common.util.text.TextUtils;
 
 @RestController
-public class AuthzController{
+public class AuthzController {
 	private static final Logger LOG = LoggerFactory.getLogger(AuthzController.class);
 	@Autowired
 	private CentralizedAuthSupporter authSupporter;
@@ -35,10 +34,10 @@ public class AuthzController{
 			HttpServletRequest request) {
 		logAuthorize(token, ip);
 		validateAuthorizeParameters(token, ip);
-		
+
 		return convertAuthorizationResult(internalAuthorize(token, ip));
 	}
-	
+
 	@RequestMapping(value = "authorizations", produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
 	public AuthResponse authorizeWithUsername(@RequestParam("username") String username, HttpServletRequest request) {
@@ -51,31 +50,29 @@ public class AuthzController{
 		authSupporter.logout(token);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
-	
-	private AuthorizationResult internalAuthorize(String token, String ip){
+
+	private AuthorizationResult internalAuthorize(String token, String ip) {
 		AuthorizationResult authzResult = authSupporter.authorize(token, ip);
 		if (authzResult == null) {
 			LOG.error(String.format("authentication failed with [token:%s, ip:%s]", token, ip));
 			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_TOKEN, "无效token");
 		}
-		
+
 		return authzResult;
 	}
-	
-	private void validateAuthorizeParameters(String token, String ip){
+
+	private void validateAuthorizeParameters(String token, String ip) {
 		if (isBlank(token) || isBlank(ip)) {
 			LOG.error(String.format("errors with [token:%s, ip:%s]", token, ip));
 			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED_ARGS, "token或IP为空");
 		}
 	}
-	
-	private void logAuthorize(String token, String ip){
+
+	private void logAuthorize(String token, String ip) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
 	}
-	
-	
 
 	private AuthorizationResponse convertAuthorizationResult(AuthorizationResult result) {
 		AuthorizationResponse resp = new AuthorizationResponse();
@@ -86,10 +83,8 @@ public class AuthzController{
 
 		return resp;
 	}
-	
-	
 
 	private boolean isBlank(String s) {
-		return StringUtils.isBlank(s);
+		return TextUtils.isBlank(s);
 	}
 }
