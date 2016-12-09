@@ -20,8 +20,8 @@ import com.lachesis.support.auth.context.common.AuthContextConstants;
 import com.lachesis.support.auth.demo.service.NurseService;
 import com.lachesis.support.auth.demo.vo.SimpleUserVo;
 import com.lachesis.support.common.util.service.CrudService;
+import com.lachesis.support.objects.vo.SecurityContext;
 import com.lachesis.support.restful.context.controller.AbstractRestController;
-import com.lachesis.support.vo.SecurityContext;
 
 @RestController
 @RequestMapping(value="nurses")

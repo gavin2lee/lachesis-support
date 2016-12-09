@@ -1,4 +1,4 @@
-package com.lachesis.support.vo;
+package com.lachesis.support.objects.vo;
 
 import java.util.Collection;
 

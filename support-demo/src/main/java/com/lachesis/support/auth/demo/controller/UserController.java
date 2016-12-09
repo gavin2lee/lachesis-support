@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.service.UserService;
-import com.lachesis.support.auth.entity.User;
 import com.lachesis.support.common.util.service.CrudService;
+import com.lachesis.support.objects.entity.auth.User;
 
 @RestController
 @RequestMapping("users")

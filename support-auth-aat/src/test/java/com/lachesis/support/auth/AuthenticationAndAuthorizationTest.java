@@ -19,8 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lachesis.support.auth.vo.AuthenticationRequestVO;
-import com.lachesis.support.auth.vo.AuthenticationResponseVO;
+import com.lachesis.support.objects.vo.auth.AuthenticationRequestVO;
+import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 
 @Ignore
 public class AuthenticationAndAuthorizationTest {

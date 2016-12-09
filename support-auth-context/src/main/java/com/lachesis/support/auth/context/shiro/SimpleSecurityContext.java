@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import com.lachesis.support.vo.SecurityContext;
+import com.lachesis.support.objects.vo.SecurityContext;
 
 class SimpleSecurityContext implements SecurityContext {
 	private String principal;

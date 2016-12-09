@@ -17,7 +17,7 @@ import com.lachesis.support.auth.context.comm.AuthorizationException;
 import com.lachesis.support.auth.context.comm.AuthorizationInfoProvider;
 import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 import com.lachesis.support.auth.context.vo.UserDetailVO;
-import com.lachesis.support.auth.vo.AuthorizationResponseVO;
+import com.lachesis.support.objects.vo.auth.AuthorizationResponseVO;
 
 @Component("restTemplateAuthorizationInfoProvider")
 public class RestTemplateAuthorizationInfoProvider implements AuthCenterClient, AuthorizationInfoProvider {

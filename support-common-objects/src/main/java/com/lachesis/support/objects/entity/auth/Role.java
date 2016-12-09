@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.entity;
+package com.lachesis.support.objects.entity.auth;
 
 public class Role {
 	private Long id;

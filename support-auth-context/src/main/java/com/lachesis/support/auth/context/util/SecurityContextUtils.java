@@ -3,7 +3,7 @@ package com.lachesis.support.auth.context.util;
 import javax.servlet.ServletRequest;
 
 import com.lachesis.support.auth.context.common.AuthContextConstants;
-import com.lachesis.support.vo.SecurityContext;
+import com.lachesis.support.objects.vo.SecurityContext;
 
 public final class SecurityContextUtils {
 	public static SecurityContext getSecurityContext(ServletRequest request){

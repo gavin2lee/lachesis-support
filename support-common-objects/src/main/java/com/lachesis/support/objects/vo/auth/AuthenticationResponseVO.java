@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.vo;
+package com.lachesis.support.objects.vo.auth;
 
 public class AuthenticationResponseVO {
 	private String token;
