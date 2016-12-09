@@ -23,8 +23,8 @@
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="classpath:support-auth-manager-mybatis-config.xml" />
-        <property name="typeAliasesPackage" value="com.lachesis.support.auth.model" />
+        <property name="configLocation" value="classpath:mybatis/support-demo-mybatis.xml" />
+        <property name="typeAliasesPackage" value="com.lachesis.support.auth.model,com.lachesis.support.auth.entity" />
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -32,7 +32,7 @@
     </bean>
 	
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.lachesis.support.auth.repository" />
+        <property name="basePackage" value="com.lachesis.support.auth.demo.repository" />
     </bean>
 	
 	

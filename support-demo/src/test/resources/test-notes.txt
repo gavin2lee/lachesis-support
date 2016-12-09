@@ -1,0 +1,3 @@
+http://localhost:9090/authc/api/v1/tokens
+Content-Type
+application/json
