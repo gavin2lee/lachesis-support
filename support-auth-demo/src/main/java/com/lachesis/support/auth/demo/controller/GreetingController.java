@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.vo.Greeting;
+import com.lachesis.support.common.util.service.CrudService;
 import com.lachesis.support.restful.context.controller.AbstractRestController;
 
 @RestController
 @RequestMapping("/greetings")
-public class GreetingController extends AbstractRestController<Greeting>{
+public class GreetingController extends AbstractRestController<Greeting,Greeting>{
 	private AtomicLong count = new AtomicLong();
 	
 	@RequestMapping
@@ -32,5 +33,12 @@ public class GreetingController extends AbstractRestController<Greeting>{
 		g.setOwner(owner);
 		
 		return g;
+	}
+
+
+	@Override
+	protected CrudService<Greeting> getCrudService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

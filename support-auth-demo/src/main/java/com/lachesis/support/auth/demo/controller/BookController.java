@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.demo.vo.Book;
 import com.lachesis.support.auth.demo.vo.ErrorMsgVO;
+import com.lachesis.support.common.util.service.CrudService;
 import com.lachesis.support.restful.context.controller.AbstractRestController;
 import com.lachesis.support.restful.context.vo.ResponseVO;
 
 @RestController
 @RequestMapping("books")
-public class BookController extends AbstractRestController<Book> {
+public class BookController extends AbstractRestController<Book,Book> {
 	private AtomicLong count = new AtomicLong();
 	
 	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -63,5 +64,11 @@ public class BookController extends AbstractRestController<Book> {
 		b1.setName("企业文化");
 		
 		return b1;
+	}
+
+	@Override
+	protected CrudService<Book> getCrudService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -12,6 +12,5 @@ public class RestfulDispatcherServlet extends DispatcherServlet {
 		setDetectAllHandlerMappings(false);
 		super.onRefresh(context);
 	}
-	
-	
+
 }

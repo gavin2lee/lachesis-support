@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lachesis.support.auth.model.User;
 
 
-@Ignore
+//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/support-auth-manager-repository-test2.xml" })
 public class UserRepositoryTest {
@@ -28,7 +28,7 @@ public class UserRepositoryTest {
 	public void setUp() throws Exception {
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void testFindOne() {
 		Assert.assertThat(userRepo, Matchers.notNullValue());

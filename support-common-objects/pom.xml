@@ -9,15 +9,8 @@
 		<version>1.0.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>support-objects</artifactId>
+	<artifactId>support-common-objects</artifactId>
 
-	<name>support-objects</name>
+	<name>support-common-objects</name>
 	<packaging>jar</packaging>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-	</dependencies>
 </project>

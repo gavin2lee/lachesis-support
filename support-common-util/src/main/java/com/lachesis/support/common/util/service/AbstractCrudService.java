@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lachesis.support.common.util.dal.BaseRepository;
 
-public abstract class AbstractCrudService<E,K> implements CrudService<E,K> {
+public abstract class AbstractCrudService<E> implements CrudService<E> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractCrudService.class);
 
 	@Transactional
@@ -22,24 +22,21 @@ public abstract class AbstractCrudService<E,K> implements CrudService<E,K> {
 	}
 
 	@Override
-	public E retrieveEntityById(K id) {
-		// TODO Auto-generated method stub
-		return null;
+	public E retrieveEntityById(Object id) {
+		return getBaseRepository().findOne(id, getEntityType());
 	}
 
 	@Override
 	public List<E> retrieveEntitiesByCriteria(E criteria) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteEntity(K id) {
-		// TODO Auto-generated method stub
+	public void deleteEntity(Object id) {
 
 	}
 	
 	protected abstract Class<E> getEntityType();
-	protected abstract BaseRepository<E,K> getBaseRepository();
+	protected abstract BaseRepository<E> getBaseRepository();
 
 }

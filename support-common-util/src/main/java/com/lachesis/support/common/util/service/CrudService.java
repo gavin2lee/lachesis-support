@@ -2,10 +2,10 @@ package com.lachesis.support.common.util.service;
 
 import java.util.List;
 
-public interface CrudService <E,K>{
+public interface CrudService <E>{
 	void addEntity(E entity);
 	void updateEntity(E entity);
-	E retrieveEntityById(K id);
+	E retrieveEntityById(Object id);
 	List<E> retrieveEntitiesByCriteria(E criteria);
-	void deleteEntity(K id);
+	void deleteEntity(Object id);
 }

@@ -20,6 +20,12 @@
 			<artifactId>support-auth-manager</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.lachesis.support</groupId>
+			<artifactId>support-restful-context</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>

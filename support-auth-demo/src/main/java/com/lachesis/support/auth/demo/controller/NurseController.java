@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lachesis.support.auth.context.common.AuthContextConstants;
 import com.lachesis.support.auth.demo.service.NurseService;
 import com.lachesis.support.auth.demo.vo.SimpleUserVo;
+import com.lachesis.support.common.util.service.CrudService;
 import com.lachesis.support.restful.context.controller.AbstractRestController;
 import com.lachesis.support.vo.SecurityContext;
 
 @RestController
 @RequestMapping(value="nurses")
-public class NurseController extends AbstractRestController<SimpleUserVo>{
+public class NurseController extends AbstractRestController<SimpleUserVo,SimpleUserVo>{
 	private static final Logger LOG = LoggerFactory.getLogger(NurseController.class);
 	@Autowired
 	private NurseService nurseService;
@@ -55,5 +56,11 @@ public class NurseController extends AbstractRestController<SimpleUserVo>{
 	public SimpleUserVo findNurse(@PathVariable("id") String id,HttpServletRequest request){
 		return nurseService.findOneUser(id);
 		
+	}
+
+	@Override
+	protected CrudService<SimpleUserVo> getCrudService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
