@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lachesis.support.auth.common.vo.AuthenticationRequestVO;
-import com.lachesis.support.auth.common.vo.AuthenticationResponseVO;
+import com.lachesis.support.auth.vo.AuthenticationRequestVO;
+import com.lachesis.support.auth.vo.AuthenticationResponseVO;
 
 @Ignore
 public class HttpClientTest {

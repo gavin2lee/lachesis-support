@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
 import com.lachesis.support.auth.context.comm.AuthCenterClient;
 import com.lachesis.support.auth.context.comm.AuthorizationException;
 import com.lachesis.support.auth.context.comm.AuthorizationInfoProvider;
 import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
 import com.lachesis.support.auth.context.vo.UserDetailVO;
+import com.lachesis.support.auth.vo.AuthorizationResponseVO;
 
 @Component("restTemplateAuthorizationInfoProvider")
 public class RestTemplateAuthorizationInfoProvider implements AuthCenterClient, AuthorizationInfoProvider {

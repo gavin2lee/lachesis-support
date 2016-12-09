@@ -15,9 +15,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import com.lachesis.support.auth.common.vo.AuthenticationRequestVO;
-import com.lachesis.support.auth.common.vo.AuthenticationResponseVO;
-import com.lachesis.support.auth.common.vo.AuthorizationResponseVO;
+import com.lachesis.support.auth.vo.AuthenticationRequestVO;
+import com.lachesis.support.auth.vo.AuthenticationResponseVO;
+import com.lachesis.support.auth.vo.AuthorizationResponseVO;
 
 import net.sf.json.JSONObject;
 
