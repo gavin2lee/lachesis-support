@@ -15,25 +15,8 @@
      http://mybatis.org/schema/mybatis-spring.xsd
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context.xsd">
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-    
-    <tx:annotation-driven/>
-	
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="classpath:mybatis/support-auth-manager-mybatis.xml" />
-        <property name="typeAliasesPackage" value="com.lachesis.support.auth.model" />
-    </bean>
+	<context:property-placeholder
+		location="classpath:support-auth-manager.properties" ignore-unresolvable="true"/>
+	<context:component-scan base-package="com.lachesis.support.auth" />
 
-    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="sqlSessionFactory" />
-    </bean>
-	
-	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.lachesis.support.auth.repository" />
-    </bean>
-	
-	
 </beans>

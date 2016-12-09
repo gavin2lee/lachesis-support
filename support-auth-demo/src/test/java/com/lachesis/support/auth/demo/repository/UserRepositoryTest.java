@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lachesis.support.auth.entity.User;
 
 
-//@Ignore
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/support-auth-manager-repository-test2.xml" })
 public class UserRepositoryTest {
