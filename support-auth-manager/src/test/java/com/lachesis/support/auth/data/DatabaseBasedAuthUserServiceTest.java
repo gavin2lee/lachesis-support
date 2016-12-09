@@ -38,7 +38,7 @@ public class DatabaseBasedAuthUserServiceTest {
 		initFindAuthUserByUserid();
 		
 		String userid = "283";
-		AuthUser authUser = service.findAuthUserByUserid(userid);
+		AuthUser authUser = service.findAuthUserByUsername(userid);
 		
 		Assert.assertNotNull("check authUser", authUser);
 	}

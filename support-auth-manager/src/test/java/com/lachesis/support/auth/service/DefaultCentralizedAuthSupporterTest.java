@@ -40,7 +40,7 @@ public class DefaultCentralizedAuthSupporterTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		when(authUserService.findAuthUserByUserid(any(String.class))).thenReturn(mockAuthUser());
+		when(authUserService.findAuthUserByUsername(any(String.class))).thenReturn(mockAuthUser());
 	}
 
 	@Test

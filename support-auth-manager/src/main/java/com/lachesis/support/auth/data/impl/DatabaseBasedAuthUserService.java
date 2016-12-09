@@ -31,26 +31,25 @@ public class DatabaseBasedAuthUserService implements AuthUserService {
 	@Autowired
 	private AuthPermissionRepository permissionRepo;
 
-	@Transactional(readOnly = true)
-	public AuthUser findAuthUserByUserid(String userid) {
-		if (StringUtils.isBlank(userid)) {
+	public AuthUser findAuthUserByUsername(String username) {
+		if (StringUtils.isBlank(username)) {
 			LOG.error("userid should be specified");
 			throw new IllegalArgumentException("userid is empty");
 		}
 
-		AuthUser user = userRepo.findByUsername(userid);
+		AuthUser user = userRepo.findByUsername(username);
 		return user;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public AuthUser findAuthorizationInfoByUserid(String userid) {
-		if (StringUtils.isBlank(userid)) {
+	public AuthUser findAuthorizationInfoByUsername(String username) {
+		if (StringUtils.isBlank(username)) {
 			LOG.error("userid should be specified");
 			throw new IllegalArgumentException("userid is empty");
 		}
 
-		AuthUser user = userRepo.findByUsername(userid);
+		AuthUser user = userRepo.findByUsername(username);
 		if (user == null) {
 			return null;
 		}

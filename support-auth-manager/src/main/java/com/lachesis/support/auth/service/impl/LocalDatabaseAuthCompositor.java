@@ -28,15 +28,15 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 	@Qualifier("databaseBasedAuthUserService")
 	private AuthUserService authUserService;
 
-	protected UserDetails doAuthenticate(String userid, String password) {
-		AuthUser user = getAuthUser(userid);
+	protected UserDetails doAuthenticate(String username, String password) {
+		AuthUser user = getAuthUser(username);
 		if (user == null) {
-			LOG.debug("authenticating failed for:" + userid);
+			LOG.debug("authenticating failed for:" + username);
 			return null;
 		}
 
 		if (!password.equals(user.getPassword())) {
-			LOG.debug("password comparing failed for " + userid);
+			LOG.debug("password comparing failed for " + username);
 			return null;
 		}
 
@@ -44,12 +44,12 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 				user.getPassword());
 	}
 
-	protected AuthUser getAuthUser(String userId) {
-		return authUserService.findAuthUserByUserid(userId);
+	protected AuthUser getAuthUser(String username) {
+		return authUserService.findAuthUserByUsername(username);
 	}
 
-	protected AuthUser getAuthorizedAuthUser(String userId) {
-		return authUserService.findAuthorizationInfoByUserid(userId);
+	protected AuthUser getAuthorizedAuthUser(String username) {
+		return authUserService.findAuthorizationInfoByUsername(username);
 	}
 
 	@Override
