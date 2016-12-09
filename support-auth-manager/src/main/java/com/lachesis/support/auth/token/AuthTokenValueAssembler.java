@@ -4,20 +4,20 @@ import com.lachesis.support.auth.common.AuthConstants;
 
 public class AuthTokenValueAssembler {
 	private String terminalIpAdress;
-	private String userid;
-	public AuthTokenValueAssembler( String userid , String terminalIpAdress) {
+	private String username;
+	public AuthTokenValueAssembler( String username , String terminalIpAdress) {
 		super();
 		this.terminalIpAdress = terminalIpAdress;
-		this.userid = userid;
+		this.username = username;
 	}
 	
 	public String buildTokenValue(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(userid);
+		sb.append(username);
 		sb.append(AuthConstants.TOKEN_PARTS_DELIMITER);
 		sb.append(terminalIpAdress);
 		sb.append(AuthConstants.TOKEN_PARTS_DELIMITER);
-		sb.append(System.currentTimeMillis());
+		sb.append(System.nanoTime());
 		
 		return sb.toString();
 	}
