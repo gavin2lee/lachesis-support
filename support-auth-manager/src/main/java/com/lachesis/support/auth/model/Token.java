@@ -1,28 +1,19 @@
-package com.lachesis.support.auth.vo;
+package com.lachesis.support.auth.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class AuthToken implements Serializable {
+public class Token implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4247871662305154446L;
-	private Long oid;
 	private String tokenValue;
-	private String terminalIpAddress;
+	private String terminalIp;
 	private boolean active;
 	private Date lastModified;
 	private String username;
 	private String password;
-
-	public Long getOid() {
-		return oid;
-	}
-
-	public void setOid(Long oid) {
-		this.oid = oid;
-	}
 
 	public String getTokenValue() {
 		return tokenValue;
@@ -32,12 +23,12 @@ public class AuthToken implements Serializable {
 		this.tokenValue = tokenValue;
 	}
 
-	public String getTerminalIpAddress() {
-		return terminalIpAddress;
+	public String getTerminalIp() {
+		return terminalIp;
 	}
 
-	public void setTerminalIpAddress(String terminalIpAddress) {
-		this.terminalIpAddress = terminalIpAddress;
+	public void setTerminalIp(String terminalIpAddress) {
+		this.terminalIp = terminalIpAddress;
 	}
 
 	public boolean isActive() {

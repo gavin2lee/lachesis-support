@@ -4,13 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.verifier.TokenVerifyingStrategy;
-import com.lachesis.support.auth.vo.AuthToken;
 
 public abstract class AbstractTokenVerifyingStrategy implements TokenVerifyingStrategy {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractTokenVerifyingStrategy.class);
 	@Override
-	public AuthToken verify(String token, String terminalIpAddress) {
+	public Token verify(String token, String terminalIpAddress) {
 		if(LOG.isDebugEnabled()){
 			LOG.debug(String.format("verifying [token:%s,ip:%s]", token, terminalIpAddress));
 		}
@@ -22,5 +22,5 @@ public abstract class AbstractTokenVerifyingStrategy implements TokenVerifyingSt
 		return doVerify(token, terminalIpAddress);
 	}
 	
-	protected abstract AuthToken doVerify(String token, String terminalIpAddress);
+	protected abstract Token doVerify(String token, String terminalIpAddress);
 }

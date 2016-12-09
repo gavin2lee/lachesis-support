@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.lachesis.support.auth.common.AuthConstants;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
-import com.lachesis.support.auth.vo.AuthToken;
 
 public abstract class AbstractMaxIdleTimeTokenVerifyingStrategy extends AbstractTokenVerifyingStrategy{
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractMaxIdleTimeTokenVerifyingStrategy.class);
@@ -19,8 +19,8 @@ public abstract class AbstractMaxIdleTimeTokenVerifyingStrategy extends Abstract
 	private AuthTokenManager tokenHolder;
 
 	@Override
-	protected AuthToken doVerify(String token, String terminalIpAddress) {
-		AuthToken authToken = tokenHolder.retrieve(token);
+	protected Token doVerify(String token, String terminalIpAddress) {
+		Token authToken = tokenHolder.retrieve(token);
 
 		if (authToken == null) {
 			LOG.debug(String.format("cannot retrieve [token:%s]", token));
@@ -36,7 +36,7 @@ public abstract class AbstractMaxIdleTimeTokenVerifyingStrategy extends Abstract
 		return authToken;
 	}
 	
-	protected boolean isExpired(AuthToken token){
+	protected boolean isExpired(Token token){
 		long lastModifiedTime = token.getLastModified().getTime();
 		long currentTime = System.currentTimeMillis();
 		

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.cache.AuthCacheProvider;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.TokenStorageStrategy;
-import com.lachesis.support.auth.vo.AuthToken;
 
 @Service("cacheBasedTokenStorageStrategy")
 public class CacheBasedTokenStorageStrategy implements TokenStorageStrategy {
@@ -18,7 +18,7 @@ public class CacheBasedTokenStorageStrategy implements TokenStorageStrategy {
 	private AuthCacheProvider authCacheProvider;
 
 	@Override
-	public void save(AuthToken authToken) {
+	public void save(Token authToken) {
 		if(authToken == null){
 			LOG.error("auth token to save should be specified");
 			throw new IllegalArgumentException();
@@ -34,7 +34,7 @@ public class CacheBasedTokenStorageStrategy implements TokenStorageStrategy {
 	}
 
 	@Override
-	public void update(AuthToken authToken) {
+	public void update(Token authToken) {
 		if(authToken == null){
 			LOG.error("auth token to save should be specified");
 			throw new IllegalArgumentException();
@@ -49,28 +49,28 @@ public class CacheBasedTokenStorageStrategy implements TokenStorageStrategy {
 	}
 
 	@Override
-	public AuthToken find(String tokenValue) {
+	public Token find(String tokenValue) {
 		if(StringUtils.isBlank(tokenValue)){
 			LOG.error("token value should be provided");
 			throw new IllegalArgumentException();
 		}
-		return (AuthToken) authCacheProvider.getAuthTokenCache().get(tokenValue);
+		return (Token) authCacheProvider.getAuthTokenCache().get(tokenValue);
 	}
 
 	@Override
-	public AuthToken remove(String tokenValue) {
+	public Token remove(String tokenValue) {
 		if(StringUtils.isBlank(tokenValue)){
 			LOG.error("token value should be provided");
 			throw new IllegalArgumentException();
 		}
 		
-		AuthToken authTokenToRemove = (AuthToken) authCacheProvider.getAuthTokenCache().get(tokenValue);
+		Token authTokenToRemove = (Token) authCacheProvider.getAuthTokenCache().get(tokenValue);
 		if(authTokenToRemove == null){
 			LOG.warn("no such token found for "+tokenValue);
 			return null;
 		}
 		
-		AuthToken authTokenToReturn = (AuthToken) authCacheProvider.getAuthTokenCache().remove(tokenValue);
+		Token authTokenToReturn = (Token) authCacheProvider.getAuthTokenCache().remove(tokenValue);
 		return authTokenToReturn;
 	}
 

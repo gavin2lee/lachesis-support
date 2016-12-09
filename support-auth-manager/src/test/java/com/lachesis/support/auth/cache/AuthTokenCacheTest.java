@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.lachesis.support.auth.vo.AuthToken;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.vo.SimpleAuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
 
@@ -43,11 +43,11 @@ public class AuthTokenCacheTest {
 
 	@Test
 	public void testPutOneToken() {
-		AuthToken t = mockAuthToken();
+		Token t = mockAuthToken();
 
 		authTokenCache.put(new Element(t.getTokenValue(), t));
 
-		AuthToken ret = (AuthToken) authTokenCache.get(t.getTokenValue()).getObjectValue();
+		Token ret = (Token) authTokenCache.get(t.getTokenValue()).getObjectValue();
 		Assert.assertNotNull("check if the element got from cache is not null.", ret);
 		Assert.assertEquals("check token value", t.getTokenValue(), ret.getTokenValue());
 
@@ -58,11 +58,11 @@ public class AuthTokenCacheTest {
 
 	@Test
 	public void testCacheTokenInBatch() {
-		AuthToken tokenToRemove = null;
-		AuthToken tokenToUpdate = null;
+		Token tokenToRemove = null;
+		Token tokenToUpdate = null;
 		int maxSizeToCache = 2000;
 		for (int i = 0; i < 2000; i++) {
-			AuthToken t = mockAuthToken();
+			Token t = mockAuthToken();
 			authTokenCache.put(new Element(t.getTokenValue(), t));
 
 			if (i == 10) {
@@ -76,7 +76,7 @@ public class AuthTokenCacheTest {
 
 		authTokenCache.remove(tokenToRemove.getTokenValue());
 		
-		tokenToUpdate.setTerminalIpAddress("255.255.255.255");
+		tokenToUpdate.setTerminalIp("255.255.255.255");
 		try {
 			authTokenCache.tryWriteLockOnKey(tokenToUpdate.getTokenValue(), 1000);
 			authTokenCache.replace(new Element(tokenToUpdate.getTokenValue(), tokenToUpdate));
@@ -88,9 +88,9 @@ public class AuthTokenCacheTest {
 		
 		List<?> keys = authTokenCache.getKeys();
 		
-		AuthToken retTokenToUpdate = (AuthToken) authTokenCache.get(tokenToUpdate.getTokenValue()).getObjectValue();
+		Token retTokenToUpdate = (Token) authTokenCache.get(tokenToUpdate.getTokenValue()).getObjectValue();
 		Assert.assertNotNull("check token to update", retTokenToUpdate);
-		Assert.assertEquals("check ip of token to update", "255.255.255.255", retTokenToUpdate.getTerminalIpAddress());
+		Assert.assertEquals("check ip of token to update", "255.255.255.255", retTokenToUpdate.getTerminalIp());
 
 		Assert.assertEquals("check cache size", (maxSizeToCache - 1), authTokenCache.getSize());
 		Assert.assertEquals("check size of one element removed cache", (maxSizeToCache - 1), keys.size());
@@ -99,7 +99,7 @@ public class AuthTokenCacheTest {
 	@Test
 	public void testCacheUserDetails() {
 		UserDetails userDetails = mockUserDetails();
-		AuthToken token = mockAuthToken();
+		Token token = mockAuthToken();
 
 		userDetailsCache.put(new Element(token.getTokenValue(), userDetails));
 
@@ -117,13 +117,12 @@ public class AuthTokenCacheTest {
 		return new SimpleAuthorizationResult(String.valueOf(seq), userid, password);
 	}
 
-	private AuthToken mockAuthToken() {
-		AuthToken t = new AuthToken();
+	private Token mockAuthToken() {
+		Token t = new Token();
 		long oid = tokenSequence.incrementAndGet();
-		t.setOid(oid);
 		t.setActive(true);
 		t.setLastModified(new Date());
-		t.setTerminalIpAddress("10.10.10." + oid);
+		t.setTerminalIp("10.10.10." + oid);
 		t.setPassword("123456");
 		t.setTokenValue(UUID.randomUUID().toString());
 		return t;

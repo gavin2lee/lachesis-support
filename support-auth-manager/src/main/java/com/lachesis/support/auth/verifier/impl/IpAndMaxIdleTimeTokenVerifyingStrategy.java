@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.encryption.EncrypterProvider;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenValueParser;
-import com.lachesis.support.auth.vo.AuthToken;
 
 @Service("ipAndMaxIdleTimeTokenVerifyingStrategy")
 public class IpAndMaxIdleTimeTokenVerifyingStrategy extends AbstractMaxIdleTimeTokenVerifyingStrategy {
@@ -16,7 +16,7 @@ public class IpAndMaxIdleTimeTokenVerifyingStrategy extends AbstractMaxIdleTimeT
 	@Autowired
 	private EncrypterProvider encryptionProvider;
 
-	protected AuthToken doVerify(String token, String terminalIpAddress){
+	protected Token doVerify(String token, String terminalIpAddress){
 		String plainTokenValue = encryptionProvider.getEncrypter().decrypt(token);
 		String parsedIp = new AuthTokenValueParser(plainTokenValue).getTerminalIpAddress();
 		

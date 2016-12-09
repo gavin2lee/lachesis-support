@@ -2,7 +2,7 @@ package com.lachesis.support.auth.service.impl;
 
 import java.util.Date;
 
-import com.lachesis.support.auth.vo.AuthToken;
+import com.lachesis.support.auth.model.Token;
 
 class AuthTokenGenerator {
 	private String username;
@@ -17,12 +17,12 @@ class AuthTokenGenerator {
 		this.tokenValue = tokenValue;
 	}
 	
-	public AuthToken generate(){
-		AuthToken t = new AuthToken();
+	public Token generate(){
+		Token t = new Token();
 		t.setActive(true);
 		t.setLastModified(new Date());
 		t.setPassword(password);
-		t.setTerminalIpAddress(terminalIpAddress);
+		t.setTerminalIp(terminalIpAddress);
 		t.setUsername(username);
 		t.setTokenValue(tokenValue);
 		

@@ -1,10 +1,10 @@
 package com.lachesis.support.auth.token;
 
-import com.lachesis.support.auth.vo.AuthToken;
+import com.lachesis.support.auth.model.Token;
 
 public interface TokenStorageStrategy {
-	void save(AuthToken authToken);
-	void update(AuthToken authToken);
-	AuthToken find(String tokenValue);
-	AuthToken remove(String tokenValue);
+	void save(Token authToken);
+	void update(Token authToken);
+	Token find(String tokenValue);
+	Token remove(String tokenValue);
 }

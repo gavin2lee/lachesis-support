@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.verifier.TokenVerifier;
 import com.lachesis.support.auth.verifier.TokenVerifyingStrategy;
-import com.lachesis.support.auth.vo.AuthToken;
 
 @Service("defaultTokenVerifier")
 public class DefaultTokenVerifier implements TokenVerifier {
@@ -20,7 +20,7 @@ public class DefaultTokenVerifier implements TokenVerifier {
 	private TokenVerifyingStrategy tokenVerifyStrategy;
 
 	@Override
-	public AuthToken verify(String token, String terminalIpAddress) {
+	public Token verify(String token, String terminalIpAddress) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(String.format("verify for [token:%s,ip:%s]", token, terminalIpAddress));
 		}
@@ -30,7 +30,7 @@ public class DefaultTokenVerifier implements TokenVerifier {
 		return doVerify(token, terminalIpAddress);
 	}
 
-	protected AuthToken doVerify(String token, String terminalIpAddress) {
+	protected Token doVerify(String token, String terminalIpAddress) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("concrete verify strategy is " + this.tokenVerifyStrategy.getClass().getName());
 		}

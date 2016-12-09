@@ -14,8 +14,8 @@ import com.lachesis.support.auth.authorization.Authorizer;
 import com.lachesis.support.auth.data.AuthUserService;
 import com.lachesis.support.auth.model.AuthPermission;
 import com.lachesis.support.auth.model.AuthRole;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.model.AuthUser;
-import com.lachesis.support.auth.vo.AuthToken;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.SimpleAuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
@@ -53,7 +53,7 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 	}
 
 	@Override
-	public AuthorizationResult authorize(AuthToken authToken) {
+	public AuthorizationResult authorize(Token authToken) {
 		AuthUser user = getAuthorizedAuthUser(authToken.getUsername());
 		if (user == null) {
 			LOG.debug("authorization failed for:" + authToken.getUsername());

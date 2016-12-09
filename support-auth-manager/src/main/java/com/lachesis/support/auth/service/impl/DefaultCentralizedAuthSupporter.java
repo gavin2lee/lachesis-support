@@ -9,10 +9,10 @@ import com.lachesis.support.auth.authentication.AuthenticatorProvider;
 import com.lachesis.support.auth.authorization.AuthorizerProvider;
 import com.lachesis.support.auth.cache.AuthCacheProvider;
 import com.lachesis.support.auth.encryption.EncrypterProvider;
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.AuthTokenValueAssembler;
 import com.lachesis.support.auth.verifier.TokenVerifier;
-import com.lachesis.support.auth.vo.AuthToken;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
 import com.lachesis.support.auth.vo.UsernamePasswordToken;
@@ -44,13 +44,13 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 		String plainTokenValue = assemblePlainTokenValue(userDetails, terminalIpAddress);
 		String tokenValue = encryptionProvider.getEncrypter().encrypt(plainTokenValue);
 
-		AuthToken token = buildAuthToken(username, password, terminalIpAddress, tokenValue);
+		Token token = buildAuthToken(username, password, terminalIpAddress, tokenValue);
 		tokenManager.store(token);
 
 		return tokenValue;
 	}
 
-	private AuthToken buildAuthToken(String userid, String password, String terminalIpAddress, String tokenValue) {
+	private Token buildAuthToken(String userid, String password, String terminalIpAddress, String tokenValue) {
 		return (new AuthTokenGenerator(userid, password, terminalIpAddress, tokenValue).generate());
 	}
 
@@ -59,7 +59,7 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 	}
 
 	protected AuthorizationResult doAuthorize(String token, String terminalIpAddress) {
-		AuthToken authToken = tokenVerifier.verify(token, terminalIpAddress);
+		Token authToken = tokenVerifier.verify(token, terminalIpAddress);
 		if (authToken == null) {
 			LOG.warn(String.format("token [%s] is invalid or expired", token));
 			return null;
@@ -83,11 +83,11 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 		return authResult;
 	}
 
-	protected void cacheAuthorizationResult(AuthToken token, AuthorizationResult authorizationResult) {
+	protected void cacheAuthorizationResult(Token token, AuthorizationResult authorizationResult) {
 		authCacheProvider.getAuthorizationResultCache().put(token.getTokenValue(), authorizationResult);
 	}
 
-	protected AuthorizationResult findAuthorizationResultFromCache(AuthToken token) {
+	protected AuthorizationResult findAuthorizationResultFromCache(Token token) {
 		return (AuthorizationResult) authCacheProvider.getAuthorizationResultCache().get(token.getTokenValue());
 	}
 

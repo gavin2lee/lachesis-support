@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.lachesis.support.auth.vo.AuthToken;
+import com.lachesis.support.auth.model.Token;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -71,7 +71,7 @@ public class CacheTest {
 		Assert.assertEquals("check cache name.", cacheName, cacheManager.getCache(cacheName).getName());
 
 		for (int i = 0; i < maxSizeToStore; i++) {
-			AuthToken authToken = generateAuthToken();
+			Token authToken = generateAuthToken();
 			authTokenCache.put(new Element(authToken.getTokenValue(), authToken));
 		}
 
@@ -98,8 +98,8 @@ public class CacheTest {
 			
 			Element e = authTokenCache.get(key);
 			if (e != null) {
-				AuthToken t = (AuthToken) (authTokenCache.get(key).getObjectValue());
-				System.out.println(key + " - " + t.getTerminalIpAddress());
+				Token t = (Token) (authTokenCache.get(key).getObjectValue());
+				System.out.println(key + " - " + t.getTerminalIp());
 			}
 
 			count++;
@@ -117,8 +117,8 @@ public class CacheTest {
 
 			Element e = authTokenCache.get(key);
 			if (e != null) {
-				AuthToken t = (AuthToken) (authTokenCache.get(key).getObjectValue());
-				System.out.println(key + " - " + t.getTerminalIpAddress());
+				Token t = (Token) (authTokenCache.get(key).getObjectValue());
+				System.out.println(key + " - " + t.getTerminalIp());
 			}
 
 			System.out.println("size2 : " + authTokenCache.getSize());
@@ -126,13 +126,12 @@ public class CacheTest {
 		}
 	}
 
-	private AuthToken generateAuthToken() {
-		AuthToken t = new AuthToken();
+	private Token generateAuthToken() {
+		Token t = new Token();
 		long oid = oidSequence.incrementAndGet();
-		t.setOid(oid);
 		t.setActive(true);
 		t.setLastModified(new Date());
-		t.setTerminalIpAddress("10.10.10." + oid);
+		t.setTerminalIp("10.10.10." + oid);
 		t.setPassword("123456");
 		t.setTokenValue(UUID.randomUUID().toString());
 		return t;

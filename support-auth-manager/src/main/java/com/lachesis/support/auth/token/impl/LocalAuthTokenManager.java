@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.TokenStorageStrategy;
-import com.lachesis.support.auth.vo.AuthToken;
 
 @Service("localAuthTokenManager")
 public class LocalAuthTokenManager implements AuthTokenManager {
@@ -23,7 +23,7 @@ public class LocalAuthTokenManager implements AuthTokenManager {
 	}
 
 	@Override
-	public void store(AuthToken authToken) {
+	public void store(Token authToken) {
 		if(authToken == null){
 			throw new RuntimeException("auth token cannot be null");
 		}
@@ -31,7 +31,7 @@ public class LocalAuthTokenManager implements AuthTokenManager {
 	}
 
 	@Override
-	public void updateLastModifiedTime(AuthToken authToken) {
+	public void updateLastModifiedTime(Token authToken) {
 		if(authToken == null){
 			throw new RuntimeException("auth token cannot be null");
 		}
@@ -45,12 +45,12 @@ public class LocalAuthTokenManager implements AuthTokenManager {
 	}
 
 	@Override
-	public AuthToken retrieve(String tokenValue) {
+	public Token retrieve(String tokenValue) {
 		return tokenStorageStrategy.find(tokenValue);
 	}
 
 	@Override
-	public AuthToken dismiss(String tokenValue) {
+	public Token dismiss(String tokenValue) {
 		return tokenStorageStrategy.remove(tokenValue);
 	}
 
