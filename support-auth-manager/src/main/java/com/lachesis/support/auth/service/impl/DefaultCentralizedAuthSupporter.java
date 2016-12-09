@@ -33,18 +33,18 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 	@Autowired
 	private AuthCacheProvider authCacheProvider;
 
-	protected String doAuthenticate(String userid, String password, String terminalIpAddress) {
-		UsernamePasswordToken userPassToken = new UsernamePasswordToken(userid, password);
+	protected String doAuthenticate(String username, String password, String terminalIpAddress) {
+		UsernamePasswordToken userPassToken = new UsernamePasswordToken(username, password);
 		UserDetails userDetails = authenticatorProvider.getAuthenticator().authenticate(userPassToken);
 		if (userDetails == null) {
-			LOG.debug(String.format("failed to authenticate [userid:%s]", userid));
+			LOG.debug(String.format("failed to authenticate [username:%s]", username));
 			return null;
 		}
 
 		String plainTokenValue = assemblePlainTokenValue(userDetails, terminalIpAddress);
 		String tokenValue = encryptionProvider.getEncrypter().encrypt(plainTokenValue);
 
-		AuthToken token = buildAuthToken(userid, password, terminalIpAddress, tokenValue);
+		AuthToken token = buildAuthToken(username, password, terminalIpAddress, tokenValue);
 		tokenManager.store(token);
 
 		return tokenValue;

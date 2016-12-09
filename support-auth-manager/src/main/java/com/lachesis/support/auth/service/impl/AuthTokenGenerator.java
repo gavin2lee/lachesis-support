@@ -5,13 +5,13 @@ import java.util.Date;
 import com.lachesis.support.auth.vo.AuthToken;
 
 class AuthTokenGenerator {
-	private String userid;
+	private String username;
 	private String password;
 	private String terminalIpAddress;
 	private String tokenValue;
 	
-	public AuthTokenGenerator(String userid, String password, String terminalIpAddress,String tokenValue){
-		this.userid = userid;
+	public AuthTokenGenerator(String username, String password, String terminalIpAddress,String tokenValue){
+		this.username = username;
 		this.password = password;
 		this.terminalIpAddress = terminalIpAddress;
 		this.tokenValue = tokenValue;
@@ -23,7 +23,7 @@ class AuthTokenGenerator {
 		t.setLastModified(new Date());
 		t.setPassword(password);
 		t.setTerminalIpAddress(terminalIpAddress);
-		t.setUserid(userid);
+		t.setUsername(username);
 		t.setTokenValue(tokenValue);
 		
 		return t;

@@ -54,9 +54,9 @@ public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implement
 
 	@Override
 	public AuthorizationResult authorize(AuthToken authToken) {
-		AuthUser user = getAuthorizedAuthUser(authToken.getUserid());
+		AuthUser user = getAuthorizedAuthUser(authToken.getUsername());
 		if (user == null) {
-			LOG.debug("authorization failed for:" + authToken.getUserid());
+			LOG.debug("authorization failed for:" + authToken.getUsername());
 			return null;
 		}
 
