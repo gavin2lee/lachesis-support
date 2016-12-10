@@ -22,77 +22,100 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lachesis.support.objects.vo.auth.AuthenticationRequestVO;
 import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 
-@Ignore
+//@Ignore
 public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
 	String authcBaseUrl = "http://127.0.0.1:9090/authc/api/v1/tokens";
 	String appServerBaseUrl = "http://127.0.0.1:9091/demo/api/v1/nurses";
-	
+
 	RestTemplate restTemplate;
 	ObjectMapper mapper = new ObjectMapper();
-	
+
 	@Before
 	public void setUp() throws Exception {
 		restTemplate = new RestTemplate();
 	}
-	
+
 	@Test
-	public void testAuthcAndAuthzWithSufficientPermissions() throws Exception{
+	public void testAuthcAndAuthzWithSufficientPermissions() throws Exception {
 		String username = "283";
 		String password = "123";
-		
-		
+
 		LOG.debug("STEP 1: try to login...");
 		LOG.debug(String.format("Login with %s", username));
-		
+
 		pause();
-		
-		AuthenticationResponseVO respVO = authenticate(username, password);	
+
+		AuthenticationResponseVO respVO = authenticate(username, password);
 		LOG.debug(String.format("Token:%s", respVO.getToken()));
-		
+
 		pause();
 		LOG.debug("STEP 2:try to submit business request with token headers...");
 		LOG.debug(String.format("Authorization:token %s", respVO.getToken()));
 		pause();
-		
+
 		ResponseEntity<String> result = listNurses(respVO);
 		LOG.debug(result.getBody());
-		
+
 	}
-	
-	private ResponseEntity<String> listNurses(AuthenticationResponseVO respVO){
+
+	@Test
+	public void testAuthcAndAuthzWithSufficientPermissionsInBatch() throws Exception {
+		String username = "283";
+		String password = "123";
+
+		int maxRound = 10;
+
+		for (int i = 0; i < maxRound; i++) {
+			LOG.debug("STEP 1: try to login..." + i);
+			LOG.debug(String.format("Login with %s", username));
+
+			AuthenticationResponseVO respVO = authenticate(username, password);
+			LOG.debug(String.format("Token:%s", respVO.getToken()));
+
+			LOG.debug("STEP 2:try to submit business request with token headers...");
+			LOG.debug(String.format("Authorization:token %s", respVO.getToken()));
+
+			ResponseEntity<String> result = listNurses(respVO);
+			LOG.debug(result.getBody());
+		}
+
+	}
+
+	private ResponseEntity<String> listNurses(AuthenticationResponseVO respVO) {
 		HttpEntity<String> requestEntity = prepareRequestEntityForListNurses(respVO);
-		String url = appServerBaseUrl+"?deptid=1";
+		String url = appServerBaseUrl + "?deptid=1";
 		ResponseEntity<String> respEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 		Assert.assertThat(respEntity, Matchers.notNullValue());
 		return respEntity;
 	}
-	
-	private HttpEntity<String> prepareRequestEntityForListNurses(AuthenticationResponseVO respVO){
+
+	private HttpEntity<String> prepareRequestEntityForListNurses(AuthenticationResponseVO respVO) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", MediaType.APPLICATION_JSON.toString());
 		headers.add("Authorization", String.format("token %s", respVO.getToken()));
-		
+
 		HttpEntity<String> reqEntity = new HttpEntity<String>(headers);
 		return reqEntity;
 	}
-	
-	private void pause() throws IOException{
-//		System.in.read();
+
+	private void pause() throws IOException {
+		// System.in.read();
 	}
-	
-	private AuthenticationResponseVO authenticate(String username, String password) throws RestClientException, JsonProcessingException{
+
+	private AuthenticationResponseVO authenticate(String username, String password)
+			throws RestClientException, JsonProcessingException {
 		AuthenticationRequestVO requestVO = new AuthenticationRequestVO(username, password);
 		AuthenticationResponseVO respVO = restTemplate.postForObject(authcBaseUrl, prepareHttpEntity(requestVO),
 				AuthenticationResponseVO.class);
 		Assert.assertThat(respVO, Matchers.notNullValue());
 		Assert.assertThat(respVO.getToken(), Matchers.notNullValue());
-		
+
 		return respVO;
 	}
-	
+
 	private HttpEntity<String> prepareHttpEntity(Object requestParams) throws JsonProcessingException {
-		String sJson  = mapper.writeValueAsString(requestParams);
+		String sJson = mapper.writeValueAsString(requestParams);
 		HttpEntity<String> formEntity = new HttpEntity<String>(sJson, prepareHeaders());
 
 		return formEntity;
