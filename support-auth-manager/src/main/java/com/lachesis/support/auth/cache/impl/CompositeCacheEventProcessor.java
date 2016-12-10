@@ -41,6 +41,14 @@ public class CompositeCacheEventProcessor implements CacheEventProcessor {
 
 	@Override
 	public void process(CacheEvent event) {
+		if(event == null){
+			LOG.error("event cannot be null");
+			return;
+		}
+		
+		if(LOG.isDebugEnabled()){
+			LOG.debug(String.format("process %s", event));
+		}
 		dispatch(event);
 	}
 

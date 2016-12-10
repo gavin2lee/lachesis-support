@@ -2,6 +2,7 @@ package com.lachesis.support.auth.cache;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,103 +19,63 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 	private BlockingQueue<Token> evictTokens = new ArrayBlockingQueue<Token>(1000);
 	private BlockingQueue<Token> expireTokens = new ArrayBlockingQueue<Token>(1000);
 
+	private int waitIntervalSeconds = 5;
+
+	public void setWaitIntervalSeconds(int waitIntervalSeconds) {
+		this.waitIntervalSeconds = waitIntervalSeconds;
+	}
+
 	@Override
 	public void addPutToken(Token t) {
-		try {
-			getPutTokens().put(t);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-		}
+		putIntoQueue(getPutTokens(), t);
 	}
 
 	@Override
 	public void addUpdateToken(Token t) {
-		try {
-			getUpdateTokens().put(t);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-		}
-
+		putIntoQueue(getUpdateTokens(), t);
 	}
 
 	@Override
 	public void addRemoveToken(Token t) {
-		try {
-			getRemoveTokens().put(t);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-		}
+		putIntoQueue(getRemoveTokens(), t);
 
 	}
 
 	@Override
 	public void addEvictToken(Token t) {
-		try {
-			getEvictTokens().put(t);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-		}
+		putIntoQueue(getEvictTokens(), t);
 
 	}
 
 	@Override
 	public void addExpireToken(Token t) {
-		try {
-			getExpireTokens().put(t);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-		}
+		putIntoQueue(getExpireTokens(), t);
 
 	}
 
 	@Override
 	public Token takePutToken() {
-		try {
-			return getPutTokens().take();
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		return getFromQueue(getPutTokens());
 	}
 
 	@Override
 	public Token takeUpdateToken() {
-		try {
-			return getUpdateTokens().take();
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		return getFromQueue(getUpdateTokens());
 	}
 
 	@Override
 	public Token takeRemoveToken() {
-		try {
-			return getRemoveTokens().take();
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		return getFromQueue(getRemoveTokens());
 	}
 
 	@Override
 	public Token takeEvictToken() {
-		try {
-			return getEvictTokens().take();
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		return getFromQueue(getEvictTokens());
 	}
 
 	@Override
 	public Token takeExpireToken() {
-		try {
-			return getEvictTokens().take();
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		return getFromQueue(getExpireTokens());
 	}
 
 	protected BlockingQueue<Token> getPutTokens() {
@@ -135,6 +96,24 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 
 	protected BlockingQueue<Token> getExpireTokens() {
 		return expireTokens;
+	}
+
+	protected void putIntoQueue(BlockingQueue<Token> q, Token t) {
+		try {
+			q.put(t);
+		} catch (InterruptedException e) {
+			LOG.warn(e.getMessage());
+		}
+	}
+
+	protected Token getFromQueue(BlockingQueue<Token> q) {
+		try {
+			return q.poll(waitIntervalSeconds, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			LOG.warn(e.getMessage());
+		}
+
+		return null;
 	}
 
 }

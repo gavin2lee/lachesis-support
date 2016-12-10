@@ -16,7 +16,8 @@ public class CacheEvent {
 		this(eventType, cacheName, token, null, null);
 	}
 
-	public CacheEvent(CacheEventType eventType, String cacheName, Object objectValue, Element element, Ehcache ehcache) {
+	public CacheEvent(CacheEventType eventType, String cacheName, Object objectValue, Element element,
+			Ehcache ehcache) {
 		super();
 		this.eventType = eventType;
 		this.cacheName = cacheName;
@@ -43,6 +44,12 @@ public class CacheEvent {
 
 	public Ehcache getEhcache() {
 		return ehcache;
+	}
+
+	@Override
+	public String toString() {
+		return "CacheEvent [eventType=" + eventType + ", cacheName=" + cacheName + ", objectValue=" + objectValue
+				+ ", element=" + element + ", ehcache=" + ehcache + "]";
 	}
 
 }

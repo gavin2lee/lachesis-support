@@ -58,6 +58,22 @@ public class TokenSynchronizerManager implements InitializingBean {
 		for (TokenSynchronizer ts : allSynchronizers) {
 			taskExecutor.execute(ts);
 		}
+		
+		if(LOG.isInfoEnabled()){
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			int i = 0;
+			for(TokenSynchronizer ts:allSynchronizers){
+				if(i > 0){
+					sb.append(",");
+				}
+				sb.append(ts.getClass().getSimpleName());
+				i++;
+			}
+			sb.append("]");
+			
+			LOG.info(String.format("start TokenSynchronizers :%s", sb.toString()));
+		}
 	}
 
 	protected void init() {
