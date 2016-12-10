@@ -53,7 +53,7 @@ public class DatabaseBasedTokenService implements TokenService {
 		}
 
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("%s tokens had been modified.", strippedTokens.size()));
+			LOG.info(String.format("%s tokens had been modified by %s.", strippedTokens.size(), getCurrentThreadName()));
 		}
 	}
 
@@ -65,7 +65,7 @@ public class DatabaseBasedTokenService implements TokenService {
 		}
 
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("%s tokens removed", tokensToRemove.size()));
+			LOG.info(String.format("%s tokens removed by %s", tokensToRemove.size(), getCurrentThreadName()));
 		}
 	}
 
@@ -75,9 +75,13 @@ public class DatabaseBasedTokenService implements TokenService {
 		int ret = tokenRepo.insertBatch(tokensToAdd);
 
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("%s tokens added", ret));
+			LOG.info(String.format("%s tokens added by %s", ret, getCurrentThreadName()));
 		}
 
+	}
+	
+	protected String getCurrentThreadName(){
+		return Thread.currentThread().getName();
 	}
 
 	protected List<Token> stripTokens(List<Token> richTokens) {
@@ -104,7 +108,7 @@ public class DatabaseBasedTokenService implements TokenService {
 		int ret = tokenRepo.deleteExpiredInBatch(expireTime.toDate());
 
 		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("%d tokens expired in %d minutes and removed.", ret, maxMinutesAllowed));
+			LOG.info(String.format("%d tokens expired in %d minutes and removed by %s.", ret, maxMinutesAllowed, getCurrentThreadName()));
 		}
 	}
 
