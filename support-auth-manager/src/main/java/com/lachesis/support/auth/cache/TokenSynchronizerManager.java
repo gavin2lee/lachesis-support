@@ -29,18 +29,18 @@ public class TokenSynchronizerManager implements InitializingBean {
 	@Autowired
 	private TokenService tokenService;
 
-	@Value("${support.auth.manager.token.max.minutes.allowed}")
+	@Value("${support.auth.manager.token.max.minutes.allowed:50}")
 	private int maxMinutesAllowedInDatabase = 50;
 
-	@Value("${support.auth.manager.synchronizer.num.put}")
+	@Value("${support.auth.manager.synchronizer.num.put:3}")
 	private int putSynchronizerNum = 3;
-	@Value("${support.auth.manager.synchronizer.num.update}")
+	@Value("${support.auth.manager.synchronizer.num.update:3}")
 	private int updateSynchronizerNum = 3;
-	@Value("${support.auth.manager.synchronizer.num.remove}")
+	@Value("${support.auth.manager.synchronizer.num.remove:1}")
 	private int removeSynchronizerNum = 1;
-	@Value("${support.auth.manager.synchronizer.num.evict}")
+	@Value("${support.auth.manager.synchronizer.num.evict:1}")
 	private int evictSynchronizerNum = 1;
-	@Value("${support.auth.manager.synchronizer.num.expire}")
+	@Value("${support.auth.manager.synchronizer.num.expire:1}")
 	private int expireSynchronizerNum = 1;
 
 	private List<TokenSynchronizer> putSynchronizers = new LinkedList<TokenSynchronizer>();

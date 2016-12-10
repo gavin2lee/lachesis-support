@@ -13,11 +13,12 @@ import com.lachesis.support.auth.model.Token;
 @Component
 public class SimpleTokenQueueBroker implements TokenQueueBroker {
 	private static final Logger LOG = LoggerFactory.getLogger(SimpleTokenQueueBroker.class);
-	private BlockingQueue<Token> putTokens = new ArrayBlockingQueue<Token>(1000);
-	private BlockingQueue<Token> updateTokens = new ArrayBlockingQueue<Token>(1000);
-	private BlockingQueue<Token> removeTokens = new ArrayBlockingQueue<Token>(1000);
-	private BlockingQueue<Token> evictTokens = new ArrayBlockingQueue<Token>(1000);
-	private BlockingQueue<Token> expireTokens = new ArrayBlockingQueue<Token>(1000);
+	private static final int INIT_QUEUE_SIZE = 2000;
+	private BlockingQueue<Token> putTokens = new ArrayBlockingQueue<Token>(INIT_QUEUE_SIZE);
+	private BlockingQueue<Token> updateTokens = new ArrayBlockingQueue<Token>(INIT_QUEUE_SIZE);
+	private BlockingQueue<Token> removeTokens = new ArrayBlockingQueue<Token>(INIT_QUEUE_SIZE);
+	private BlockingQueue<Token> evictTokens = new ArrayBlockingQueue<Token>(INIT_QUEUE_SIZE);
+	private BlockingQueue<Token> expireTokens = new ArrayBlockingQueue<Token>(INIT_QUEUE_SIZE);
 
 	private int waitIntervalSeconds = 5;
 
@@ -33,29 +34,29 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 
 	@Override
 	public void addPutToken(Token t) {
-		putIntoQueue(getPutTokens(), t);
+		putIntoQueue(getPutTokens(), t, "put");
 	}
 
 	@Override
 	public void addUpdateToken(Token t) {
-		putIntoQueue(getUpdateTokens(), t);
+		putIntoQueue(getUpdateTokens(), t, "update");
 	}
 
 	@Override
 	public void addRemoveToken(Token t) {
-		putIntoQueue(getRemoveTokens(), t);
+		putIntoQueue(getRemoveTokens(), t, "remove");
 
 	}
 
 	@Override
 	public void addEvictToken(Token t) {
-		putIntoQueue(getEvictTokens(), t);
+		putIntoQueue(getEvictTokens(), t, "evict");
 
 	}
 
 	@Override
 	public void addExpireToken(Token t) {
-		putIntoQueue(getExpireTokens(), t);
+		putIntoQueue(getExpireTokens(), t, "Expire");
 
 	}
 
@@ -104,11 +105,11 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 		return expireTokens;
 	}
 
-	protected void putIntoQueue(BlockingQueue<Token> q, Token t) {
+	protected void putIntoQueue(BlockingQueue<Token> q, Token t,String qName) {
 		try {
 			boolean result = q.offer(t,waitIntervalMilliSecondsPut, TimeUnit.MILLISECONDS);
 			if(!result){
-				LOG.warn("cannot write into queue.");
+				LOG.warn(String.format("waited %d milliseconds and cannot write into queue %s : %s",waitIntervalMilliSecondsPut, qName, t));
 			}
 		} catch (InterruptedException e) {
 			LOG.warn(e.getMessage());

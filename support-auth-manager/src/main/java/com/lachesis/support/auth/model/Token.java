@@ -62,4 +62,12 @@ public class Token implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public String toString() {
+		return "Token [tokenValue=" + tokenValue + ", terminalIp=" + terminalIp + ", active=" + active
+				+ ", lastModified=" + lastModified + ", username=" + username + ", password="
+				+ (password == null ? "null" : "*") + "]";
+	}
+
 }
