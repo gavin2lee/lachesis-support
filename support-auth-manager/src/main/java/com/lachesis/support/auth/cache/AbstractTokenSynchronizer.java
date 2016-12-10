@@ -14,7 +14,7 @@ public abstract class AbstractTokenSynchronizer implements TokenSynchronizer {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractTokenSynchronizer.class);
 	private TokenQueueBroker tokenQueueBroker;
 	private TokenService tokenService;
-	private int waitPeriodMilliSeconds = 1000;
+	private int waitPeriodMilliSeconds = 1000*10;
 	private int maxSizeInPatch = 100;
 
 	public AbstractTokenSynchronizer(TokenQueueBroker tokenQueueBroker, TokenService tokenService) {
@@ -68,6 +68,7 @@ public abstract class AbstractTokenSynchronizer implements TokenSynchronizer {
 						processWithTokenService(tokensCopy);
 
 						tokens.clear();
+						st = System.currentTimeMillis();
 					}
 
 					Token t = takeToken();
