@@ -49,8 +49,8 @@ public class DatabaseBasedTokenService implements TokenService {
 			tokenRepo.updateOne(t);
 		}
 
-		if(LOG.isDebugEnabled()){
-			LOG.debug(String.format("%s tokens had been modified.", strippedTokens.size()));
+		if(LOG.isInfoEnabled()){
+			LOG.info(String.format("%s tokens had been modified.", strippedTokens.size()));
 		}
 	}
 
@@ -61,8 +61,8 @@ public class DatabaseBasedTokenService implements TokenService {
 			tokenRepo.deleteOne(t.getTokenValue());
 		}
 
-		if(LOG.isDebugEnabled()){
-			LOG.debug(String.format("%s tokens removed", tokensToRemove.size()));
+		if(LOG.isInfoEnabled()){
+			LOG.info(String.format("%s tokens removed", tokensToRemove.size()));
 		}
 	}
 
@@ -71,8 +71,8 @@ public class DatabaseBasedTokenService implements TokenService {
 	public void addTokens(List<Token> tokensToAdd) {
 		int ret = tokenRepo.insertBatch(tokensToAdd);
 		
-		if(LOG.isDebugEnabled()){
-			LOG.debug(String.format("%s tokens added", ret));
+		if(LOG.isInfoEnabled()){
+			LOG.info(String.format("%s tokens added", ret));
 		}
 
 	}

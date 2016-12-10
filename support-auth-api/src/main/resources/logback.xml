@@ -31,7 +31,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.lachesis.support.auth" level="debug">
+    <logger name="com.lachesis.support.auth" level="info">
     	<appender-ref ref="console" />
     </logger> 
          
