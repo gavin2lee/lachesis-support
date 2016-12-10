@@ -17,7 +17,7 @@ import com.lachesis.support.auth.api.vo.AuthResponse;
 import com.lachesis.support.auth.api.vo.AuthenticationRequest;
 import com.lachesis.support.auth.api.vo.AuthenticationResponse;
 import com.lachesis.support.auth.service.CentralizedAuthSupporter;
-import com.lachesis.support.auth.vo.UserDetails;
+import com.lachesis.support.auth.vo.AuthenticationResult;
 import com.lachesis.support.common.util.text.TextUtils;
 
 @RestController
@@ -32,12 +32,9 @@ public class AuthcController {
 		logAuthenticate(tokenRequest);
 		validateAuthenticationRequest(tokenRequest);
 
-		String ip = determineTerminalIpAddress(request);
-
-		String token = internalAuthenticate(tokenRequest.getUsername(), tokenRequest.getPassword(),
+		AuthenticationResult result = internalAuthenticate(tokenRequest.getUsername(), tokenRequest.getPassword(),
 				determineTerminalIpAddress(request));
-		UserDetails userDetails = prepareUserDetails(token, ip);
-		return convertAuthenticationResult(token, userDetails.getId());
+		return convertAuthenticationResult(result.getTokenValue(), result.getUserId());
 	}
 
 	private void logAuthenticate(AuthenticationRequest request) {
@@ -53,24 +50,14 @@ public class AuthcController {
 		}
 	}
 
-	private String internalAuthenticate(String userid, String psword, String ip) {
-		String token = authSupporter.authenticate(userid, psword, ip);
-		if (isBlank(token)) {
+	private AuthenticationResult internalAuthenticate(String userid, String psword, String ip) {
+		AuthenticationResult result = authSupporter.authenticate(userid, psword, ip);
+		if ((result == null) || isBlank(result.getTokenValue())) {
 			LOG.error(String.format("authenticating failed for [userid:%s, ip:%s]", userid, ip));
 			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证错误");
 		}
 
-		return token;
-	}
-
-	private UserDetails prepareUserDetails(String token, String ip) {
-		UserDetails userDetails = authSupporter.authorize(token, ip);
-		if (userDetails == null) {
-			LOG.error("cannot get userdetails with token:" + token);
-			throw new AuthenticationException(AuthBizErrorCodes.AUTH_FAILED, "认证失败");
-		}
-
-		return userDetails;
+		return result;
 	}
 
 	private AuthenticationResponse convertAuthenticationResult(String token, String userId) {

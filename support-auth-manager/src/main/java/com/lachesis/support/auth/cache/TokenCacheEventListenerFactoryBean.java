@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import net.sf.ehcache.event.CacheEventListener;
 import net.sf.ehcache.event.CacheEventListenerFactory;
@@ -14,6 +15,8 @@ public class TokenCacheEventListenerFactoryBean extends CacheEventListenerFactor
 		implements FactoryBean<CacheEventListener>, InitializingBean {
 	private static final Logger LOG = LoggerFactory.getLogger(TokenCacheEventListenerFactoryBean.class);
 	public static final String DEFAULT_BEAN_NAME_EVENT_PROCESSOR = "cacheEventProcessor";
+	
+	@Autowired
 	private CacheEventProcessor cacheEventProcessor;
 
 	private TokenCacheEventListener listener;

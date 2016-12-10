@@ -5,12 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lachesis.support.auth.service.CentralizedAuthSupporter;
+import com.lachesis.support.auth.vo.AuthenticationResult;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 
 public abstract class AbstractCentralizedAuthSupporter implements CentralizedAuthSupporter {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractCentralizedAuthSupporter.class);
 
-	public String authenticate(String userid, String password, String terminalIpAddress) {
+	public AuthenticationResult authenticate(String userid, String password, String terminalIpAddress) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(String.format("generating token for [userid:%s,ip:%s]", userid, terminalIpAddress));
 		}
@@ -44,22 +45,22 @@ public abstract class AbstractCentralizedAuthSupporter implements CentralizedAut
 		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("dismissing token:%s", token));
 		}
-		
-		if(isBlank(token)){
+
+		if (isBlank(token)) {
 			return;
 		}
 
 		doLogout(token);
 
 	}
-	
-	protected boolean isBlank(String s){
+
+	protected boolean isBlank(String s) {
 		return StringUtils.isBlank(s);
 	}
 
-	protected abstract String doAuthenticate(String userid, String password, String terminalIpAddress);
+	protected abstract AuthenticationResult doAuthenticate(String userid, String password, String terminalIpAddress);
 
 	protected abstract AuthorizationResult doAuthorize(String token, String terminalIpAddress);
-	
+
 	protected abstract void doLogout(String token);
 }

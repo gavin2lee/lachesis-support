@@ -28,7 +28,8 @@ public abstract class AbstractMaxIdleTimeTokenVerifyingStrategy extends Abstract
 		}
 
 		if (isExpired(authToken)) {
-			LOG.debug(String.format("[token:%s] expired", token));
+			LOG.debug(String.format("[token:%s] expired and remove from cache", token));
+			tokenHolder.dismiss(authToken.getTokenValue());
 			return null;
 		}
 

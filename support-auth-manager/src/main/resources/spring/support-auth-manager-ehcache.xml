@@ -18,17 +18,32 @@
 
 	<bean id="cacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:ehcache/support-auth-manager-ehcache-config.xml" />
-		<property name="shared" value="true"/>
+		<property name="configLocation"
+			value="classpath:ehcache/support-auth-manager-ehcache-config.xml" />
+		<property name="shared" value="true" />
 	</bean>
+	
+	<bean id="authTokenCacheListener" class="com.lachesis.support.auth.cache.TokenCacheEventListenerFactoryBean"/>
 
 	<bean id="authTokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheName" value="authTokenCache" />
 		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheEventListeners">
+			<set>
+				<ref bean="authTokenCacheListener"/>
+			</set>
+		</property>
 	</bean>
 
 	<bean id="authorizationResultCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheName" value="authorizationResultCache" />
 		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<bean id="tokenTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="queueCapacity" value="25" />
 	</bean>
 </beans>

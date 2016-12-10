@@ -10,7 +10,7 @@ public class Token implements Serializable {
 	private static final long serialVersionUID = -4247871662305154446L;
 	private String tokenValue;
 	private String terminalIp;
-	private boolean active;
+	private Boolean active;
 	private Date lastModified;
 	private String username;
 	private String password;
@@ -31,11 +31,11 @@ public class Token implements Serializable {
 		this.terminalIp = terminalIpAddress;
 	}
 
-	public boolean isActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 

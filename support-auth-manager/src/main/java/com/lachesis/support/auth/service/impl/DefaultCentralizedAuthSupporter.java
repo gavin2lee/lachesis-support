@@ -13,6 +13,7 @@ import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.AuthTokenValueAssembler;
 import com.lachesis.support.auth.verifier.TokenVerifier;
+import com.lachesis.support.auth.vo.AuthenticationResult;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
 import com.lachesis.support.auth.vo.UsernamePasswordToken;
@@ -33,7 +34,7 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 	@Autowired
 	private AuthCacheProvider authCacheProvider;
 
-	protected String doAuthenticate(String username, String password, String terminalIpAddress) {
+	protected AuthenticationResult doAuthenticate(String username, String password, String terminalIpAddress) {
 		UsernamePasswordToken userPassToken = new UsernamePasswordToken(username, password);
 		UserDetails userDetails = authenticatorProvider.getAuthenticator().authenticate(userPassToken);
 		if (userDetails == null) {
@@ -47,7 +48,7 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 		Token token = buildAuthToken(username, password, terminalIpAddress, tokenValue);
 		tokenManager.store(token);
 
-		return tokenValue;
+		return new AuthenticationResult(tokenValue,userDetails.getId());
 	}
 
 	private Token buildAuthToken(String userid, String password, String terminalIpAddress, String tokenValue) {
