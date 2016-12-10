@@ -5,9 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,12 +42,7 @@ public class AuthzController {
 		throw new UnsupportedOperationException();
 	}
 
-	@RequestMapping(value = "tokens/{tokenid}", produces = {
-			MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.DELETE)
-	public ResponseEntity<String> logout(@PathVariable("tokenid") String token, HttpServletRequest request) {
-		authSupporter.logout(token);
-		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-	}
+	
 
 	private AuthorizationResult internalAuthorize(String token, String ip) {
 		AuthorizationResult authzResult = authSupporter.authorize(token, ip);

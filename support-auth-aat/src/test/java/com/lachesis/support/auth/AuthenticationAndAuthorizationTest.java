@@ -85,8 +85,22 @@ public class AuthenticationAndAuthorizationTest {
 
 			ResponseEntity<String> result = listNurses(respVO);
 			LOG.debug(result.getBody());
+			
+			LOG.debug("STEP 3:try to logout...");
+			logout(respVO.getToken());
 		}
 
+	}
+	
+	private void logout(String token){
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+
+		HttpEntity<String> reqEntity = new HttpEntity<String>(headers);
+		String url = authcBaseUrl + "/token";
+		ResponseEntity<String> respEntity = restTemplate.exchange(url, HttpMethod.DELETE, reqEntity, String.class);
+		Assert.assertThat(respEntity, Matchers.notNullValue());
+		Assert.assertThat(respEntity.getStatusCode().is2xxSuccessful(), Matchers.is(true));
 	}
 
 	private ResponseEntity<String> listNurses(AuthenticationResponseVO respVO) {
