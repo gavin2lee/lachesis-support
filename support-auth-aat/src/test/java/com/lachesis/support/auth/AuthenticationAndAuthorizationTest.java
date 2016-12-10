@@ -106,7 +106,7 @@ public class AuthenticationAndAuthorizationTest {
 		headers.add("Accept", MediaType.APPLICATION_JSON.toString());
 
 		HttpEntity<String> reqEntity = new HttpEntity<String>(headers);
-		String url = authcBaseUrl + "/token";
+		String url = authcBaseUrl + "/"+token;
 		ResponseEntity<String> respEntity = restTemplate.exchange(url, HttpMethod.DELETE, reqEntity, String.class);
 		Assert.assertThat(respEntity, Matchers.notNullValue());
 		Assert.assertThat(respEntity.getStatusCode().is2xxSuccessful(), Matchers.is(true));
