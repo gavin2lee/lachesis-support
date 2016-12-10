@@ -3,6 +3,7 @@ package com.lachesis.support.auth.data.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import com.lachesis.support.auth.repository.TokenRepository;
 @Service("databaseBasedTokenService")
 public class DatabaseBasedTokenService implements TokenService {
 	private static final Logger LOG = LoggerFactory.getLogger(DatabaseBasedTokenService.class);
-	
+
+	private int defaultMaxMinutesAllowed = 50;
+
 	@Autowired
 	private TokenRepository tokenRepo;
 
@@ -25,8 +28,8 @@ public class DatabaseBasedTokenService implements TokenService {
 	public List<Token> findPagedTokens(int pageNum) {
 		PageHelper.startPage(pageNum, PAGE_SIZE);
 		List<Token> tokens = tokenRepo.selectPage();
-		
-		if(LOG.isDebugEnabled()){
+
+		if (LOG.isDebugEnabled()) {
 			LOG.debug(String.format("pageNum:%d,selected size:%d", pageNum, tokens.size()));
 		}
 		return tokens;
@@ -40,16 +43,16 @@ public class DatabaseBasedTokenService implements TokenService {
 	@Override
 	@Transactional
 	public void updateLastModifiedTokens(List<Token> tokensToUpdate) {
-		if(tokensToUpdate.size() > MAX_SIZE_IN_BATCH){
+		if (tokensToUpdate.size() > MAX_SIZE_IN_BATCH) {
 			throw new IllegalArgumentException();
 		}
 		List<Token> strippedTokens = stripTokens(tokensToUpdate);
-		
-		for(Token t : strippedTokens){
+
+		for (Token t : strippedTokens) {
 			tokenRepo.updateOne(t);
 		}
 
-		if(LOG.isInfoEnabled()){
+		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("%s tokens had been modified.", strippedTokens.size()));
 		}
 	}
@@ -57,11 +60,11 @@ public class DatabaseBasedTokenService implements TokenService {
 	@Override
 	@Transactional
 	public void removeTokens(List<Token> tokensToRemove) {
-		for(Token t : tokensToRemove){
+		for (Token t : tokensToRemove) {
 			tokenRepo.deleteOne(t.getTokenValue());
 		}
 
-		if(LOG.isInfoEnabled()){
+		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("%s tokens removed", tokensToRemove.size()));
 		}
 	}
@@ -70,31 +73,39 @@ public class DatabaseBasedTokenService implements TokenService {
 	@Transactional
 	public void addTokens(List<Token> tokensToAdd) {
 		int ret = tokenRepo.insertBatch(tokensToAdd);
-		
-		if(LOG.isInfoEnabled()){
+
+		if (LOG.isInfoEnabled()) {
 			LOG.info(String.format("%s tokens added", ret));
 		}
 
 	}
-	
-	protected List<Token> stripTokens(List<Token> richTokens){
+
+	protected List<Token> stripTokens(List<Token> richTokens) {
 		List<Token> tokens = new LinkedList<Token>();
-		for(Token t : richTokens){
+		for (Token t : richTokens) {
 			Token tNew = new Token();
 			tNew.setLastModified(t.getLastModified());
 			tNew.setTokenValue(t.getTokenValue());
-			
+
 			tokens.add(tNew);
 		}
-		
+
 		return tokens;
 	}
 
 	@Override
 	@Transactional
-	public void removeExpiredTokens() {
-		// TODO Auto-generated method stub
-		
+	public void removeExpiredTokens(int maxMinutesAllowed) {
+		if ((maxMinutesAllowed < 1) || (maxMinutesAllowed > Integer.MAX_VALUE)) {
+			maxMinutesAllowed = defaultMaxMinutesAllowed;
+		}
+
+		DateTime expireTime = DateTime.now().minusMinutes(maxMinutesAllowed);
+		int ret = tokenRepo.deleteExpiredInBatch(expireTime.toDate());
+
+		if (LOG.isInfoEnabled()) {
+			LOG.info(String.format("%d tokens expired in %d minutes and removed.", ret, maxMinutesAllowed));
+		}
 	}
 
 }

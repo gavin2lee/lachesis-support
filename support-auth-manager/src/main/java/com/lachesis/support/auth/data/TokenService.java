@@ -11,6 +11,6 @@ public interface TokenService {
 	Token findByTokenValue(String tokenValue);
 	void updateLastModifiedTokens(List<Token> tokensToUpdate);
 	void removeTokens(List<Token> tokensToRemove);
-	void removeExpiredTokens();
+	void removeExpiredTokens(int maxMinutesAllowed);
 	void addTokens(List<Token> tokensToAdd);
 }

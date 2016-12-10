@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -21,16 +22,25 @@ public class TokenSynchronizerManager implements InitializingBean {
 	@Autowired
 	@Qualifier("tokenTaskExecutor")
 	private TaskExecutor taskExecutor;
-	
+
 	@Autowired
 	private TokenQueueBroker tokenQueueBroker;
-	
+
 	@Autowired
 	private TokenService tokenService;
+
+	@Value("${support.auth.manager.token.max.minutes.allowed}")
+	private int maxMinutesAllowedInDatabase = 50;
+
+	@Value("${support.auth.manager.synchronizer.num.put}")
 	private int putSynchronizerNum = 3;
+	@Value("${support.auth.manager.synchronizer.num.update}")
 	private int updateSynchronizerNum = 3;
+	@Value("${support.auth.manager.synchronizer.num.remove}")
 	private int removeSynchronizerNum = 1;
+	@Value("${support.auth.manager.synchronizer.num.evict}")
 	private int evictSynchronizerNum = 1;
+	@Value("${support.auth.manager.synchronizer.num.expire}")
 	private int expireSynchronizerNum = 1;
 
 	private List<TokenSynchronizer> putSynchronizers = new LinkedList<TokenSynchronizer>();
@@ -55,23 +65,25 @@ public class TokenSynchronizerManager implements InitializingBean {
 		allSynchronizers.addAll(evictSynchronizers);
 		allSynchronizers.addAll(expireSynchronizers);
 
+		allSynchronizers.add(new ExpiredTokenCleaner(tokenService, maxMinutesAllowedInDatabase));
+
 		for (TokenSynchronizer ts : allSynchronizers) {
 			taskExecutor.execute(ts);
 		}
-		
-		if(LOG.isInfoEnabled()){
+
+		if (LOG.isInfoEnabled()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("[");
 			int i = 0;
-			for(TokenSynchronizer ts:allSynchronizers){
-				if(i > 0){
+			for (TokenSynchronizer ts : allSynchronizers) {
+				if (i > 0) {
 					sb.append(",");
 				}
 				sb.append(ts.getClass().getSimpleName());
 				i++;
 			}
 			sb.append("]");
-			
+
 			LOG.info(String.format("start TokenSynchronizers :%s", sb.toString()));
 		}
 	}
@@ -227,6 +239,52 @@ public class TokenSynchronizerManager implements InitializingBean {
 		protected Token takeToken() {
 			return getTokenQueueBroker().takeExpireToken();
 		}
+	}
+
+	static class ExpiredTokenCleaner implements TokenSynchronizer {
+		private TokenService service;
+
+		private int breakMilliSeconds = 60 * 1000;
+		private int maxMinutesAllowed = 50;
+
+		public ExpiredTokenCleaner(TokenService service, int maxMinutesAllowed) {
+			super();
+			this.service = service;
+			this.maxMinutesAllowed = maxMinutesAllowed;
+		}
+
+		@Override
+		public void run() {
+			long st = System.currentTimeMillis();
+			while (true) {
+				if (shouldBreak(st)) {
+					try {
+						Thread.sleep(breakMilliSeconds);
+					} catch (InterruptedException e) {
+						LOG.warn(e.getMessage());
+					}
+				} else {
+					doClear();
+					st = System.currentTimeMillis();
+				}
+			}
+		}
+
+		private boolean shouldBreak(long st) {
+			long cur = System.currentTimeMillis();
+			long elapse = (cur - st);
+
+			return (elapse < breakMilliSeconds);
+		}
+
+		private void doClear() {
+			if (LOG.isInfoEnabled()) {
+				LOG.info(String.format("%s try to clear tokens %d minutes old.",
+						ExpiredTokenCleaner.class.getSimpleName(), maxMinutesAllowed));
+			}
+			service.removeExpiredTokens(maxMinutesAllowed);
+		}
+
 	}
 
 }
