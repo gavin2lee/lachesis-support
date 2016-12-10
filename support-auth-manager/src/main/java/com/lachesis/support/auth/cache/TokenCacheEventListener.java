@@ -1,54 +1,60 @@
 package com.lachesis.support.auth.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.event.CacheEventListener;
 
 public class TokenCacheEventListener implements CacheEventListener {
-	private static final Logger LOG = LoggerFactory.getLogger(TokenCacheEventListener.class);
+	private CacheEventProcessor cacheEventProcessor;
+	
+	public TokenCacheEventListener(CacheEventProcessor cacheEventProcessor){
+		this.cacheEventProcessor = cacheEventProcessor;
+	}
+	
+	protected CacheEvent createCacheEvent(CacheEventType type,Ehcache cache, Element element){
+		String cacheName = cache.getName();
+		Object objectValue = element.getObjectValue();
+		return new CacheEvent(type,cacheName,objectValue,element,cache);
+	}
 
 	@Override
 	public void notifyElementRemoved(Ehcache cache, Element element) throws CacheException {
-		LOG.debug(String.format("remove:%s,%s,%s", cache.getName(),element.getObjectKey(),element.getObjectValue()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.REMOVE, cache, element));
 	}
 
 	@Override
 	public void notifyElementPut(Ehcache cache, Element element) throws CacheException {
-		
-		LOG.debug(String.format("put:%s,%s,%s", cache.getName(),element.getObjectKey(),element.getObjectValue()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.PUT, cache, element));
 	}
 
 	@Override
 	public void notifyElementUpdated(Ehcache cache, Element element) throws CacheException {
-		LOG.debug(String.format("update:%s,%s,%s", cache.getName(),element.getObjectKey(),element.getObjectValue()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.UPDATE, cache, element));
 	}
 
 	@Override
 	public void notifyElementExpired(Ehcache cache, Element element) {
-		LOG.debug(String.format("expire:%s,%s,%s", cache.getName(),element.getObjectKey(),element.getObjectValue()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.EXPIRE, cache, element));
 	}
 
 	@Override
 	public void notifyElementEvicted(Ehcache cache, Element element) {
-		LOG.debug(String.format("evict:%s,%s,%s", cache.getName(),element.getObjectKey(),element.getObjectValue()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.EVICT, cache, element));
 	}
 
 	@Override
 	public void notifyRemoveAll(Ehcache cache) {
-		LOG.debug(String.format("removeall:%s", cache.getName()));
+		this.cacheEventProcessor.process(createCacheEvent(CacheEventType.REMOVEALL, cache, null));
 	}
 
 	@Override
 	public void dispose() {
 
 	}
-	
-	 public Object clone() throws CloneNotSupportedException{
-		 return this.clone();
-	 }
+
+	public Object clone() throws CloneNotSupportedException {
+		return this.clone();
+	}
 
 }
