@@ -21,6 +21,12 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 
 	private int waitIntervalSeconds = 5;
 
+	private int waitIntervalMilliSecondsPut = 300;
+
+	public void setWaitIntervalMilliSecondsPut(int waitIntervalMilliSecondsPut) {
+		this.waitIntervalMilliSecondsPut = waitIntervalMilliSecondsPut;
+	}
+
 	public void setWaitIntervalSeconds(int waitIntervalSeconds) {
 		this.waitIntervalSeconds = waitIntervalSeconds;
 	}
@@ -100,7 +106,10 @@ public class SimpleTokenQueueBroker implements TokenQueueBroker {
 
 	protected void putIntoQueue(BlockingQueue<Token> q, Token t) {
 		try {
-			q.put(t);
+			boolean result = q.offer(t,waitIntervalMilliSecondsPut, TimeUnit.MILLISECONDS);
+			if(!result){
+				LOG.warn("cannot write into queue.");
+			}
 		} catch (InterruptedException e) {
 			LOG.warn(e.getMessage());
 		}
