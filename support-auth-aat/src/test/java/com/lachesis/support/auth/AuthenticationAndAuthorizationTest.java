@@ -27,6 +27,9 @@ public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
 	static final String AUTHC_HOST = "192.168.0.107";
 	static final String DEMO_HOST = "192.168.0.107";
+	
+	static final int MAX_ROUND_IN_BATCH_TEST = 10000;
+	
 	String authcBaseUrl = String.format("http://%s:9090/authc/api/v1/tokens", AUTHC_HOST);
 	String appServerBaseUrl = String.format("http://%s:9091/demo/api/v1/nurses",DEMO_HOST);
 
@@ -66,7 +69,7 @@ public class AuthenticationAndAuthorizationTest {
 		String username = "283";
 		String password = "123";
 
-		int maxRound = 10;
+		int maxRound = MAX_ROUND_IN_BATCH_TEST;
 
 		for (int i = 0; i < maxRound; i++) {
 			LOG.debug("STEP 1: try to login..." + i);
