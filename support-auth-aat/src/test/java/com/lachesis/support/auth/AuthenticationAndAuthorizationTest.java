@@ -27,11 +27,13 @@ public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
 	static final String AUTHC_HOST = "192.168.0.107";
 	static final String DEMO_HOST = "192.168.0.107";
-	
-	static final int MAX_ROUND_IN_BATCH_TEST = 10000;
-	
+
+	static final int TEN_THOUSAND = 1000 * 10;
+
+	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 3;
+
 	String authcBaseUrl = String.format("http://%s:9090/authc/api/v1/tokens", AUTHC_HOST);
-	String appServerBaseUrl = String.format("http://%s:9091/demo/api/v1/nurses",DEMO_HOST);
+	String appServerBaseUrl = String.format("http://%s:9091/demo/api/v1/nurses", DEMO_HOST);
 
 	RestTemplate restTemplate;
 	ObjectMapper mapper = new ObjectMapper();
