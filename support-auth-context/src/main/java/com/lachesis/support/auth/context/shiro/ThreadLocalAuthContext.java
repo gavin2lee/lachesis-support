@@ -14,4 +14,8 @@ public final class ThreadLocalAuthContext {
 	public static AuthorizationInfoVO get(){
 		return authorizations.get();
 	}
+	
+	public static void clear(){
+		authorizations.remove();
+	}
 }

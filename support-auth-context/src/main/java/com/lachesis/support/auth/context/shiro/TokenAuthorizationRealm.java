@@ -57,11 +57,7 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 		AuthorizationInfoVO infoVO = ThreadLocalAuthContext.get();
 		
 		if(infoVO != null){
-			if(LOG.isDebugEnabled()){
-				LOG.debug(String.format("found authentication info [%s]", infoVO));
-			}
-			
-			return createAuthenticationInfo(token, infoVO);
+			ThreadLocalAuthContext.clear();
 		}
 		
 		try {
