@@ -63,6 +63,9 @@ public class AuthenticationAndAuthorizationTest {
 
 		ResponseEntity<String> result = listNurses(respVO);
 		LOG.debug(result.getBody());
+		
+		LOG.debug("STEP 3:try to logout...");
+		logout(respVO.getToken());
 
 	}
 
@@ -70,8 +73,14 @@ public class AuthenticationAndAuthorizationTest {
 	public void testAuthcAndAuthzWithSufficientPermissionsInBatch() throws Exception {
 		String username = "283";
 		String password = "123";
+		
+		String batchTests = System.getProperty("batchTests");
+		
+		int maxRound = 0;
+		if(batchTests != null){
+			maxRound = MAX_ROUND_IN_BATCH_TEST;
+		}
 
-		int maxRound = MAX_ROUND_IN_BATCH_TEST;
 
 		for (int i = 0; i < maxRound; i++) {
 			LOG.debug("STEP 1: try to login..." + i);
