@@ -32,7 +32,7 @@ public class TokenSynchronizerManager implements InitializingBean {
 	@Value("${support.auth.manager.token.max.minutes.allowed:50}")
 	private int maxMinutesAllowedInDatabase = 50;
 
-	@Value("${support.auth.manager.cleaner.break.milliseconds:6000}")
+	@Value("${support.auth.manager.cleaner.break.milliseconds:120000}")
 	private int cleanerBreakMilliseconds = 6000;
 
 	@Value("${support.auth.manager.synchronizer.num.put:3}")
