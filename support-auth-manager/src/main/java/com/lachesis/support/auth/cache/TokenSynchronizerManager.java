@@ -27,8 +27,8 @@ public class TokenSynchronizerManager implements InitializingBean {
 	
 	@Autowired
 	private TokenService tokenService;
-	private int putSynchronizerNum = 1;
-	private int updateSynchronizerNum = 1;
+	private int putSynchronizerNum = 3;
+	private int updateSynchronizerNum = 3;
 	private int removeSynchronizerNum = 1;
 	private int evictSynchronizerNum = 1;
 	private int expireSynchronizerNum = 1;
