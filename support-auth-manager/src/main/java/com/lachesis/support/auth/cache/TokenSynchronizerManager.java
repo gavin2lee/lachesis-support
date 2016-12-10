@@ -32,6 +32,9 @@ public class TokenSynchronizerManager implements InitializingBean {
 	@Value("${support.auth.manager.token.max.minutes.allowed:50}")
 	private int maxMinutesAllowedInDatabase = 50;
 
+	@Value("${support.auth.manager.cleaner.break.milliseconds:6000}")
+	private int cleanerBreakMilliseconds = 6000;
+
 	@Value("${support.auth.manager.synchronizer.num.put:3}")
 	private int putSynchronizerNum = 3;
 	@Value("${support.auth.manager.synchronizer.num.update:3}")
@@ -65,7 +68,8 @@ public class TokenSynchronizerManager implements InitializingBean {
 		allSynchronizers.addAll(evictSynchronizers);
 		allSynchronizers.addAll(expireSynchronizers);
 
-		allSynchronizers.add(new ExpiredTokenCleaner(tokenService, maxMinutesAllowedInDatabase));
+		allSynchronizers
+				.add(new ExpiredTokenCleaner(tokenService, maxMinutesAllowedInDatabase, cleanerBreakMilliseconds));
 
 		for (TokenSynchronizer ts : allSynchronizers) {
 			taskExecutor.execute(ts);
@@ -247,10 +251,11 @@ public class TokenSynchronizerManager implements InitializingBean {
 		private int breakMilliSeconds = 60 * 1000;
 		private int maxMinutesAllowed = 50;
 
-		public ExpiredTokenCleaner(TokenService service, int maxMinutesAllowed) {
+		public ExpiredTokenCleaner(TokenService service, int maxMinutesAllowed, int breakMilliSeconds) {
 			super();
 			this.service = service;
 			this.maxMinutesAllowed = maxMinutesAllowed;
+			this.breakMilliSeconds = breakMilliSeconds;
 		}
 
 		@Override

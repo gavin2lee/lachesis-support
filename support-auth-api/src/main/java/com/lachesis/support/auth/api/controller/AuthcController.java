@@ -38,8 +38,8 @@ public class AuthcController {
 	}
 
 	private void logAuthenticate(AuthenticationRequest request) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("authenticate for [username:%s]", request.getUsername()));
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format("authenticate for [username:%s]", request.getUsername()));
 		}
 	}
 

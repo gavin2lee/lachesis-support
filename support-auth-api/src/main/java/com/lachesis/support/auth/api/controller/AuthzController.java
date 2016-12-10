@@ -69,8 +69,8 @@ public class AuthzController {
 	}
 
 	private void logAuthorize(String token, String ip) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("authorize for [token:%s,ip:%s]", token, ip));
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format("authorize for [token:%s,ip:%s]", token, ip));
 		}
 	}
 
