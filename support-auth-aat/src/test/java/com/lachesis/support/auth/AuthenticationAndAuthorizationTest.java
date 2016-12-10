@@ -30,7 +30,7 @@ public class AuthenticationAndAuthorizationTest {
 
 	static final int TEN_THOUSAND = 1000 * 10;
 
-	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 3;
+	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 5;
 
 	String authcBaseUrl = String.format("http://%s:9090/authc/api/v1/tokens", AUTHC_HOST);
 	String appServerBaseUrl = String.format("http://%s:9091/demo/api/v1/nurses", DEMO_HOST);
