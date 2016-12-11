@@ -30,4 +30,7 @@ public interface TokenRepository {
 
 	@Delete("delete from T_TOKEN where LAST_MODIFIED < #{expireTime}")
 	Integer deleteExpiredInBatch(@Param("expireTime") Date expireTime);
+	
+	@Select("select count(1) from T_TOKEN where LAST_MODIFIED < #{expireTime}")
+	Integer countExpired(@Param("expireTime") Date expireTime);
 }

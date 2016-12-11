@@ -1,5 +1,6 @@
 package com.lachesis.support.auth.data.impl;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,16 +101,25 @@ public class DatabaseBasedTokenService implements TokenService {
 	@Override
 	@Transactional
 	public void removeExpiredTokens(int maxMinutesAllowed) {
+		int ret = tokenRepo.deleteExpiredInBatch(calculateExpireTime(maxMinutesAllowed));
+
+		if (LOG.isInfoEnabled()) {
+			LOG.info(String.format("%d tokens expired in %d minutes and removed by %s.", ret, maxMinutesAllowed, getCurrentThreadName()));
+		}
+	}
+
+	@Override
+	public int countExpiredTokens(int maxMinutesAllowed) {
+		return tokenRepo.countExpired(calculateExpireTime(maxMinutesAllowed));
+	}
+	
+	private Date calculateExpireTime(int maxMinutesAllowed){
 		if ((maxMinutesAllowed < 1) || (maxMinutesAllowed > Integer.MAX_VALUE)) {
 			maxMinutesAllowed = defaultMaxMinutesAllowed;
 		}
 
 		DateTime expireTime = DateTime.now().minusMinutes(maxMinutesAllowed);
-		int ret = tokenRepo.deleteExpiredInBatch(expireTime.toDate());
-
-		if (LOG.isInfoEnabled()) {
-			LOG.info(String.format("%d tokens expired in %d minutes and removed by %s.", ret, maxMinutesAllowed, getCurrentThreadName()));
-		}
+		return expireTime.toDate();
 	}
 
 }

@@ -46,8 +46,8 @@ public class CompositeCacheEventProcessor implements CacheEventProcessor {
 			return;
 		}
 		
-		if(LOG.isDebugEnabled()){
-			LOG.debug(String.format("process %s", event));
+		if(LOG.isTraceEnabled()){
+			LOG.trace(String.format("process %s", event));
 		}
 		dispatch(event);
 	}
@@ -71,7 +71,7 @@ public class CompositeCacheEventProcessor implements CacheEventProcessor {
 			processExpire(event);
 			break;
 		default:
-			LOG.warn("such event type not supported right now:" + type);
+			LOG.warn("such event type not supported currently:" + type);
 		}
 	}
 

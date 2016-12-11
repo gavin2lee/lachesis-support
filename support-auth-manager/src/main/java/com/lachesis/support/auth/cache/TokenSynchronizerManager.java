@@ -3,9 +3,10 @@ package com.lachesis.support.auth.cache;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Component;
 import com.lachesis.support.auth.data.TokenService;
 import com.lachesis.support.auth.model.Token;
 
-@Component
-public class TokenSynchronizerManager implements InitializingBean {
+@Component("tokenSynchronizerManager")
+public class TokenSynchronizerManager{
 	private static final Logger LOG = LoggerFactory.getLogger(TokenSynchronizerManager.class);
 
 	@Autowired
@@ -33,7 +34,11 @@ public class TokenSynchronizerManager implements InitializingBean {
 	private int maxMinutesAllowedInDatabase = 50;
 
 	@Value("${support.auth.manager.cleaner.break.milliseconds:120000}")
-	private int cleanerBreakMilliseconds = 6000;
+	private int cleanerBreakMilliseconds = 120000;
+	@Value("${support.auth.manager.cleaner.threshold.expired:50}")
+	private int expiredToCleanThreshold = 50;
+	@Value("${support.auth.manager.cleaner.turn.on:true}")
+	private boolean isCleanerTurnedOn = true;
 
 	@Value("${support.auth.manager.synchronizer.num.put:3}")
 	private int putSynchronizerNum = 3;
@@ -68,8 +73,10 @@ public class TokenSynchronizerManager implements InitializingBean {
 		allSynchronizers.addAll(evictSynchronizers);
 		allSynchronizers.addAll(expireSynchronizers);
 
-		allSynchronizers
-				.add(new ExpiredTokenCleaner(tokenService, maxMinutesAllowedInDatabase, cleanerBreakMilliseconds));
+		if (isCleanerTurnedOn) {
+			allSynchronizers.add(new ExpiredTokenCleaner(tokenService, maxMinutesAllowedInDatabase,
+					cleanerBreakMilliseconds, expiredToCleanThreshold));
+		}
 
 		for (TokenSynchronizer ts : allSynchronizers) {
 			taskExecutor.execute(ts);
@@ -114,8 +121,11 @@ public class TokenSynchronizerManager implements InitializingBean {
 		}
 	}
 
-	@Override
+	@PostConstruct
 	public void afterPropertiesSet() throws Exception {
+		assertNotNull(taskExecutor);
+		assertNotNull(tokenQueueBroker);
+		assertNotNull(tokenService);
 		init();
 		start();
 	}
@@ -148,6 +158,32 @@ public class TokenSynchronizerManager implements InitializingBean {
 		this.tokenQueueBroker = tokenQueueBroker;
 	}
 
+	public void setTokenService(TokenService tokenService) {
+		this.tokenService = tokenService;
+	}
+
+	public void setMaxMinutesAllowedInDatabase(int maxMinutesAllowedInDatabase) {
+		this.maxMinutesAllowedInDatabase = maxMinutesAllowedInDatabase;
+	}
+
+	public void setCleanerBreakMilliseconds(int cleanerBreakMilliseconds) {
+		this.cleanerBreakMilliseconds = cleanerBreakMilliseconds;
+	}
+
+	public void setExpiredToCleanThreshold(int expiredToCleanThreshold) {
+		this.expiredToCleanThreshold = expiredToCleanThreshold;
+	}
+
+	public void setCleanerTurnedOn(boolean isCleanerTurnedOn) {
+		this.isCleanerTurnedOn = isCleanerTurnedOn;
+	}
+
+	protected void assertNotNull(Object target){
+		if(target == null){
+			throw new RuntimeException("cannot be null");
+		}
+	}
+	
 	static class PutTokenSynchronizer extends AbstractTokenSynchronizer {
 
 		public PutTokenSynchronizer(TokenQueueBroker tokenQueueBroker, TokenService tokenService) {
@@ -250,12 +286,15 @@ public class TokenSynchronizerManager implements InitializingBean {
 
 		private int breakMilliSeconds = 60 * 1000;
 		private int maxMinutesAllowed = 50;
+		private int thresholdExpiredToClean = 50;
 
-		public ExpiredTokenCleaner(TokenService service, int maxMinutesAllowed, int breakMilliSeconds) {
+		public ExpiredTokenCleaner(TokenService service, int maxMinutesAllowed, int breakMilliSeconds,
+				int thresholdExpiredToClean) {
 			super();
 			this.service = service;
 			this.maxMinutesAllowed = maxMinutesAllowed;
 			this.breakMilliSeconds = breakMilliSeconds;
+			this.thresholdExpiredToClean = thresholdExpiredToClean;
 		}
 
 		@Override
@@ -283,11 +322,19 @@ public class TokenSynchronizerManager implements InitializingBean {
 		}
 
 		private void doClear() {
-			if (LOG.isInfoEnabled()) {
-				LOG.info(String.format("%s try to clear tokens %d minutes old.",
+			if (LOG.isTraceEnabled()) {
+				LOG.trace(String.format("%s try to clear tokens %d minutes old.",
 						ExpiredTokenCleaner.class.getSimpleName(), maxMinutesAllowed));
 			}
-			service.removeExpiredTokens(maxMinutesAllowed);
+			int countResult = service.countExpiredTokens(maxMinutesAllowed);
+			if (countResult >= thresholdExpiredToClean) {
+				service.removeExpiredTokens(maxMinutesAllowed);
+			} else {
+				if (LOG.isTraceEnabled()) {
+					LOG.trace(String.format("count result %d less than %d and no need to clean", countResult,
+							thresholdExpiredToClean));
+				}
+			}
 		}
 
 	}

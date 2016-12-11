@@ -8,6 +8,8 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lachesis.support.common.util.spring.ApplicationContextUtils;
+
 import net.sf.ehcache.event.CacheEventListener;
 import net.sf.ehcache.event.CacheEventListenerFactory;
 

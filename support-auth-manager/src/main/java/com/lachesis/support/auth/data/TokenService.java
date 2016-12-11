@@ -12,5 +12,6 @@ public interface TokenService {
 	void updateLastModifiedTokens(List<Token> tokensToUpdate);
 	void removeTokens(List<Token> tokensToRemove);
 	void removeExpiredTokens(int maxMinutesAllowed);
+	int countExpiredTokens(int maxMinutesAllowed);
 	void addTokens(List<Token> tokensToAdd);
 }
