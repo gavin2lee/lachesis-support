@@ -78,7 +78,7 @@ public abstract class AbstractTokenSynchronizer implements TokenSynchronizer {
 				}
 
 			} catch (Exception e) {
-				LOG.warn(this.getClass().getSimpleName() + " - " + e.getMessage());
+				LOG.warn(this.getClass().getSimpleName() + " - " + e.getMessage(),e);
 			}
 
 		}
