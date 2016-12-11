@@ -31,11 +31,12 @@
         </encoder>
     </appender>
 
+<!--
     <logger name="com.lachesis.support.auth" level="info">
     	<appender-ref ref="rollingFile" />
     </logger>
-         
+   -->      
     <root level="debug">
-        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
     </root>
 </configuration>
