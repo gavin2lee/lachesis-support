@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 105000
 File Encoding         : 65001
 
-Date: 2016-12-09 15:29:13
+Date: 2016-12-12 15:33:59
 */
 
 
@@ -21,10 +21,9 @@ Date: 2016-12-09 15:29:13
 DROP TABLE [dbo].[T_TOKEN]
 GO
 CREATE TABLE [dbo].[T_TOKEN] (
-[ID] bigint NOT NULL IDENTITY(1,1) ,
-[TOKEN_VALUE] varchar(100) NULL ,
+[TOKEN_VALUE] varchar(100) NOT NULL ,
 [TERMINAL_IP] varchar(50) NULL ,
-[ACTIVE] char(1) NULL DEFAULT ('Y') ,
+[ACTIVE] tinyint NULL DEFAULT ((1)) ,
 [USERNAME] varchar(50) NULL ,
 [PASSWORD] varchar(50) NULL ,
 [LAST_MODIFIED] datetime NULL 
@@ -40,5 +39,5 @@ GO
 -- ----------------------------
 -- Primary Key structure for table T_TOKEN
 -- ----------------------------
-ALTER TABLE [dbo].[T_TOKEN] ADD PRIMARY KEY ([ID])
+ALTER TABLE [dbo].[T_TOKEN] ADD PRIMARY KEY ([TOKEN_VALUE])
 GO
