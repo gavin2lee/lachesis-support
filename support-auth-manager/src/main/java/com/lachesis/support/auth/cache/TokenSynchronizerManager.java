@@ -17,7 +17,7 @@ import com.lachesis.support.auth.data.TokenService;
 import com.lachesis.support.objects.entity.auth.Token;
 
 @Component("tokenSynchronizerManager")
-public class TokenSynchronizerManager{
+public class TokenSynchronizerManager {
 	private static final Logger LOG = LoggerFactory.getLogger(TokenSynchronizerManager.class);
 
 	@Autowired
@@ -29,7 +29,7 @@ public class TokenSynchronizerManager{
 
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Value("${support.auth.manager.synchronizers.default.disable:false}")
 	private boolean disableDefaultSynchronizers = false;
 
@@ -103,7 +103,7 @@ public class TokenSynchronizerManager{
 	}
 
 	protected void init() {
-		if(disableDefaultSynchronizers){
+		if (disableDefaultSynchronizers) {
 			LOG.warn("default synchronizers had been disabled.");
 			return;
 		}
@@ -185,12 +185,36 @@ public class TokenSynchronizerManager{
 		this.isCleanerTurnedOn = isCleanerTurnedOn;
 	}
 
-	protected void assertNotNull(Object target){
-		if(target == null){
+	public void setDisableDefaultSynchronizers(boolean disableDefaultSynchronizers) {
+		this.disableDefaultSynchronizers = disableDefaultSynchronizers;
+	}
+
+	public void setPutSynchronizers(List<TokenSynchronizer> putSynchronizers) {
+		this.putSynchronizers = putSynchronizers;
+	}
+
+	public void setUpdateSynchronizers(List<TokenSynchronizer> updateSynchronizers) {
+		this.updateSynchronizers = updateSynchronizers;
+	}
+
+	public void setRemoveSynchronizers(List<TokenSynchronizer> removeSynchronizers) {
+		this.removeSynchronizers = removeSynchronizers;
+	}
+
+	public void setEvictSynchronizers(List<TokenSynchronizer> evictSynchronizers) {
+		this.evictSynchronizers = evictSynchronizers;
+	}
+
+	public void setExpireSynchronizers(List<TokenSynchronizer> expireSynchronizers) {
+		this.expireSynchronizers = expireSynchronizers;
+	}
+
+	protected void assertNotNull(Object target) {
+		if (target == null) {
 			throw new RuntimeException("cannot be null");
 		}
 	}
-	
+
 	static class PutTokenSynchronizer extends AbstractTokenSynchronizer {
 
 		public PutTokenSynchronizer(TokenQueueBroker tokenQueueBroker, TokenService tokenService) {
