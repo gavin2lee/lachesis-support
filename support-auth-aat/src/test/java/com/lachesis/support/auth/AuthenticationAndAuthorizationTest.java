@@ -89,6 +89,7 @@ public class AuthenticationAndAuthorizationTest {
 			}
 		}
 
+		long st = System.currentTimeMillis();
 		for (int i = 0; i < maxRound; i++) {
 			LOG.debug("STEP 1: try to login..." + i);
 			LOG.debug(String.format("Login with %s", username));
@@ -105,6 +106,10 @@ public class AuthenticationAndAuthorizationTest {
 			LOG.debug("STEP 3:try to logout...");
 			logout(respVO.getToken());
 		}
+
+		long cur = System.currentTimeMillis();
+		long elapseMinutes = ((cur - st) / (1000 * 60));
+		LOG.info(String.format("%d cases executed and time elapse %d minutes", maxRound, elapseMinutes));
 
 	}
 
