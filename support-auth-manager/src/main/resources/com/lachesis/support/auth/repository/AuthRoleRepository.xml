@@ -9,7 +9,6 @@
 		LABEL label
 		FROM T_ROLE
 		WHERE ID = #{id}
-		AND IS_DELETED = 'N'
 	</select>
 
 	<select id="findByIds" resultType="AuthUser" useCache="true">
@@ -19,7 +18,6 @@
 		LABEL label
 		FROM T_ROLE
 		WHERE 1 = 1
-		AND IS_DELETED = 'N'
 		AND ID in
 		<foreach item="item" index="index" collection="ids" open="("
 			separator="," close=")">
@@ -36,7 +34,6 @@
 		INNER JOIN R_USER_ROLE ur
 		ON r.ID = ur.ROLE_ID
 		WHERE 1 = 1
-		AND ur.IS_DELETED = 'N'
 		AND ur.USER_ID = #{userId}
 	</select>
 </mapper>

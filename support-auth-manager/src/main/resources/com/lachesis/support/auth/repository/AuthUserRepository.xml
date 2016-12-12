@@ -14,9 +14,6 @@
 		EMAIL email
 		FROM T_USER
 		WHERE ID = #{id}
-		AND IS_ACTIVE = 'Y'
-		AND IS_LOCKED = 'N'
-		AND IS_DELETED = 'N'
 	</select>
 
 	<select id="findByUsername" parameterType="java.lang.String"
@@ -32,8 +29,6 @@
 		EMAIL email
 		FROM T_USER
 		WHERE USERNAME = #{username}
-		AND IS_ACTIVE = 'Y'
-		AND IS_LOCKED = 'N'
-		AND IS_DELETED = 'N'
+		AND IS_ACTIVE = 1
 	</select>
 </mapper>

@@ -9,7 +9,6 @@
 		LABEL label
 		FROM T_PERMISSION
 		WHERE ID = #{id}
-		AND IS_DELETED = 'N'
 	</select>
 
 	<select id="findByIds" resultType="AuthPermission" useCache="true">
@@ -18,7 +17,7 @@
 		p.NAME name,
 		p.LABEL label
 		FROM T_PERMISSION
-		WHERE IS_DELETED = 'N'
+		WHERE 1 = 1
 		AND ID in
 		<foreach item="item" index="index" collection="ids" open="("
 			separator="," close=")">
@@ -35,7 +34,6 @@
 		INNER JOIN R_ROLE_PERMISSION rp
 		ON p.ID = rp.PERMISSION_ID
 		WHERE rp.ROLE_ID = #{roleId}
-		AND rp.IS_DELETED = 'N'
 	</select>
 
 	<select id="findByRoleIds" resultType="AuthPermission" useCache="true">
@@ -46,7 +44,7 @@
 		FROM T_PERMISSION p
 		INNER JOIN R_ROLE_PERMISSION rp
 		ON p.ID = rp.PERMISSION_ID
-		WHERE rp.IS_DELETED = 'N'
+		WHERE 1=1
 		AND rp.ROLE_ID in
 		<foreach item="item" index="index" collection="roleIds" open="("
 			separator="," close=")">
