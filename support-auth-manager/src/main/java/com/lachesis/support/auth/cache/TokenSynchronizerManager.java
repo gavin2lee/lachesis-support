@@ -104,6 +104,7 @@ public class TokenSynchronizerManager{
 
 	protected void init() {
 		if(disableDefaultSynchronizers){
+			LOG.warn("default synchronizers had been disabled.");
 			return;
 		}
 		for (int i = 0; i < putSynchronizerNum; i++) {
