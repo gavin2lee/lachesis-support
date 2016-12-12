@@ -29,6 +29,9 @@ public class TokenSynchronizerManager{
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Value("${support.auth.manager.synchronizers.default.disable:false}")
+	private boolean disableDefaultSynchronizers = false;
 
 	@Value("${support.auth.manager.token.max.minutes.allowed:50}")
 	private int maxMinutesAllowedInDatabase = 50;
@@ -100,6 +103,9 @@ public class TokenSynchronizerManager{
 	}
 
 	protected void init() {
+		if(disableDefaultSynchronizers){
+			return;
+		}
 		for (int i = 0; i < putSynchronizerNum; i++) {
 			putSynchronizers.add(new PutTokenSynchronizer(tokenQueueBroker, tokenService));
 		}
