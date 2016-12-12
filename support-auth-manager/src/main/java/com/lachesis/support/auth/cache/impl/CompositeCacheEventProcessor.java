@@ -11,7 +11,7 @@ import com.lachesis.support.auth.cache.CacheEvent;
 import com.lachesis.support.auth.cache.CacheEventProcessor;
 import com.lachesis.support.auth.cache.CacheEventType;
 import com.lachesis.support.auth.cache.TokenQueueBroker;
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Component("cacheEventProcessor")
 public class CompositeCacheEventProcessor implements CacheEventProcessor {

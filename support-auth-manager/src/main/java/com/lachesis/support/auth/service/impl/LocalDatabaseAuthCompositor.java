@@ -14,11 +14,11 @@ import com.lachesis.support.auth.authorization.Authorizer;
 import com.lachesis.support.auth.data.AuthUserService;
 import com.lachesis.support.auth.model.AuthPermission;
 import com.lachesis.support.auth.model.AuthRole;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.model.AuthUser;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.SimpleAuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("localDatabaseAuthCompositor")
 public class LocalDatabaseAuthCompositor extends AbstractAuthenticator implements Authorizer {

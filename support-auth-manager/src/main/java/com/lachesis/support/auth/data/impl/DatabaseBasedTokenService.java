@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.lachesis.support.auth.data.TokenService;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.repository.TokenRepository;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("databaseBasedTokenService")
 public class DatabaseBasedTokenService implements TokenService {

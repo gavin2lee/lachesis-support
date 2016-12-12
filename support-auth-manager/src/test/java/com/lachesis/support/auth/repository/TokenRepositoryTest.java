@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lachesis.support.auth.annotation.RepositoryTestContext;
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)

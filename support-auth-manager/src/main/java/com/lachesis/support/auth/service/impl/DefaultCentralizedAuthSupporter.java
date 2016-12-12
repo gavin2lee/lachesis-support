@@ -9,7 +9,6 @@ import com.lachesis.support.auth.authentication.AuthenticatorProvider;
 import com.lachesis.support.auth.authorization.AuthorizerProvider;
 import com.lachesis.support.auth.cache.AuthCacheProvider;
 import com.lachesis.support.auth.encryption.EncrypterProvider;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.AuthTokenValueAssembler;
 import com.lachesis.support.auth.verifier.TokenVerifier;
@@ -17,6 +16,7 @@ import com.lachesis.support.auth.vo.AuthenticationResult;
 import com.lachesis.support.auth.vo.AuthorizationResult;
 import com.lachesis.support.auth.vo.UserDetails;
 import com.lachesis.support.auth.vo.UsernamePasswordToken;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("defaultCentralizedAuthSupporter")
 public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupporter {

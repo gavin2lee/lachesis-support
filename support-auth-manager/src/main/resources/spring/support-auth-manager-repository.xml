@@ -24,7 +24,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:mybatis/support-auth-manager-mybatis.xml" />
-        <property name="typeAliasesPackage" value="com.lachesis.support.auth.model" />
+        <property name="typeAliasesPackage" value="com.lachesis.support.auth.model,com.lachesis.support.objects.entity.auth" />
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

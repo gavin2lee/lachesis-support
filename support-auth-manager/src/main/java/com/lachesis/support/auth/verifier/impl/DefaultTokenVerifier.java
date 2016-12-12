@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.verifier.TokenVerifier;
 import com.lachesis.support.auth.verifier.TokenVerifyingStrategy;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("defaultTokenVerifier")
 public class DefaultTokenVerifier implements TokenVerifier {

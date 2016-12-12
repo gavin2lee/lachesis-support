@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;

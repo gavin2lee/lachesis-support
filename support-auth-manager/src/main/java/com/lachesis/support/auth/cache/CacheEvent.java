@@ -1,6 +1,6 @@
 package com.lachesis.support.auth.cache;
 
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;

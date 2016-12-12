@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.model;
+package com.lachesis.support.objects.entity.auth;
 
 import java.io.Serializable;
 import java.util.Date;

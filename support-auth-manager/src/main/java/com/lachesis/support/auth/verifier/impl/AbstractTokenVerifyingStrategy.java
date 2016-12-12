@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.verifier.TokenVerifyingStrategy;
+import com.lachesis.support.objects.entity.auth.Token;
 
 public abstract class AbstractTokenVerifyingStrategy implements TokenVerifyingStrategy {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractTokenVerifyingStrategy.class);

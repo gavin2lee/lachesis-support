@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.lachesis.support.auth.common.AuthConstants;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
+import com.lachesis.support.objects.entity.auth.Token;
 
 public abstract class AbstractMaxIdleTimeTokenVerifyingStrategy extends AbstractTokenVerifyingStrategy{
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractMaxIdleTimeTokenVerifyingStrategy.class);

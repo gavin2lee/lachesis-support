@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.data.TokenService;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.TokenStorageStrategy;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("localAuthTokenManager")
 public class LocalAuthTokenManager implements AuthTokenManager {

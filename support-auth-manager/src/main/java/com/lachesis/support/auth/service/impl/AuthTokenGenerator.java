@@ -2,7 +2,7 @@ package com.lachesis.support.auth.service.impl;
 
 import java.util.Date;
 
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 class AuthTokenGenerator {
 	private String username;

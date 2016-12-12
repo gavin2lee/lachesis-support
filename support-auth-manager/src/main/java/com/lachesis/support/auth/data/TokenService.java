@@ -2,7 +2,7 @@ package com.lachesis.support.auth.data;
 
 import java.util.List;
 
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 public interface TokenService {
 	int PAGE_SIZE = 300;

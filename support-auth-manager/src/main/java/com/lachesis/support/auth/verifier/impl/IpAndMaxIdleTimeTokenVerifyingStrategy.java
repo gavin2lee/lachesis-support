@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.encryption.EncrypterProvider;
-import com.lachesis.support.auth.model.Token;
 import com.lachesis.support.auth.token.AuthTokenValueParser;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Service("ipAndMaxIdleTimeTokenVerifyingStrategy")
 public class IpAndMaxIdleTimeTokenVerifyingStrategy extends AbstractMaxIdleTimeTokenVerifyingStrategy {

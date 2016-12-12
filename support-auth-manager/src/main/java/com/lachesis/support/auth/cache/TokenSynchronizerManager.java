@@ -14,7 +14,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.lachesis.support.auth.data.TokenService;
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 @Component("tokenSynchronizerManager")
 public class TokenSynchronizerManager{

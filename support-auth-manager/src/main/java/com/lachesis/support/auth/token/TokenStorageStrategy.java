@@ -1,6 +1,6 @@
 package com.lachesis.support.auth.token;
 
-import com.lachesis.support.auth.model.Token;
+import com.lachesis.support.objects.entity.auth.Token;
 
 public interface TokenStorageStrategy {
 	void save(Token authToken);
