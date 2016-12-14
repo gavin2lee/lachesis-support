@@ -1,5 +1,6 @@
 package com.lachesis.support.auth.demo.netty;
 
+import java.io.ByteArrayOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
@@ -57,6 +58,16 @@ public class HeartBreakNioServer {
 							System.out.println("read");
 							SocketChannel client = (SocketChannel) key.channel();
 							System.out.println("Read connection from " + client);
+							
+							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+							ByteBuffer buf = ByteBuffer.allocate(100);
+							while(client.read(buf)>0){
+								buf.flip();
+								bos.write(buf.array());
+								buf.clear();
+							}
+							
+							System.out.println("RECV:" + new String(bos.toByteArray(),"UTF-8"));
 							
 							client.write(ByteBuffer.wrap("hi client".getBytes("UTF-8")));
 

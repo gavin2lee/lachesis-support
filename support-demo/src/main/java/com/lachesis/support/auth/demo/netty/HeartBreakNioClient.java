@@ -1,5 +1,6 @@
 package com.lachesis.support.auth.demo.netty;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -62,15 +63,15 @@ public class HeartBreakNioClient {
 				if(key.isReadable()){
 					SocketChannel serverSc = (SocketChannel) key.channel();
 					ByteBuffer buf = ByteBuffer.allocate(8);
-					StringBuilder sb = new StringBuilder();
 					
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					while(serverSc.read(buf) > 0){
 						buf.flip();
-						sb.append(buf.array());
+						baos.write(buf.array());
 						buf.clear();
 					}
 					
-					System.out.println("read: " + sb.toString());
+					System.out.println("read: " + baos.toString("UTF-8"));
 					
 					String word = (count++)+" hi server,"+ (new Date().toString());
 					ByteBuffer wordBuf = ByteBuffer.wrap(word.getBytes("UTF-8"));
