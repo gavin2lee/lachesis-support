@@ -25,7 +25,7 @@ public class HeartBreakNioClient {
 		Selector selector = Selector.open();
 		clientSc.register(selector, SelectionKey.OP_READ);
 		
-		clientSc.connect(new InetSocketAddress("localhost", 20180));
+		clientSc.connect(new InetSocketAddress("192.168.0.101", 20180));
 		
 		while(!clientSc.finishConnect()){
 			System.out.println("please check the connection");
