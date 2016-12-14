@@ -80,7 +80,7 @@ public class HeartBreakNioServer {
 							
 							client.write(ByteBuffer.wrap(msgSend.getBytes("UTF-8")));
 
-							client.register(selector, SelectionKey.OP_READ);
+							client.register(selector, SelectionKey.OP_READ,scName);
 							key.interestOps(SelectionKey.OP_READ);
 
 							// Accept client and register it to selector
