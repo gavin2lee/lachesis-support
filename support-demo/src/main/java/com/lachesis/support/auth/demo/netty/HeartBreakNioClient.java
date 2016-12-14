@@ -74,6 +74,12 @@ public class HeartBreakNioClient {
 					String s = new String(baos.toByteArray(),"UTF-8");
 					System.out.println("read: " + s);
 					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
 					String word = (count++)+" hi server,"+ (new Date().toString());
 					ByteBuffer wordBuf = ByteBuffer.wrap(word.getBytes("UTF-8"));
 					serverSc.write(wordBuf);

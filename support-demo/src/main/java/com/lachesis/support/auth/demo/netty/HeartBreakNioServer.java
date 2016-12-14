@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class HeartBreakNioServer {
 	public void server(int port) throws Exception {
 		AtomicLong count = new AtomicLong();
+		AtomicLong nameCount = new AtomicLong();
 		System.out.println("Listening for connections on port " + port);
 		// open Selector that handles channels
 		Selector selector = Selector.open();
@@ -51,13 +52,16 @@ public class HeartBreakNioServer {
 							SocketChannel client = server.accept();
 							System.out.println("Accepted connection from " + client);
 							client.configureBlocking(false);
+							
+							String scName = "SC-"+nameCount.incrementAndGet();
 
-							client.register(selector, SelectionKey.OP_READ);
+							client.register(selector, SelectionKey.OP_READ, scName);
 							key.interestOps(SelectionKey.OP_ACCEPT);
 						}
 						// Check if event was because new client ready to get
 						// accepted
 						if (key.isReadable()) {
+							String scName = (String) key.attachment();
 							System.out.println("read");
 							SocketChannel client = (SocketChannel) key.channel();
 							System.out.println("Read connection from " + client);
@@ -70,7 +74,7 @@ public class HeartBreakNioServer {
 								buf.clear();
 							}
 							
-							System.out.println("RECV:" + new String(bos.toByteArray(),"UTF-8"));
+							System.out.println("RECV from " + scName + " - " + new String(bos.toByteArray(),"UTF-8"));
 							
 							String msgSend = count.getAndIncrement() + "hi client :" + new Date().toString();
 							
