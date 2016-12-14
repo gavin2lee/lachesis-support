@@ -29,11 +29,29 @@ public class PlainNioServer {
             //Wait for new events that are ready for process. This will block until something happens  
             int n = selector.select();  
             if (n > 0) {  
+            	System.out.println("selected : " + n);
                 //Obtain all SelectionKey instances that received events  
                 Iterator<SelectionKey> iter = selector.selectedKeys().iterator();  
                 while (iter.hasNext()) {  
                     SelectionKey key = iter.next();  
                     iter.remove();  
+                    
+                    if(key.isReadable()){
+                    	System.out.println("readable");
+                    }
+                    
+                    if(key.isConnectable()){
+                    	System.out.println("connectable");
+                    }
+                    
+                    if(key.isAcceptable()){
+                    	System.out.println("accpetable");
+                    }
+                    
+                    if(key.isWritable()){
+                    	System.out.println("writable");
+                    }
+                    
                     try {  
                         //Check if event was because new client ready to get accepted  
                         if (key.isAcceptable()) {  
@@ -55,6 +73,7 @@ public class PlainNioServer {
                                 }  
                             }  
                             client.close();//close client  
+                           // client.register(selector, SelectionKey.OP_ACCEPT);
                         }  
                     } catch (Exception e) {  
                         key.cancel();  
@@ -68,7 +87,7 @@ public class PlainNioServer {
 	public static void main(String...args){
 		PlainNioServer server = new PlainNioServer();
 		try {
-			server.server(10080);
+			server.server(20180);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

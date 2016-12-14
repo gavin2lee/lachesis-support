@@ -1,0 +1,106 @@
+package com.lachesis.support.auth.demo.netty;
+
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+
+public class HeartBreakNioServer {
+	public void server(int port) throws Exception {
+		System.out.println("Listening for connections on port " + port);
+		// open Selector that handles channels
+		Selector selector = Selector.open();
+		// open ServerSocketChannel
+		ServerSocketChannel serverChannel = ServerSocketChannel.open();
+		// get ServerSocket
+		ServerSocket serverSocket = serverChannel.socket();
+		// bind server to port
+		serverSocket.bind(new InetSocketAddress(port));
+		// set to non-blocking
+		serverChannel.configureBlocking(false);
+		// register ServerSocket to selector and specify that it is interested
+		// in new accepted clients
+		serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+		final ByteBuffer msg = ByteBuffer.wrap("Hi!\r\n".getBytes());
+		while (true) {
+			// Wait for new events that are ready for process. This will block
+			// until something happens
+			int n = selector.select();
+			if (n > 0) {
+				// Obtain all SelectionKey instances that received events
+				Iterator<SelectionKey> iter = selector.selectedKeys().iterator();
+				while (iter.hasNext()) {
+					SelectionKey key = iter.next();
+					iter.remove();
+
+					if (key.isConnectable()) {
+						System.out.println("connectable");
+					}
+
+					try {
+						if (key.isAcceptable()) {
+							ServerSocketChannel server = (ServerSocketChannel) key.channel();
+							SocketChannel client = server.accept();
+							System.out.println("Accepted connection from " + client);
+							client.configureBlocking(false);
+
+							client.register(selector, SelectionKey.OP_READ);
+							key.interestOps(SelectionKey.OP_ACCEPT);
+						}
+						// Check if event was because new client ready to get
+						// accepted
+						if (key.isReadable()) {
+							System.out.println("read");
+							SocketChannel client = (SocketChannel) key.channel();
+							System.out.println("Read connection from " + client);
+							
+							client.write(ByteBuffer.wrap("hi client".getBytes("UTF-8")));
+
+							client.register(selector, SelectionKey.OP_READ);
+							key.interestOps(SelectionKey.OP_READ);
+
+							// Accept client and register it to selector
+							// client.register(selector, SelectionKey.OP_WRITE,
+							// msg.duplicate());
+						}
+						// Check if event was because socket is ready to write
+						// data
+						if (key.isWritable()) {
+							System.out.println("write");
+
+							SocketChannel client = (SocketChannel) key.channel();
+
+							client.write(ByteBuffer.wrap("hi client".getBytes("UTF-8")));
+							// ByteBuffer buff = (ByteBuffer) key.attachment();
+							// //write data to connected client
+							// while (buff.hasRemaining()) {
+							// if (client.write(buff) == 0) {
+							// break;
+							// }
+							// }
+							// client.close();//close client
+							client.register(selector, SelectionKey.OP_ACCEPT);
+							key.interestOps(SelectionKey.OP_WRITE);
+						}
+					} catch (Exception e) {
+						key.cancel();
+						key.channel().close();
+					}
+				}
+			}
+		}
+	}
+
+	public static void main(String... args) {
+		HeartBreakNioServer server = new HeartBreakNioServer();
+		try {
+			server.server(20180);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

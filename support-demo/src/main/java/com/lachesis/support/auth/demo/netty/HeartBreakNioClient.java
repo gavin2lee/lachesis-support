@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Date;
 import java.util.Iterator;
 
-public class PlainNioClient {
+public class HeartBreakNioClient {
 	
 	
 
@@ -30,9 +30,7 @@ public class PlainNioClient {
 			System.out.println("please check the connection");
 		}
 		
-		String s = (count++)+" hi server,"+ (new Date().toString());
-		ByteBuffer bb = ByteBuffer.wrap(s.getBytes("UTF-8"));
-		clientSc.write(bb);
+		clientSc.write(ByteBuffer.wrap("hi server".getBytes("UTF-8")));
 		
 		while(true){
 			
@@ -44,14 +42,25 @@ public class PlainNioClient {
 			Iterator<SelectionKey> selectorIter = selector.selectedKeys().iterator();
 			while(selectorIter.hasNext()){
 				SelectionKey key = selectorIter.next();  
+				selectorIter.remove();
+				
+				if(key.isConnectable()){
+					SocketChannel serverSc = (SocketChannel) key.channel();
+					if(serverSc.isConnectionPending()){
+						serverSc.finishConnect();
+					}
+					serverSc.configureBlocking(false);
+					serverSc.register(selector, SelectionKey.OP_READ);  
+				}
 				
 				if(key.isAcceptable()){
 					System.out.println("accept");
+					SocketChannel serverSc = (SocketChannel) key.channel();
+					serverSc.register(selector, SelectionKey.OP_READ);
 				}
 				
 				if(key.isReadable()){
 					SocketChannel serverSc = (SocketChannel) key.channel();
-					serverSc.configureBlocking(false);
 					ByteBuffer buf = ByteBuffer.allocate(8);
 					StringBuilder sb = new StringBuilder();
 					
@@ -62,7 +71,15 @@ public class PlainNioClient {
 					}
 					
 					System.out.println("read: " + sb.toString());
-					serverSc.register(selector, SelectionKey.OP_WRITE);
+					
+					String word = (count++)+" hi server,"+ (new Date().toString());
+					ByteBuffer wordBuf = ByteBuffer.wrap(word.getBytes("UTF-8"));
+					serverSc.write(wordBuf);
+					
+					serverSc.register(selector, SelectionKey.OP_READ);
+					
+					
+					//serverSc.register(selector, SelectionKey.OP_WRITE);
 				}
 				
 				if(key.isWritable()){
@@ -81,7 +98,7 @@ public class PlainNioClient {
 				if(key.isConnectable()){
 					System.out.println("connect...");
 				}
-				selectorIter.remove();
+				
 			}
 		}
 	}
