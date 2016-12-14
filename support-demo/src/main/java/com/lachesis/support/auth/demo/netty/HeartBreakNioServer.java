@@ -8,10 +8,13 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class HeartBreakNioServer {
 	public void server(int port) throws Exception {
+		AtomicLong count = new AtomicLong();
 		System.out.println("Listening for connections on port " + port);
 		// open Selector that handles channels
 		Selector selector = Selector.open();
@@ -69,7 +72,9 @@ public class HeartBreakNioServer {
 							
 							System.out.println("RECV:" + new String(bos.toByteArray(),"UTF-8"));
 							
-							client.write(ByteBuffer.wrap("hi client".getBytes("UTF-8")));
+							String msgSend = count.getAndIncrement() + "hi client :" + new Date().toString();
+							
+							client.write(ByteBuffer.wrap(msgSend.getBytes("UTF-8")));
 
 							client.register(selector, SelectionKey.OP_READ);
 							key.interestOps(SelectionKey.OP_READ);

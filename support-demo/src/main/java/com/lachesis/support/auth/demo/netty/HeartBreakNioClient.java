@@ -62,7 +62,7 @@ public class HeartBreakNioClient {
 				
 				if(key.isReadable()){
 					SocketChannel serverSc = (SocketChannel) key.channel();
-					ByteBuffer buf = ByteBuffer.allocate(8);
+					ByteBuffer buf = ByteBuffer.allocate(100);
 					
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					while(serverSc.read(buf) > 0){
@@ -71,7 +71,8 @@ public class HeartBreakNioClient {
 						buf.clear();
 					}
 					
-					System.out.println("read: " + baos.toString("UTF-8"));
+					String s = new String(baos.toByteArray(),"UTF-8");
+					System.out.println("read: " + s);
 					
 					String word = (count++)+" hi server,"+ (new Date().toString());
 					ByteBuffer wordBuf = ByteBuffer.wrap(word.getBytes("UTF-8"));
