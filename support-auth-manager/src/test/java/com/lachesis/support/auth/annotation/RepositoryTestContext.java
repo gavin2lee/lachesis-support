@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @ContextConfiguration(locations = { "classpath:spring/support-auth-manager-repository-test.xml" })
-@Rollback
+@Rollback(true)
 @Transactional
 public @interface RepositoryTestContext {
 
