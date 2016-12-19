@@ -7,19 +7,16 @@ import org.apache.ibatis.annotations.Param;
 
 import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.objects.entity.auth.Role;
+import com.lachesis.support.objects.entity.auth.RolePermission;
 
 public interface RoleRepository {
 	Role findOne(@Param("id") Long id);
-	
+
 	Role findOneByName(@Param("name") String name);
 
 	List<Role> findAll();
 
 	List<Role> findByUserId(@Param("userId") Long userId);
-
-	Integer deletePermissions(@Param("roleId") Long roleId, List<Permission> permissions);
-
-	Integer deletePermission(@Param("roleId") Long roleId, Permission permission);
 
 	Long insertOne(Role r);
 
@@ -27,4 +24,12 @@ public interface RoleRepository {
 
 	@Delete("delete from T_ROLE where id=#{id}")
 	Integer deleteOne(@Param("id") Long id);
+	
+	Long addPermission(RolePermission rp);
+	
+	Integer addPermissions(List<RolePermission> rps);
+
+	Integer deletePermissions(@Param("roleId") Long roleId, List<Permission> perms);
+
+	Integer deletePermission(@Param("roleId") Long roleId, Permission perm);
 }
