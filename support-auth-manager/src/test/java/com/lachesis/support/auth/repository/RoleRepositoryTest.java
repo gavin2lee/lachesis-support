@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -204,11 +203,46 @@ public class RoleRepositoryTest {
 		assertThat(r1, notNullValue());
 		assertThat(r1.getPermissions(), notNullValue());
 		assertThat(r1.getPermissions().size(), equalTo(2));
+		
+		List<Permission> perms = new ArrayList<Permission>();
+		perms.add(p1);
+		perms.add(p2);
+		roleRepo.deletePermissions(r1.getId(), perms);
+		
+		r1 = roleRepo.findOne(r.getId());
+		
+		assertThat(r1, notNullValue());
+		assertThat(r1.getPermissions(), notNullValue());
+		assertThat(r1.getPermissions().size(), equalTo(0));
 	}
 
 	@Test
 	public void testDeletePermission() {
-		fail("Not yet implemented");
+		Permission p1 = mockPermission();
+		Permission p2 = mockPermission();
+		permissionRepo.insertOne(p1);
+		permissionRepo.insertOne(p2);
+		
+		Role r = mockRole();
+		roleRepo.insertOne(r);
+		
+		List<RolePermission> rps = mockRolePermissions(r.getId(), p1.getId(), p2.getId());
+		
+		Integer ret = roleRepo.addPermissions(rps);
+		assertThat(ret, equalTo(2));
+		
+		Role r1 = roleRepo.findOne(r.getId());
+		assertThat(r1, notNullValue());
+		assertThat(r1.getPermissions(), notNullValue());
+		assertThat(r1.getPermissions().size(), equalTo(2));
+		
+		roleRepo.deletePermission(r1.getId(), p1);
+		
+		r1 = roleRepo.findOne(r.getId());
+		
+		assertThat(r1, notNullValue());
+		assertThat(r1.getPermissions(), notNullValue());
+		assertThat(r1.getPermissions().size(), equalTo(1));
 	}
 
 }

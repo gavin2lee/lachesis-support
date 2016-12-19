@@ -231,7 +231,7 @@
 		delete from R_ROLE_PERMISSION
 		where ROLE_ID = #{roleId}
 		and
-		PERMISSION_ID = #{id}
+		PERMISSION_ID = #{perm.id}
 	</delete>
 
 	<delete id="deletePermissions">
@@ -239,7 +239,7 @@
 		where ROLE_ID = #{roleId}
 		and
 		PERMISSION_ID in
-		<foreach collection="list" item="item" index="index" open="("
+		<foreach collection="perms" item="item" index="index" open="("
 			separator="," close=")">
 			#{item.id}
 		</foreach>

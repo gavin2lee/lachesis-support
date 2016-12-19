@@ -25,11 +25,11 @@ public interface RoleRepository {
 	@Delete("delete from T_ROLE where id=#{id}")
 	Integer deleteOne(@Param("id") Long id);
 	
-	Long addPermission(RolePermission rp);
+	Long addPermission(RolePermission rolePerm);
 	
-	Integer addPermissions(List<RolePermission> rps);
+	Integer addPermissions(List<RolePermission> rolePerms);
 
-	Integer deletePermissions(@Param("roleId") Long roleId, List<Permission> perms);
+	Integer deletePermissions(@Param("roleId") Long roleId,@Param("perms") List<Permission> perms);
 
-	Integer deletePermission(@Param("roleId") Long roleId, Permission perm);
+	Integer deletePermission(@Param("roleId") Long roleId, @Param("perm") Permission perm);
 }
