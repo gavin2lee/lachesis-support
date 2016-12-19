@@ -1,70 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lachesis.support.auth.repository.TokenRepository">
-	<select id="selectOne" resultType="Token">
-		select TOKEN_VALUE tokenValue,
-		TERMINAL_IP terminalIp,
-		ACTIVE active,
-		LAST_MODIFIED lastModified,
-		USERNAME username,
-		PASSWORD password
-		from T_TOKEN
-		where TOKEN_VALUE = #{tokenValue}
-	</select>
-	
-	<select id="selectPage" resultType="Token">
-		select TOKEN_VALUE tokenValue,
-		TERMINAL_IP terminalIp,
-		ACTIVE active,
-		LAST_MODIFIED lastModified,
-		USERNAME username,
-		PASSWORD password
-		from T_TOKEN
-		where 1 = 1
+<mapper namespace="com.lachesis.support.auth.repository.PermissionRepository">
+
+	<resultMap id="permissionMap"
+		type="com.lachesis.support.objects.entity.auth.Permission">
+		<id property="id" column="ID" />
+		<result property="code" column="CODE" />
+		<result property="name" column="NAME" />
+		<result property="label" column="LABEL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="isDeleted" column="IS_DELETED" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="findOne" resultMap="permissionMap">
+		select * from T_PERMISSION where
+		ID = #{id}
 	</select>
 
-	<insert id="insertOne">
-		insert into T_TOKEN
-		(TOKEN_VALUE,TERMINAL_IP,ACTIVE,LAST_MODIFIED,USERNAME,PASSWORD)
+	<select id="findOneByName" resultMap="permissionMap">
+		select * from T_PERMISSION
+		where NAME = #{name} and IS_DELETED = 0
+	</select>
+
+	<select id="findAll" resultMap="permissionMap">
+		select * from T_PERMISSION where
+		IS_DELETED = 0
+	</select>
+
+	<select id="findByRoleId" resultMap="permissionMap">
+		select *
+		from T_PERMISSION p
+		inner join R_ROLE_PERMISSION rp
+		on p.ID = rp.PERMISSION_ID
+		where
+		p.IS_DELETED = 0
+		and rp.ROLE_ID = #{roleId}
+	</select>
+
+	<insert id="insertOne" parameterType="Permission" useGeneratedKeys="true" keyProperty="id">
+		insert into T_PERMISSION
+		(CODE,NAME,LABEL,DESCRIPTION,IS_DELETED)
 		values
-		(#{tokenValue},#{terminalIp},#{active},#{lastModified},#{username},#{password})
-	</insert>
-	
-	<insert id="insertBatch">
-		insert into T_TOKEN
-		(TOKEN_VALUE,TERMINAL_IP,ACTIVE,LAST_MODIFIED,USERNAME,PASSWORD)
-		values
-		<foreach item="item" collection="list" separator=",">
-		(#{item.tokenValue},#{item.terminalIp},#{item.active},#{item.lastModified},#{item.username},#{item.password})
-		</foreach>
+		(#{code},#{name},#{label},#{description},#{isDeleted})
 	</insert>
 
 	<update id="updateOne">
-		update T_TOKEN
+		update T_PERMISSION
 		<set>
-			<if test="terminalIp != null">
-				TERMINAL_IP = #{terminalIp},
+			<if test="code != null and code != '' ">
+				CODE = #{code},
 			</if>
-			<if test="active != null">
-				ACTIVE = #{active},
+			<if test=" name != null  and  name != ''">
+				NAME = #{name},
 			</if>
-			<if test=" lastModified != null">
-				LAST_MODIFIED = #{lastModified},
+			<if test=" label != null and  label != ''">
+				LABEL = #{label},
 			</if>
-			<if test=" username != null">
-				USERNAME = #{username},
+			<if test=" description != null and description != ''">
+				DESCRIPTION = #{description},
 			</if>
-			<if test=" password != null">
-				PASSWORD = #{password}
+			<if test=" isDeleted != null">
+				IS_DELETED = #{isDeleted, jdbcType=BOOLEAN}
 			</if>
 		</set>
 		where
-		TOKEN_VALUE = #{tokenValue}
+		ID = #{id}
 	</update>
-	
-	<delete id="deleteOne">
-		delete from T_TOKEN
-		where
-		TOKEN_VALUE = #{tokenValue}
-	</delete>
+
+
 </mapper>
