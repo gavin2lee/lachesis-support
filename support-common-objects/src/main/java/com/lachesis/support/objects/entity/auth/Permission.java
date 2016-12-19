@@ -5,6 +5,8 @@ public class Permission {
 	private String code;
 	private String name;
 	private String label;
+	private String description;
+	private Boolean isDeleted;
 
 	public Long getId() {
 		return id;
@@ -36,6 +38,22 @@ public class Permission {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override

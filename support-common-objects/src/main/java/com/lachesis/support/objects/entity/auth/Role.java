@@ -1,10 +1,24 @@
 package com.lachesis.support.objects.entity.auth;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class Role {
 	private Long id;
 	private String code;
 	private String name;
 	private String label;
+	private String description;
+	private Boolean isDeleted;
+	private Date createAt;
+	private Date updateAt;
+	private Long createBy;
+	private Long updateBy;
+
+	private String dataSource;
+
+	private List<Permission> permissions = new ArrayList<Permission>();
 
 	public Long getId() {
 		return id;
@@ -36,6 +50,72 @@ public class Role {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		if (permissions != null) {
+			this.permissions.addAll(permissions);
+		}
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public Long getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Long createBy) {
+		this.createBy = createBy;
+	}
+
+	public Long getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(Long updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public String getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	@Override
