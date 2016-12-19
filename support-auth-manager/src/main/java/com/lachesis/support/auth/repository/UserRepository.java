@@ -15,6 +15,8 @@ public interface UserRepository {
 	Integer deleteRoles(@Param("userId") Long userId, List<Role> roles);
 
 	Integer deleteRole(@Param("userId") Long userId, Role role);
+	
+	Integer deleteAllAssociatedRoles(@Param("userId") Long userID);
 
 	Long insertOne(User u);
 
