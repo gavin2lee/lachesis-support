@@ -8,6 +8,7 @@ public interface UserDataService {
 	User findUserByUsername(String username);
 	
 	User saveUser(User u);
+	User updateUser(User u);
 	User removeUser(User u);
 	
 	User addRole(User u, Role r);

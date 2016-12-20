@@ -7,6 +7,8 @@ import com.lachesis.support.objects.entity.auth.Role;
 
 public interface RoleService {
 	Role saveRole(Role r);
+	
+	Role updateRole(Role r);
 
 	Role removeRole(Role r);
 
