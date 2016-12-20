@@ -2,17 +2,186 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lachesis.support.auth.repository.UserRepository">
 
-	<resultMap id="permissionMap" type="com.lachesis.support.objects.entity.auth.Permission">
+	<resultMap id="userMap" type="com.lachesis.support.objects.entity.auth.User">
 		<id property="id" column="ID" />
 		<result property="code" column="CODE" />
+		<result property="username" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
 		<result property="name" column="NAME" />
-		<result property="label" column="LABEL" />
-		<result property="description" column="DESCRIPTION" />
-		<result property="isDeleted" column="IS_DELETED" jdbcType="BOOLEAN"/>
+		<result property="gender" column="GENDER"/>
+		<result property="mobilePhone" column="MOBILE_PHONE" />
+		<result property="telephone" column="TELEPHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="isActive" column="IS_ACTIVE" />
+		<result property="isLocked" column="IS_LOCKED" />
+		<result property="isDeleted" column="IS_DELETED" />
+		<result property="createAt" column="CREATE_AT" />
+		<result property="updateAt" column="UPDATE_AT" />
+		<result property="createBy" column="CREATE_BY_USER_ID" />
+		<result property="updateBy" column="UPDATE_BY_USER_ID" />
+		<result property="dataSource" column="DATA_SOURCE" />
 	</resultMap>
 
-	<select id="selectOne" resultMap="permissionMap">
-		select * where ID = #{id}
+	<select id="findOne" resultMap="userMap">
+		select * from T_USER 
+		where 
+		ID = #{id}
 	</select>
+	
+	<select id="findOneByUsername" resultMap="userMap">
+		select * from T_USER 
+		where 
+		USERNAME = #{username}
+		and
+		IS_DELETED = 0
+	</select>
+	
+	<insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+		insert into T_USER
+		(
+		CODE,
+		USERNAME,
+		PASSWORD,
+		NAME,
+		GENDER,
+		MOBILE_PHONE,
+		TELEPHONE,
+		EMAIL,
+		IS_ACTIVE,
+		IS_LOCKED,
+		IS_DELETED,
+		CREATE_AT,
+		UPDATE_AT,
+		CREATE_BY_USER_ID,
+		UPDATE_BY_USER_ID,
+		DATA_SOURCE
+		)
+		values
+		(
+		#{code},
+		#{username},
+		#{password},
+		#{name},
+		#{gender},
+		#{mobilePhone},
+		#{telephone},
+		#{email},
+		#{isActive},
+		#{isLocked},
+		#{isDeleted},
+		#{createAt},
+		#{updateAt},
+		#{createBy},
+		#{updateBy},
+		#{dataSource}
+		)
+	</insert>
+	
+	<update id="updateOne">
+		update T_USER
+		<set>
+			<if test="code != null and code != '' ">
+				CODE = #{code},
+			</if>
+			<if test="username != null and username != ''">
+				USERNAME = #{username},
+			</if>
+			<if test="password != null and password != '' ">
+				PASSWORD = #{password},
+			</if>
+			<if test="name != null and name != '' ">
+				NAME = #{name},
+			</if>
+			<if test="gender != null and gender != '' ">
+				GENDER = #{gender},
+			</if>
+			<if test="mobilePhone != null and mobilePhone != '' ">
+				MOBILE_PHONE = #{mobilePhone},
+			</if>
+			<if test="telephone != null and telephone != '' ">
+				TELEPHONE = #{telephone},
+			</if>
+			<if test="email != null and email != '' ">
+				EMAIL = #{email},
+			</if>
+			<if test="isActive != null">
+				IS_ACTIVE = #{isActive},
+			</if>
+			<if test="isLocked != null">
+				IS_LOCAKED = #{isLocked},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
+			<if test="createAt != null">
+				CREATE_AT = #{createAt},
+			</if>
+			<if test="updateAt != null">
+				UPDATE_AT = #{updateAt},
+			</if>
+			<if test="createBy != null">
+				CREATE_BY_USER_ID = #{createBy},
+			</if>
+			<if test="updateBy != null">
+				UPDATE_BY_USER_ID = #{updateBy},
+			</if>
+			<if test="dataSource != null and dataSource != '' ">
+				DATA_SOURCE = #{dataSource}
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<insert id="addRole">
+		insert into R_USER_ROLE
+		(
+		USER_ID,
+		ROLE_ID,
+		IS_DELETED,
+		CREATE_AT,
+		CREATE_BY_USER_ID,
+		UPDATE_AT,
+		UPDATE_BY_USER_ID,
+		DATA_SOURCE
+		)
+		values
+		(
+		#{userId},
+		#{roleId},
+		#{isDeleted},
+		#{createAt},
+		#{createBy},
+		#{updateAt},
+		#{updateBy},
+		#{dataSource}
+		)
+	</insert>
+	
+	<insert id="addRoles">
+		insert into R_USER_ROLE
+		(
+		USER_ID,
+		ROLE_ID,
+		IS_DELETED,
+		CREATE_AT,
+		CREATE_BY_USER_ID,
+		UPDATE_AT,
+		UPDATE_BY_USER_ID,
+		DATA_SOURCE
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+		(
+		#{item.userId},
+		#{item.roleId},
+		#{item.isDeleted},
+		#{item.createAt},
+		#{item.createBy},
+		#{item.updateAt},
+		#{item.updateBy},
+		#{item.dataSource}
+		)
+		</foreach>
+	</insert>
 	
 </mapper>
