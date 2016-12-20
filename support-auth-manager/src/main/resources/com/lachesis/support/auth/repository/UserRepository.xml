@@ -8,7 +8,7 @@
 		<result property="username" column="USERNAME" />
 		<result property="password" column="PASSWORD" />
 		<result property="name" column="NAME" />
-		<result property="gender" column="GENDER"/>
+		<result property="gender" column="GENDER" />
 		<result property="mobilePhone" column="MOBILE_PHONE" />
 		<result property="telephone" column="TELEPHONE" />
 		<result property="email" column="EMAIL" />
@@ -23,19 +23,19 @@
 	</resultMap>
 
 	<select id="findOne" resultMap="userMap">
-		select * from T_USER 
-		where 
+		select * from T_USER
+		where
 		ID = #{id}
 	</select>
-	
+
 	<select id="findOneByUsername" resultMap="userMap">
-		select * from T_USER 
-		where 
+		select * from T_USER
+		where
 		USERNAME = #{username}
 		and
 		IS_DELETED = 0
 	</select>
-	
+
 	<insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
 		insert into T_USER
 		(
@@ -76,7 +76,7 @@
 		#{dataSource}
 		)
 	</insert>
-	
+
 	<update id="updateOne">
 		update T_USER
 		<set>
@@ -131,7 +131,7 @@
 		</set>
 		where ID = #{id}
 	</update>
-	
+
 	<insert id="addRole">
 		insert into R_USER_ROLE
 		(
@@ -156,7 +156,7 @@
 		#{dataSource}
 		)
 	</insert>
-	
+
 	<insert id="addRoles">
 		insert into R_USER_ROLE
 		(
@@ -171,19 +171,19 @@
 		)
 		values
 		<foreach item="item" collection="list" separator=",">
-		(
-		#{item.userId},
-		#{item.roleId},
-		#{item.isDeleted},
-		#{item.createAt},
-		#{item.createBy},
-		#{item.updateAt},
-		#{item.updateBy},
-		#{item.dataSource}
-		)
+			(
+			#{item.userId},
+			#{item.roleId},
+			#{item.isDeleted},
+			#{item.createAt},
+			#{item.createBy},
+			#{item.updateAt},
+			#{item.updateBy},
+			#{item.dataSource}
+			)
 		</foreach>
 	</insert>
-	
+
 	<delete id="deleteRole">
 		delete from R_USER_ROLE
 		where
@@ -191,7 +191,7 @@
 		and
 		ROLE_ID = #{role.id}
 	</delete>
-	
+
 	<delete id="deleteRoles">
 		delete from R_USER_ROLE
 		where
@@ -203,11 +203,11 @@
 			#{item.id}
 		</foreach>
 	</delete>
-	
+
 	<delete id="deleteAllRoles">
 		delete from R_USER_ROLE
 		where
 		USER_ID = #{userId}
 	</delete>
-	
+
 </mapper>
