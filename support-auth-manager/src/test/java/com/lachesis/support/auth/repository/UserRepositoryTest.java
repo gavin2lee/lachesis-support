@@ -3,9 +3,8 @@ package com.lachesis.support.auth.repository;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +21,6 @@ import com.lachesis.support.auth.annotation.RepositoryTestContext;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;
 import com.lachesis.support.objects.entity.auth.UserRole;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @RepositoryTestContext
@@ -96,7 +94,6 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@Rollback(false)
 	public void testAddRole() {
 		User u = mockUser();
 		Role r = mockRole();
@@ -143,22 +140,101 @@ public class UserRepositoryTest {
 
 	@Test
 	public void testDeleteRoles() {
-		fail("Not yet implemented");
+		User u = mockUser();
+		Role r1 = mockRole();
+		Role r2 = mockRole();
+		
+		userRepo.insertOne(u);
+		roleRepo.insertOne(r1);
+		roleRepo.insertOne(r2);
+		
+		assertThat(u.getId(), notNullValue());
+		assertThat(r1.getId(), notNullValue());
+		assertThat(r2.getId(), notNullValue());
+		
+		List<UserRole> urs = mockUserRoles(u.getId(), r1.getId(),r2.getId());
+		userRepo.addRoles(urs);
+		
+		List<Role> roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(2));
+		
+		List<Role> rolesToDelete = new ArrayList<Role>();
+		rolesToDelete.add(r1);
+		rolesToDelete.add(r2);
+		
+		userRepo.deleteRoles(u.getId(), rolesToDelete);
+		roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(0));
 	}
 
 	@Test
 	public void testDeleteRole() {
-		fail("Not yet implemented");
+		User u = mockUser();
+		Role r1 = mockRole();
+		Role r2 = mockRole();
+		
+		userRepo.insertOne(u);
+		roleRepo.insertOne(r1);
+		roleRepo.insertOne(r2);
+		
+		assertThat(u.getId(), notNullValue());
+		assertThat(r1.getId(), notNullValue());
+		assertThat(r2.getId(), notNullValue());
+		
+		List<UserRole> urs = mockUserRoles(u.getId(), r1.getId(),r2.getId());
+		userRepo.addRoles(urs);
+		
+		List<Role> roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(2));
+		
+		userRepo.deleteRole(u.getId(), r1);
+		roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(1));
 	}
 
 	@Test
 	public void testDeleteAllRoles() {
-		fail("Not yet implemented");
+		User u = mockUser();
+		Role r1 = mockRole();
+		Role r2 = mockRole();
+		
+		userRepo.insertOne(u);
+		roleRepo.insertOne(r1);
+		roleRepo.insertOne(r2);
+		
+		assertThat(u.getId(), notNullValue());
+		assertThat(r1.getId(), notNullValue());
+		assertThat(r2.getId(), notNullValue());
+		
+		List<UserRole> urs = mockUserRoles(u.getId(), r1.getId(),r2.getId());
+		userRepo.addRoles(urs);
+		
+		List<Role> roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(2));
+		
+		userRepo.deleteAllRoles(u.getId());
+		roles = roleRepo.findByUserId(u.getId());
+		assertThat(roles, notNullValue());
+		assertThat(roles.size(), equalTo(0));
 	}
 
 	@Test
 	public void testDeleteOne() {
-		fail("Not yet implemented");
+		User u = mockUser();
+		Long ret = userRepo.insertOne(u);
+
+		assertThat(ret, greaterThan(0L));
+		assertThat(u.getId(), notNullValue());
+		
+		int retDel = userRepo.deleteOne(u.getId());
+		assertThat(retDel, equalTo(1));
+		u = userRepo.findOne(u.getId());
+		assertThat(u, nullValue());
 	}
 	
 	private User mockUser() {

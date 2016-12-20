@@ -184,4 +184,30 @@
 		</foreach>
 	</insert>
 	
+	<delete id="deleteRole">
+		delete from R_USER_ROLE
+		where
+		USER_ID = #{userId}
+		and
+		ROLE_ID = #{role.id}
+	</delete>
+	
+	<delete id="deleteRoles">
+		delete from R_USER_ROLE
+		where
+		USER_ID = #{userId}
+		and
+		ROLE_ID in
+		<foreach collection="roles" item="item" index="index" open="("
+			separator="," close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteAllRoles">
+		delete from R_USER_ROLE
+		where
+		USER_ID = #{userId}
+	</delete>
+	
 </mapper>
