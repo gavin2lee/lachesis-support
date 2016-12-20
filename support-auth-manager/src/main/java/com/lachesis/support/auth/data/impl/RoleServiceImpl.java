@@ -47,6 +47,14 @@ public class RoleServiceImpl implements RoleService {
 
 		Role roleToSave = new Role();
 		BeanUtils.copyProperties(r, roleToSave);
+		
+		if(roleToSave.getCreateAt() == null){
+			roleToSave.setCreateAt(new Date());
+		}
+		
+		if(roleToSave.getIsDeleted() == null){
+			roleToSave.setIsDeleted(false);
+		}
 
 		roleRepo.insertOne(roleToSave);
 		return roleToSave;

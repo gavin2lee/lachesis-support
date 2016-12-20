@@ -78,6 +78,22 @@ public class UserDataServiceImpl implements UserDataService {
 		User userToSave = new User();
 		BeanUtils.copyProperties(u, userToSave);
 		
+		if(userToSave.getCreateAt() == null){
+			userToSave.setCreateAt(new Date());
+		}
+		
+		if(userToSave.getIsActive() == null){
+			userToSave.setIsActive(true);
+		}
+		
+		if(userToSave.getIsDeleted() == null){
+			userToSave.setIsDeleted(false);
+		}
+		
+		if(userToSave.getIsLocked() == null){
+			userToSave.setIsLocked(false);
+		}
+		
 		userRepo.insertOne(userToSave);
 		return userToSave;
 	}

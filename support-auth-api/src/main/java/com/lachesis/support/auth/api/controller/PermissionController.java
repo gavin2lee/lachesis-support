@@ -17,7 +17,7 @@ import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.restful.context.vo.ResponseVO;
 
 @RestController
-@RequestMapping("permissions")
+@RequestMapping("/permissions")
 public class PermissionController {
 	private static final Logger LOG = LoggerFactory.getLogger(PermissionController.class);
 
