@@ -65,6 +65,7 @@ public class RoleServiceImpl implements RoleService {
 
 		Role roleToUpdate = new Role();
 		BeanUtils.copyProperties(r, roleToUpdate);
+		roleToUpdate.setUpdateAt(new Date());
 
 		roleRepo.updateOne(roleToUpdate);
 		return roleToUpdate;

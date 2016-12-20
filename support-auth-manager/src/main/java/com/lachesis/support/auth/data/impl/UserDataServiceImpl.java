@@ -61,6 +61,7 @@ public class UserDataServiceImpl implements UserDataService {
 	}
 
 	@Override
+	@Transactional
 	public User saveUser(User u) {
 		if(u == null){
 			return null;
