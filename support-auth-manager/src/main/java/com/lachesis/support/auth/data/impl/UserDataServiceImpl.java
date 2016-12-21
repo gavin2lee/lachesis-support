@@ -60,6 +60,11 @@ public class UserDataServiceImpl implements UserDataService {
 		if (TextUtils.isBlank(u.getUsername())) {
 			return null;
 		}
+		
+		User existingUser = userRepo.findOneByUsername(u.getUsername());
+		if(existingUser != null){
+			return null;
+		}
 
 		User userToSave = new User();
 		BeanUtils.copyProperties(u, userToSave);
