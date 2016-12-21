@@ -31,6 +31,11 @@ public class UserDataController {
 		}
 
 		User userRet = userDataService.saveUser(u);
+		
+		if(userRet == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 
 		return ResponseVO.ok(userRet);
 	}
@@ -43,6 +48,11 @@ public class UserDataController {
 		}
 
 		User userRet = userDataService.updateUser(u);
+
+		if (userRet == null) {
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 		return ResponseVO.ok(userRet);
 	}
 
@@ -85,6 +95,11 @@ public class UserDataController {
 		}
 
 		User userRet = userDataService.addRole(createUserWithId(userId), role);
+
+		if (userRet == null) {
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 
 		return ResponseVO.ok(userRet);
 	}

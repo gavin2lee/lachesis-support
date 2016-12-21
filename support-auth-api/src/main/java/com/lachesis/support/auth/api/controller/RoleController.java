@@ -32,6 +32,11 @@ public class RoleController {
 		}
 
 		Role retRole = roleService.saveRole(r);
+		
+		if(retRole == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 
 		return ResponseVO.ok(retRole);
 	}
@@ -78,6 +83,11 @@ public class RoleController {
 			LOG.trace(String.format("add permission for role %d", roleId));
 		}
 		Role roleRet = roleService.addPermission(createStubRoleWithId(roleId), p);
+		
+		if(roleRet == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 
 		return ResponseVO.ok(roleRet);
 	}

@@ -30,6 +30,11 @@ public class PermissionController {
 			LOG.trace("add permission:"+p);
 		}
 		Permission retPerm = permService.savePermission(p);
+		
+		if(retPerm == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 		return ResponseVO.ok(retPerm);
 	}
 	
@@ -39,6 +44,11 @@ public class PermissionController {
 			LOG.trace("modify permission:"+p);
 		}
 		Permission retPerm = permService.updatePermission(p);
+		
+		if(retPerm == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
 		return ResponseVO.ok(retPerm);
 	}
 	

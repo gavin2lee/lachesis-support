@@ -21,6 +21,9 @@ public class LocalResponseStatusExceptionResolver extends AbstractHandlerExcepti
 		response.setContentType("application/json; charset=utf-8");
 		try {
 			if (ex instanceof AuthenticationException) {
+				if(LOG.isDebugEnabled()){
+					LOG.debug(String.format("errors : %s", ex.getMessage()));
+				}
 				AuthenticationException authEx = (AuthenticationException) ex;
 
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -28,6 +31,9 @@ public class LocalResponseStatusExceptionResolver extends AbstractHandlerExcepti
 				writer.write(convertToJson(authEx));
 				writer.close();
 			} else {
+				if(LOG.isErrorEnabled()){
+					LOG.error("errors occured", ex);
+				}
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				PrintWriter writer = response.getWriter();
 				writer.write(String.format("{\"error\":\"%s\"}", ex.getMessage()));

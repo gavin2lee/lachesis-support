@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
 			return null;
 		}
 
-		if (r.getId() != null || (r.getId() > 0)) {
+		if (r.getId() != null) {
 			return null;
 		}
 
@@ -67,7 +67,7 @@ public class RoleServiceImpl implements RoleService {
 			return null;
 		}
 
-		if (r.getId() == null || (r.getId() <= 0)) {
+		if ( (r.getId() == null) || (r.getId() <= 0)) {
 			return null;
 		}
 
@@ -86,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
 			return null;
 		}
 
-		if (r.getId() == null || (r.getId() <= 0)) {
+		if ( (r.getId() == null) || (r.getId() <= 0)) {
 			return null;
 		}
 
