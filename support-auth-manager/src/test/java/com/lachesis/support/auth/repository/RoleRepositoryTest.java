@@ -14,15 +14,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lachesis.support.auth.annotation.RepositoryTestContext;
+import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.RolePermission;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @RepositoryTestContext
+@Rollback(false)
 public class RoleRepositoryTest {
 
 	@Autowired
@@ -161,6 +164,7 @@ public class RoleRepositoryTest {
 		RolePermission rp = new RolePermission();
 		rp.setCreateAt(new Date());
 		rp.setRoleId(roleId);
+		rp.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
 		rp.setPermissionId(permissionId);
 		rp.setIsDeleted(false);
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.auth.data.UserDataService;
 import com.lachesis.support.auth.repository.RoleRepository;
 import com.lachesis.support.auth.repository.UserRepository;
@@ -183,7 +184,7 @@ public class UserDataServiceImpl implements UserDataService {
 		ur.setUserId(userId);
 		ur.setRoleId(roleId);
 		ur.setCreateAt(new Date());
-		ur.setDataSource("SYSTEM");
+		ur.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
 		ur.setIsDeleted(false);
 
 		return ur;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.auth.data.RoleService;
 import com.lachesis.support.auth.repository.PermissionRepository;
 import com.lachesis.support.auth.repository.RoleRepository;
@@ -54,6 +55,10 @@ public class RoleServiceImpl implements RoleService {
 		
 		if(roleToSave.getIsDeleted() == null){
 			roleToSave.setIsDeleted(false);
+		}
+		
+		if(roleToSave.getDataSource() == null){
+			roleToSave.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
 		}
 
 		roleRepo.insertOne(roleToSave);
@@ -171,7 +176,7 @@ public class RoleServiceImpl implements RoleService {
 		rp.setRoleId(roleId);
 		rp.setPermissionId(permId);
 		rp.setCreateAt(new Date());
-		rp.setDataSource("SYSTEM");
+		rp.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
 		rp.setIsDeleted(false);
 
 		return rp;
