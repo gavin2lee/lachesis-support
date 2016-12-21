@@ -3,10 +3,16 @@ package com.lachesis.support.auth.api.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lachesis.support.auth.data.UserDataService;
+import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;
 import com.lachesis.support.restful.context.vo.ResponseVO;
 
@@ -14,35 +20,94 @@ import com.lachesis.support.restful.context.vo.ResponseVO;
 @RequestMapping("users")
 public class UserDataController {
 	private static final Logger LOG = LoggerFactory.getLogger(UserDataController.class);
-	
+
 	@Autowired
 	private UserDataService userDataService;
-	
-	public ResponseVO addUser(User u){
-		return null;
+
+	@RequestMapping(method = { RequestMethod.POST }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO addUser(@RequestBody User u) {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("add user " + u);
+		}
+
+		User userRet = userDataService.saveUser(u);
+
+		return ResponseVO.ok(userRet);
 	}
-	
-	public ResponseVO updateUser(User u){
-		return null;
+
+	@RequestMapping(path = "/{id}", method = { RequestMethod.PUT }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO updateUser(@PathVariable("id") long userId, @RequestBody User u) {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("update user " + u);
+		}
+
+		User userRet = userDataService.updateUser(u);
+		return ResponseVO.ok(userRet);
 	}
-	
-	public ResponseVO deleteUser(long userId){
-		return null;
+
+	@RequestMapping(path = "/{id}", method = { RequestMethod.DELETE }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO deleteUser(@PathVariable("id") long userId) {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("delete user " + userId);
+		}
+		userDataService.removeUser(createUserWithId(userId));
+		return ResponseVO.NO_CONTENT;
 	}
-	
-	public ResponseVO findUserById(long userId){
-		return null;
+
+	@RequestMapping(path = "/{id}", method = { RequestMethod.GET }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO findUserById(@PathVariable("id") long userId) {
+		User userRet = userDataService.findUserById(userId);
+
+		if (userRet == null) {
+			return ResponseVO.NOT_FOUND;
+		}
+		return ResponseVO.ok(userRet);
 	}
-	
-	public ResponseVO findUserByUsername(String username){
-		return null;
+
+	@RequestMapping(path = "/user", method = { RequestMethod.GET }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO findUserByUsername(@RequestParam("username") String username) {
+		User userRet = userDataService.findUserByUsername(username);
+		if (userRet == null) {
+			return ResponseVO.NOT_FOUND;
+		}
+		return ResponseVO.ok(userRet);
 	}
-	
-	public ResponseVO addRole(){
-		return null;
+
+	@RequestMapping(path = "/{userId}/roles", method = { RequestMethod.POST }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO addRole(@PathVariable("userId") long userId, @RequestBody Role role) {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("add role for user " + userId);
+		}
+
+		User userRet = userDataService.addRole(createUserWithId(userId), role);
+
+		return ResponseVO.ok(userRet);
 	}
-	
-	public ResponseVO deleteRole(){
-		return null;
+
+	@RequestMapping(path = "/{userId}/roles/{roleId}", method = { RequestMethod.POST }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO deleteRole(long userId, long roleId) {
+
+		if (LOG.isTraceEnabled()) {
+			LOG.trace(String.format("delete role %d from user %d", roleId, userId));
+		}
+
+		Role r = new Role();
+		r.setId(roleId);
+
+		userDataService.removeRole(createUserWithId(userId), r);
+		return ResponseVO.NO_CONTENT;
+	}
+
+	private User createUserWithId(long id) {
+		User u = new User();
+		u.setId(id);
+
+		return u;
 	}
 }

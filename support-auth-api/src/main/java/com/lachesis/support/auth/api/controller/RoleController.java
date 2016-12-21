@@ -1,5 +1,7 @@
 package com.lachesis.support.auth.api.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,30 +38,68 @@ public class RoleController {
 
 	@RequestMapping(method = { RequestMethod.GET }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseVO getRoles() {
-		return null;
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("get roles");
+		}
+
+		List<Role> roles = roleService.findAll();
+		return ResponseVO.ok(roles);
 	}
 
 	@RequestMapping(path = "/{roleId}", method = { RequestMethod.GET }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseVO getRoleById(@PathVariable("roleId") long id) {
-		return null;
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("get role by id :" + id);
+		}
+
+		Role roleRet = roleService.findRoleById(id);
+		return ResponseVO.ok(roleRet);
 	}
-	
+
 	@RequestMapping(path = "/{roleId}", method = { RequestMethod.DELETE }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseVO deleteRoleById(@PathVariable("roleId") long id) {
-		return null;
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("delete role by id:" + id);
+		}
+
+		Role roleToRemove = new Role();
+		roleToRemove.setId(id);
+		roleService.removeRole(roleToRemove);
+
+		return ResponseVO.NO_CONTENT;
 	}
 
 	@RequestMapping(path = "/{roleId}/permissions", method = { RequestMethod.POST }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseVO addPermission(@PathVariable("roleId") long roleId, @RequestBody Permission p) {
-		return null;
+		if (LOG.isTraceEnabled()) {
+			LOG.trace(String.format("add permission for role %d", roleId));
+		}
+		Role roleRet = roleService.addPermission(createStubRoleWithId(roleId), p);
+
+		return ResponseVO.ok(roleRet);
 	}
-	
+
 	@RequestMapping(path = "/{roleId}/permissions/{permId}", method = { RequestMethod.DELETE }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseVO deletePermission(@PathVariable("roleId") long roleId, @PathVariable("permId") long permId) {
-		return null;
+		if (LOG.isTraceEnabled()) {
+			LOG.trace(String.format("delete permission %d for role %d", permId, roleId));
+		}
+
+		Permission p = new Permission();
+		p.setId(permId);
+
+		roleService.deletePermission(createStubRoleWithId(roleId), p);
+		return ResponseVO.NO_CONTENT;
+	}
+
+	private Role createStubRoleWithId(long id) {
+		Role r = new Role();
+		r.setId(id);
+
+		return r;
 	}
 }
