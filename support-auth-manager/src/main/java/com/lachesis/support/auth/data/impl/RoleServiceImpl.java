@@ -53,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
 			roleToSave.setCreateAt(new Date());
 		}
 		
-		if(roleToSave.getIsDeleted() == null){
+		if(roleToSave.isDeleted() == null){
 			roleToSave.setIsDeleted(false);
 		}
 		

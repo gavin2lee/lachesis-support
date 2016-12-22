@@ -70,7 +70,7 @@ public class Role {
 		this.description = description;
 	}
 
-	public Boolean getIsDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 

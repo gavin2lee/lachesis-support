@@ -61,6 +61,19 @@ public class RoleController {
 		Role roleRet = roleService.findRoleById(id);
 		return ResponseVO.ok(roleRet);
 	}
+	
+	@RequestMapping(path = "/{roleId}", method = { RequestMethod.PUT }, produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseVO updateRole(@PathVariable("roleId") long roleId, @RequestBody Role role){
+		
+		Role roleRet = roleService.updateRole(role);
+		
+		if(roleRet == null){
+			LOG.warn("operation failed");
+			return ResponseVO.CONFLICT;
+		}
+		return ResponseVO.ok(roleRet);
+	}
 
 	@RequestMapping(path = "/{roleId}", method = { RequestMethod.DELETE }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
