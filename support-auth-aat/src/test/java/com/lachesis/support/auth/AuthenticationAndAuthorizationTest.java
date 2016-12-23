@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,30 +14,35 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lachesis.support.auth.spring.config.TestConfig;
 import com.lachesis.support.objects.vo.auth.AuthenticationRequestVO;
 import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 
 //@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes={TestConfig.class})
 public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
 	String authcHost = "192.168.0.107";
 	int authcPort = 9090;
+	String authcVersion = "v1";
 	String bizHost = "192.168.0.107";
 	int bizPort = 9091;
+	String bizVersion = "v1";
 
 	static final int TEN_THOUSAND = 1000 * 10;
 
 	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 5;
 
-	String authcBaseUrl = String.format("http://%s:%d/authc/api/v1/tokens", authcHost,authcPort);
-	String appServerBaseUrl = String.format("http://%s:%d/demo/api/v1/nurses", bizHost,bizPort);
+	String authcBaseUrl = String.format("http://%s:%d/authc/api/%s/tokens", authcHost,authcPort,authcVersion);
+	String appServerBaseUrl = String.format("http://%s:%d/demo/api/%s/nurses", bizHost,bizPort,bizVersion);
 
 	RestTemplate restTemplate;
 	ObjectMapper mapper = new ObjectMapper();
@@ -46,6 +50,19 @@ public class AuthenticationAndAuthorizationTest {
 	@Before
 	public void setUp() throws Exception {
 		restTemplate = new RestTemplate();
+		prepareUserData();
+	}
+	
+	private void prepareUserData(){
+		
+	}
+	
+	private <T> T get(String url,Class<T> cls){
+		return null;
+	}
+	
+	private <T> T post(String url,Object requestBody,Class<T> cls){
+		return null;
 	}
 
 	@Test
