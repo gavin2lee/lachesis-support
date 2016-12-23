@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,17 +25,20 @@ import com.lachesis.support.objects.vo.auth.AuthenticationRequestVO;
 import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 
 //@Ignore
+@RunWith(SpringJUnit4ClassRunner.class)
 public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
-	static final String AUTHC_HOST = "192.168.0.107";
-	static final String DEMO_HOST = "192.168.0.107";
+	String authcHost = "192.168.0.107";
+	int authcPort = 9090;
+	String bizHost = "192.168.0.107";
+	int bizPort = 9091;
 
 	static final int TEN_THOUSAND = 1000 * 10;
 
 	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 5;
 
-	String authcBaseUrl = String.format("http://%s:9090/authc/api/v1/tokens", AUTHC_HOST);
-	String appServerBaseUrl = String.format("http://%s:9091/demo/api/v1/nurses", DEMO_HOST);
+	String authcBaseUrl = String.format("http://%s:%d/authc/api/v1/tokens", authcHost,authcPort);
+	String appServerBaseUrl = String.format("http://%s:%d/demo/api/v1/nurses", bizHost,bizPort);
 
 	RestTemplate restTemplate;
 	ObjectMapper mapper = new ObjectMapper();

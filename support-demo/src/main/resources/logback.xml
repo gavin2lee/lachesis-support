@@ -36,7 +36,7 @@
     	<appender-ref ref="rollingFile" />
     </logger>
    -->      
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="rollingFile"/>
     </root>
 </configuration>
