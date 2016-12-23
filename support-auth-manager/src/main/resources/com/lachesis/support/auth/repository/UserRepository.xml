@@ -14,10 +14,10 @@
 		<result property="email" column="EMAIL" />
 		<result property="isActive" column="IS_ACTIVE" />
 		<result property="isLocked" column="IS_LOCKED" />
-		<result property="isDeleted" column="IS_DELETED" />
+		<result property="deleted" column="DELETED" />
 		<result property="createAt" column="CREATE_AT" />
 		<result property="updateAt" column="UPDATE_AT" />
-		<result property="createBy" column="CREATE_BY_USER_ID" />
+		<result property="createBy" column="CREATE_BY" />
 		<result property="updateBy" column="UPDATE_BY_USER_ID" />
 		<result property="dataSource" column="DATA_SOURCE" />
 	</resultMap>
@@ -33,7 +33,7 @@
 		where
 		USERNAME = #{username}
 		and
-		IS_DELETED = 0
+		DELETED = 0
 	</select>
 
 	<insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
@@ -49,10 +49,10 @@
 		EMAIL,
 		IS_ACTIVE,
 		IS_LOCKED,
-		IS_DELETED,
+		DELETED,
 		CREATE_AT,
 		UPDATE_AT,
-		CREATE_BY_USER_ID,
+		CREATE_BY,
 		UPDATE_BY_USER_ID,
 		DATA_SOURCE
 		)
@@ -68,7 +68,7 @@
 		#{email},
 		#{isActive},
 		#{isLocked},
-		#{isDeleted},
+		#{deleted},
 		#{createAt},
 		#{updateAt},
 		#{createBy},
@@ -110,8 +110,8 @@
 			<if test="isLocked != null">
 				IS_LOCAKED = #{isLocked},
 			</if>
-			<if test="isDeleted != null">
-				IS_DELETED = #{isDeleted},
+			<if test="deleted != null">
+				DELETED = #{deleted},
 			</if>
 			<if test="createAt != null">
 				CREATE_AT = #{createAt},
@@ -120,7 +120,7 @@
 				UPDATE_AT = #{updateAt},
 			</if>
 			<if test="createBy != null">
-				CREATE_BY_USER_ID = #{createBy},
+				CREATE_BY = #{createBy},
 			</if>
 			<if test="updateBy != null">
 				UPDATE_BY_USER_ID = #{updateBy},
@@ -137,9 +137,9 @@
 		(
 		USER_ID,
 		ROLE_ID,
-		IS_DELETED,
+		DELETED,
 		CREATE_AT,
-		CREATE_BY_USER_ID,
+		CREATE_BY,
 		UPDATE_AT,
 		UPDATE_BY_USER_ID,
 		DATA_SOURCE
@@ -148,7 +148,7 @@
 		(
 		#{userId},
 		#{roleId},
-		#{isDeleted},
+		#{deleted},
 		#{createAt},
 		#{createBy},
 		#{updateAt},
@@ -162,9 +162,9 @@
 		(
 		USER_ID,
 		ROLE_ID,
-		IS_DELETED,
+		DELETED,
 		CREATE_AT,
-		CREATE_BY_USER_ID,
+		CREATE_BY,
 		UPDATE_AT,
 		UPDATE_BY_USER_ID,
 		DATA_SOURCE
@@ -174,7 +174,7 @@
 			(
 			#{item.userId},
 			#{item.roleId},
-			#{item.isDeleted},
+			#{item.deleted},
 			#{item.createAt},
 			#{item.createBy},
 			#{item.updateAt},

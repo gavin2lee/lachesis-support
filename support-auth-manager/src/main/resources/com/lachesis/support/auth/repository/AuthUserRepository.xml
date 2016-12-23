@@ -29,6 +29,6 @@
 		EMAIL email
 		FROM T_USER
 		WHERE USERNAME = #{username}
-		AND IS_ACTIVE = 1
+		AND ACTIVE = 1
 	</select>
 </mapper>

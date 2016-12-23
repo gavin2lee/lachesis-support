@@ -8,11 +8,11 @@
 		<result property="name" column="NAME" />
 		<result property="label" column="LABEL" />
 		<result property="description" column="DESCRIPTION" />
-		<result property="isDeleted" column="IS_DELETED" jdbcType="BOOLEAN" />
+		<result property="deleted" column="DELETED" jdbcType="BOOLEAN" />
 		<result property="createAt" column="CREATE_AT" jdbcType="DATE" />
-		<result property="createBy" column="CREATE_BY_USER_ID" />
+		<result property="createBy" column="CREATE_BY" />
 		<result property="updateAt" column="UPDATE_AT" jdbcType="DATE" />
-		<result property="updateBy" column="UPDATE_BY_USER_ID" />
+		<result property="updateBy" column="UPDATE_BY" />
 
 		<result property="dataSource" column="DATA_SOURCE" />
 
@@ -22,7 +22,7 @@
 			<result property="name" column="P_NAME" />
 			<result property="label" column="P_LABEL" />
 			<result property="description" column="P_DESCRIPTION" />
-			<result property="isDeleted" column="P_IS_DELETED" />
+			<result property="deleted" column="P_DELETED" />
 		</collection>
 	</resultMap>
 
@@ -35,7 +35,7 @@
 		p.LABEL as P_LABEL,
 		p.DESCRIPTION as
 		P_DESCRIPTION,
-		p.IS_DELETED as P_IS_DELETED
+		p.DELETED as P_DELETED
 		from T_ROLE r
 		left join
 		R_ROLE_PERMISSION rp
@@ -54,7 +54,7 @@
 		p.LABEL as P_LABEL,
 		p.DESCRIPTION as
 		P_DESCRIPTION,
-		p.IS_DELETED as P_IS_DELETED
+		p.DELETED as P_DELETED
 		from T_ROLE r
 		left join
 		R_ROLE_PERMISSION rp
@@ -64,7 +64,7 @@
 		p.ID = rp.PERMISSION_ID
 		where
 		r.NAME = #{name}
-		and r.IS_DELETED = 0
+		and r.DELETED = 0
 	</select>
 
 	<select id="findAll" resultMap="roleMap">
@@ -76,7 +76,7 @@
 		p.LABEL as P_LABEL,
 		p.DESCRIPTION as
 		P_DESCRIPTION,
-		p.IS_DELETED as P_IS_DELETED
+		pDELETED as P_DELETED
 		from T_ROLE r
 		left join
 		R_ROLE_PERMISSION rp
@@ -84,7 +84,7 @@
 		left join T_PERMISSION p
 		on
 		p.ID = rp.PERMISSION_ID
-		where r.IS_DELETED = 0
+		where r.DELETED = 0
 	</select>
 
 	<select id="findByUserId" resultMap="roleMap">
@@ -95,7 +95,7 @@
 		p.LABEL as P_LABEL,
 		p.DESCRIPTION as
 		P_DESCRIPTION,
-		p.IS_DELETED as P_IS_DELETED
+		p.DELETED as P_DELETED
 		from T_ROLE r
 		left join
 		R_ROLE_PERMISSION rp
@@ -105,7 +105,7 @@
 		p.ID = rp.PERMISSION_ID
 		inner join R_USER_ROLE u
 		on r.ID = u.ROLE_ID
-		where r.IS_DELETED = 0
+		where r.DELETED = 0
 		and u.USER_ID = #{userId}
 	</select>
 
@@ -116,7 +116,7 @@
 		NAME,
 		LABEL,
 		DESCRIPTION,
-		IS_DELETED,
+		DELETED,
 		CREATE_AT,
 		CREATE_BY_USER_ID,
 		UPDATE_AT,
@@ -129,7 +129,7 @@
 		#{name},
 		#{label},
 		#{description},
-		#{isDeleted},
+		#{deleted},
 		#{createAt},
 		#{createBy},
 		#{updateAt},
@@ -153,8 +153,8 @@
 			<if test="description != null and description != '' ">
 				DESCRIPTION = #{description},
 			</if>
-			<if test="isDeleted != null">
-				IS_DELETED = #{isDeleted},
+			<if test="deleted != null">
+				DELETED = #{deleted},
 			</if>
 			<if test="createAt != null">
 				CREATE_AT = #{createAt, jdbcType=DATE},
@@ -180,7 +180,7 @@
 		(
 			ROLE_ID,
 			PERMISSION_ID,
-			IS_DELETED,
+			DELETED,
 			CREATE_AT,
 			CREATE_BY_USER_ID,
 			UPDATE_AT,
@@ -191,7 +191,7 @@
 		(
 			#{roleId},
 			#{permissionId},
-			#{isDeleted, jdbcType=TINYINT},
+			#{deleted, jdbcType=TINYINT},
 			#{createAt, jdbcType=DATE},
 			#{createBy},
 			#{updateAt, jdbcType=DATE},
@@ -205,7 +205,7 @@
 		(
 			ROLE_ID,
 			PERMISSION_ID,
-			IS_DELETED,
+			DELETED,
 			CREATE_AT,
 			CREATE_BY_USER_ID,
 			UPDATE_AT,
@@ -217,7 +217,7 @@
 		(
 			#{item.roleId},
 			#{item.permissionId},
-			#{item.isDeleted, jdbcType=TINYINT},
+			#{item.deleted, jdbcType=TINYINT},
 			#{item.createAt, jdbcType=DATE},
 			#{item.createBy},
 			#{item.updateAt, jdbcType=DATE},

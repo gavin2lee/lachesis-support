@@ -9,7 +9,7 @@
 		<result property="name" column="NAME" />
 		<result property="label" column="LABEL" />
 		<result property="description" column="DESCRIPTION" />
-		<result property="isDeleted" column="IS_DELETED" jdbcType="BOOLEAN" />
+		<result property="deleted" column="DELETED" jdbcType="BOOLEAN" />
 	</resultMap>
 
 	<select id="findOne" resultMap="permissionMap">
@@ -60,7 +60,7 @@
 				DESCRIPTION = #{description},
 			</if>
 			<if test=" isDeleted != null">
-				IS_DELETED = #{isDeleted, jdbcType=BOOLEAN}
+				DELETED = #{isDeleted, jdbcType=BOOLEAN}
 			</if>
 		</set>
 		where
