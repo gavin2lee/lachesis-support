@@ -1,5 +1,6 @@
 package com.lachesis.support.auth.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.Matchers;
@@ -11,14 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lachesis.support.auth.annotation.RepositoryTestContext;
+import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.objects.entity.auth.Permission;
+import com.lachesis.support.objects.entity.auth.Role;
+import com.lachesis.support.objects.entity.auth.RolePermission;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @RepositoryTestContext
 public class PermissionRepositoryTest {
 	
 	@Autowired
-	PermissionRepository permissionRepo;
+	PermissionRepository permRepo;
+	
+	@Autowired
+	RoleRepository roleRepo;
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,29 +33,48 @@ public class PermissionRepositoryTest {
 
 	@Test
 	public void testFindOne() {
-		Permission p = permissionRepo.findOne(1L);
+		Permission p = mockPermission();
+		permRepo.insertOne(p);
 		
-		Assert.assertThat(p, Matchers.notNullValue());
+		Permission ret = permRepo.findOne(p.getId());
+		
+		Assert.assertThat(ret, Matchers.notNullValue());
 	}
 
 	@Test
 	public void testFindOneByName() {
 		String name = "DEPT:LIST";
-		Permission p = permissionRepo.findOneByName(name);
-		Assert.assertThat(p, Matchers.notNullValue());
-		Assert.assertThat(p.getName(), Matchers.equalTo(name));
+		
+		Permission p = mockPermission();
+		p.setName(name);
+		
+		permRepo.insertOne(p);
+		
+		
+		Permission ret = permRepo.findOneByName(name);
+		Assert.assertThat(ret, Matchers.notNullValue());
+		Assert.assertThat(ret.getName(), Matchers.equalTo(name));
 	}
 
 	@Test
 	public void testFindAll() {
-		List<Permission> permissions = permissionRepo.findAll();
+		List<Permission> permissions = permRepo.findAll();
 		
 		Assert.assertThat(permissions, Matchers.notNullValue());
 	}
 
 	@Test
 	public void testFindByRoleId() {
-		List<Permission> permissions = permissionRepo.findByRoleId(1L);
+		Permission p = mockPermission();
+		permRepo.insertOne(p);
+		
+		Role r = mockRole();
+		roleRepo.insertOne(r);
+		
+		RolePermission rp = mockRolePermission(r.getId(), p.getId());
+		roleRepo.addPermission(rp);
+		
+		List<Permission> permissions = permRepo.findByRoleId(r.getId());
 		
 		Assert.assertThat(permissions, Matchers.notNullValue());
 	}
@@ -62,7 +88,7 @@ public class PermissionRepositoryTest {
 		p.setName("P:READ");
 		p.setDeleted(false);
 		
-		Long ret = permissionRepo.insertOne(p);
+		Long ret = permRepo.insertOne(p);
 		
 		Assert.assertThat(ret, Matchers.greaterThan(0L));
 		Assert.assertThat(p.getId(), Matchers.notNullValue());
@@ -71,14 +97,17 @@ public class PermissionRepositoryTest {
 
 	@Test
 	public void testUpdateOne() {
-		Permission p = permissionRepo.findOne(1L);
+		Permission p = mockPermission();
+		permRepo.insertOne(p);
+		
+		p = permRepo.findOne(p.getId());
 		Assert.assertThat(p, Matchers.notNullValue());
 		
 		String des = "descriptions";
 		p.setDescription(des);
-		permissionRepo.updateOne(p);
+		permRepo.updateOne(p);
 		
-		p = permissionRepo.findOne(1L);
+		p = permRepo.findOne(p.getId());
 		Assert.assertThat(p, Matchers.notNullValue());
 		Assert.assertThat(p.getDescription(), Matchers.equalTo(des));
 	}
@@ -92,15 +121,49 @@ public class PermissionRepositoryTest {
 		p.setName("P:READ");
 		p.setDeleted(false);
 		
-		permissionRepo.insertOne(p);
+		permRepo.insertOne(p);
 		
-		Permission p2 = permissionRepo.findOne(p.getId());
+		Permission p2 = permRepo.findOne(p.getId());
 		
 		Assert.assertThat(p2, Matchers.notNullValue());
-		permissionRepo.deleteOne(p2.getId());
+		permRepo.deleteOne(p2.getId());
 		
-		Permission p3 = permissionRepo.findOne(p2.getId());
+		Permission p3 = permRepo.findOne(p2.getId());
 		Assert.assertThat(p3, Matchers.nullValue());
+	}
+	
+	private Permission mockPermission(){
+		Permission p = new Permission();
+		long timestamp = System.nanoTime();
+		p.setCode("PERM-"+timestamp);
+		p.setDeleted(false);
+		p.setDescription("permission-des");
+		p.setLabel("权限-"+timestamp);
+		p.setName("PERM:TEST-"+timestamp);
+		
+		return p;
+	}
+	
+	private RolePermission mockRolePermission(Long roleId, Long permissionId) {
+		RolePermission rp = new RolePermission();
+		rp.setCreateAt(new Date());
+		rp.setRoleId(roleId);
+		rp.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
+		rp.setPermissionId(permissionId);
+		rp.setDeleted(false);
+
+		return rp;
+	}
+	
+	private Role mockRole() {
+		Role r = new Role();
+		r.setCode("ROLE-TEST");
+		r.setCreateAt(new Date());
+		r.setName("ROLE-TEST-"+System.nanoTime());
+
+		r.setDeleted(false);
+
+		return r;
 	}
 
 }

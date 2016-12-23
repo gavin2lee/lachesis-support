@@ -19,12 +19,12 @@
 
 	<select id="findOneByName" resultMap="permissionMap">
 		select * from T_PERMISSION
-		where NAME = #{name} and IS_DELETED = 0
+		where NAME = #{name} and DELETED = 0
 	</select>
 
 	<select id="findAll" resultMap="permissionMap">
 		select * from T_PERMISSION where
-		IS_DELETED = 0
+		DELETED = 0
 	</select>
 
 	<select id="findByRoleId" resultMap="permissionMap">
@@ -33,15 +33,15 @@
 		inner join R_ROLE_PERMISSION rp
 		on p.ID = rp.PERMISSION_ID
 		where
-		p.IS_DELETED = 0
+		p.DELETED = 0
 		and rp.ROLE_ID = #{roleId}
 	</select>
 
 	<insert id="insertOne" parameterType="Permission" useGeneratedKeys="true" keyProperty="id">
 		insert into T_PERMISSION
-		(CODE,NAME,LABEL,DESCRIPTION,IS_DELETED)
+		(CODE,NAME,LABEL,DESCRIPTION,DELETED)
 		values
-		(#{code},#{name},#{label},#{description},#{isDeleted})
+		(#{code},#{name},#{label},#{description},#{deleted})
 	</insert>
 
 	<update id="updateOne">
@@ -59,8 +59,8 @@
 			<if test=" description != null and description != ''">
 				DESCRIPTION = #{description},
 			</if>
-			<if test=" isDeleted != null">
-				DELETED = #{isDeleted, jdbcType=BOOLEAN}
+			<if test=" deleted != null">
+				DELETED = #{deleted, jdbcType=BOOLEAN}
 			</if>
 		</set>
 		where

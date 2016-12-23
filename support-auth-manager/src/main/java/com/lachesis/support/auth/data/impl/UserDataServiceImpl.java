@@ -74,16 +74,16 @@ public class UserDataServiceImpl implements UserDataService {
 			userToSave.setCreateAt(new Date());
 		}
 
-		if (userToSave.getIsActive() == null) {
-			userToSave.setIsActive(true);
+		if (userToSave.getActive() == null) {
+			userToSave.setActive(true);
 		}
 
-		if (userToSave.getIsDeleted() == null) {
-			userToSave.setIsDeleted(false);
+		if (userToSave.getDeleted() == null) {
+			userToSave.setDeleted(false);
 		}
 
-		if (userToSave.getIsLocked() == null) {
-			userToSave.setIsLocked(false);
+		if (userToSave.getLocked() == null) {
+			userToSave.setLocked(false);
 		}
 
 		userRepo.insertOne(userToSave);
@@ -185,7 +185,7 @@ public class UserDataServiceImpl implements UserDataService {
 		ur.setRoleId(roleId);
 		ur.setCreateAt(new Date());
 		ur.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
-		ur.setIsDeleted(false);
+		ur.setDeleted(false);
 
 		return ur;
 	}

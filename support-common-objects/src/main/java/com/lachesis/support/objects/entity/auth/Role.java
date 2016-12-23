@@ -10,7 +10,7 @@ public class Role {
 	private String name;
 	private String label;
 	private String description;
-	private Boolean isDeleted;
+	private Boolean deleted;
 	private Date createAt;
 	private Date updateAt;
 	private Long createBy;
@@ -70,12 +70,12 @@ public class Role {
 		this.description = description;
 	}
 
-	public Boolean isDeleted() {
-		return isDeleted;
+	public Boolean getDeleted() {
+		return deleted;
 	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Date getCreateAt() {

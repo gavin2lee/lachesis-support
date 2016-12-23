@@ -76,7 +76,7 @@
 		p.LABEL as P_LABEL,
 		p.DESCRIPTION as
 		P_DESCRIPTION,
-		pDELETED as P_DELETED
+		p.DELETED as P_DELETED
 		from T_ROLE r
 		left join
 		R_ROLE_PERMISSION rp
@@ -118,9 +118,9 @@
 		DESCRIPTION,
 		DELETED,
 		CREATE_AT,
-		CREATE_BY_USER_ID,
+		CREATE_BY,
 		UPDATE_AT,
-		UPDATE_BY_USER_ID,
+		UPDATE_BY,
 		DATA_SOURCE
 		)
 		values
@@ -160,13 +160,13 @@
 				CREATE_AT = #{createAt, jdbcType=DATE},
 			</if>
 			<if test="createBy != null">
-				CREATE_BY_USER_ID = #{createBy},
+				CREATE_BY = #{createBy},
 			</if>
 			<if test="updateAt != null">
 				UPDATE_AT = #{updateAt, jdbcType=DATE},
 			</if>
 			<if test="updateBy != null">
-				UPDATE_BY_USER_ID = #{updateBy},
+				UPDATE_BY = #{updateBy},
 			</if>
 			<if test="dataSource != null and dataSource != '' ">
 				DATA_SOURCE = #{dataSource}
@@ -182,9 +182,9 @@
 			PERMISSION_ID,
 			DELETED,
 			CREATE_AT,
-			CREATE_BY_USER_ID,
+			CREATE_BY,
 			UPDATE_AT,
-			UPDATE_BY_USER_ID,
+			UPDATE_BY,
 			DATA_SOURCE
 		)
 		values
@@ -207,9 +207,9 @@
 			PERMISSION_ID,
 			DELETED,
 			CREATE_AT,
-			CREATE_BY_USER_ID,
+			CREATE_BY,
 			UPDATE_AT,
-			UPDATE_BY_USER_ID,
+			UPDATE_BY,
 			DATA_SOURCE
 		)
 		values

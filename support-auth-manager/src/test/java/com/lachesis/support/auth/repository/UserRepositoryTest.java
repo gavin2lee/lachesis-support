@@ -239,15 +239,16 @@ public class UserRepositoryTest {
 	
 	private User mockUser() {
 		User u = new User();
+		u.setId(System.nanoTime());
 		u.setUsername("user-test-" + System.nanoTime());
 		u.setName("USER-TEST");
 		u.setCode("code-test");
 		u.setTelephone("0755-89896666");
 		u.setPassword("123");
 		u.setCreateAt(new Date());
-		u.setIsActive(true);
-		u.setIsDeleted(false);
-		u.setIsLocked(false);
+		u.setActive(true);
+		u.setDeleted(false);
+		u.setLocked(false);
 		u.setCreateBy(1L);
 		u.setEmail("abcddd@lachesis.com");
 		u.setDataSource("SYSTEM");
@@ -265,19 +266,20 @@ public class UserRepositoryTest {
 		r.setCreateAt(new Date());
 		r.setName("ROLE-TEST-"+System.nanoTime());
 
-		r.setIsDeleted(false);
+		r.setDeleted(false);
 
 		return r;
 	}
 	
 	private UserRole mockUserRole(long userId, long roleId){
 		UserRole ur = new UserRole();
+		ur.setId(System.nanoTime());
 		ur.setUserId(userId);
 		ur.setRoleId(roleId);
 		ur.setDataSource("SYSTEM");
 		ur.setCreateBy(userId);
 		ur.setCreateAt(new Date());
-		ur.setIsDeleted(false);
+		ur.setDeleted(false);
 		
 		return ur;
 	}

@@ -17,9 +17,9 @@ public class User {
 	private String telephone;
 	private String email;
 
-	private Boolean isDeleted;
-	private Boolean isActive;
-	private Boolean isLocked;
+	private Boolean deleted;
+	private Boolean active;
+	private Boolean locked;
 
 	private Date createAt;
 	private Date updateAt;
@@ -102,28 +102,28 @@ public class User {
 		this.email = email;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
+	public Boolean getDeleted() {
+		return deleted;
 	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
-	public Boolean getIsActive() {
-		return isActive;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
-	public Boolean getIsLocked() {
-		return isLocked;
+	public Boolean getLocked() {
+		return locked;
 	}
 
-	public void setIsLocked(Boolean isLocked) {
-		this.isLocked = isLocked;
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 
 	public Date getCreateAt() {

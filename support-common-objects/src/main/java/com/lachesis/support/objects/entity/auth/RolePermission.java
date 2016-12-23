@@ -6,7 +6,7 @@ public class RolePermission {
 	private Long id;
 	private Long roleId;
 	private Long permissionId;
-	private Boolean isDeleted;
+	private Boolean deleted;
 	private Date createAt;
 	private Date updateAt;
 	private Long createBy;
@@ -37,12 +37,12 @@ public class RolePermission {
 		this.permissionId = permissionId;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
+	public Boolean getDeleted() {
+		return deleted;
 	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Date getCreateAt() {

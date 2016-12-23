@@ -12,13 +12,13 @@
 		<result property="mobilePhone" column="MOBILE_PHONE" />
 		<result property="telephone" column="TELEPHONE" />
 		<result property="email" column="EMAIL" />
-		<result property="isActive" column="IS_ACTIVE" />
-		<result property="isLocked" column="IS_LOCKED" />
+		<result property="active" column="ACTIVE" />
+		<result property="locked" column="LOCKED" />
 		<result property="deleted" column="DELETED" />
 		<result property="createAt" column="CREATE_AT" />
 		<result property="updateAt" column="UPDATE_AT" />
 		<result property="createBy" column="CREATE_BY" />
-		<result property="updateBy" column="UPDATE_BY_USER_ID" />
+		<result property="updateBy" column="UPDATE_BY" />
 		<result property="dataSource" column="DATA_SOURCE" />
 	</resultMap>
 
@@ -39,6 +39,7 @@
 	<insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
 		insert into T_USER
 		(
+		ID,
 		CODE,
 		USERNAME,
 		PASSWORD,
@@ -47,17 +48,18 @@
 		MOBILE_PHONE,
 		TELEPHONE,
 		EMAIL,
-		IS_ACTIVE,
-		IS_LOCKED,
+		ACTIVE,
+		LOCKED,
 		DELETED,
 		CREATE_AT,
 		UPDATE_AT,
 		CREATE_BY,
-		UPDATE_BY_USER_ID,
+		UPDATE_BY,
 		DATA_SOURCE
 		)
 		values
 		(
+		#{id},
 		#{code},
 		#{username},
 		#{password},
@@ -66,8 +68,8 @@
 		#{mobilePhone},
 		#{telephone},
 		#{email},
-		#{isActive},
-		#{isLocked},
+		#{active},
+		#{locked},
 		#{deleted},
 		#{createAt},
 		#{updateAt},
@@ -104,11 +106,11 @@
 			<if test="email != null and email != '' ">
 				EMAIL = #{email},
 			</if>
-			<if test="isActive != null">
-				IS_ACTIVE = #{isActive},
+			<if test="active != null">
+				ACTIVE = #{active},
 			</if>
-			<if test="isLocked != null">
-				IS_LOCAKED = #{isLocked},
+			<if test="locked != null">
+				LOCAKED = #{locked},
 			</if>
 			<if test="deleted != null">
 				DELETED = #{deleted},
@@ -123,7 +125,7 @@
 				CREATE_BY = #{createBy},
 			</if>
 			<if test="updateBy != null">
-				UPDATE_BY_USER_ID = #{updateBy},
+				UPDATE_BY = #{updateBy},
 			</if>
 			<if test="dataSource != null and dataSource != '' ">
 				DATA_SOURCE = #{dataSource}
@@ -135,17 +137,19 @@
 	<insert id="addRole">
 		insert into R_USER_ROLE
 		(
+		ID,
 		USER_ID,
 		ROLE_ID,
 		DELETED,
 		CREATE_AT,
 		CREATE_BY,
 		UPDATE_AT,
-		UPDATE_BY_USER_ID,
+		UPDATE_BY,
 		DATA_SOURCE
 		)
 		values
 		(
+		#{id},
 		#{userId},
 		#{roleId},
 		#{deleted},
@@ -160,18 +164,20 @@
 	<insert id="addRoles">
 		insert into R_USER_ROLE
 		(
+		ID,
 		USER_ID,
 		ROLE_ID,
 		DELETED,
 		CREATE_AT,
 		CREATE_BY,
 		UPDATE_AT,
-		UPDATE_BY_USER_ID,
+		UPDATE_BY,
 		DATA_SOURCE
 		)
 		values
 		<foreach item="item" collection="list" separator=",">
 			(
+			#{item.id},
 			#{item.userId},
 			#{item.roleId},
 			#{item.deleted},

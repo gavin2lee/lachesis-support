@@ -22,6 +22,8 @@ import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.RolePermission;
+import com.lachesis.support.objects.entity.auth.User;
+import com.lachesis.support.objects.entity.auth.UserRole;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @RepositoryTestContext
@@ -30,6 +32,9 @@ public class RoleRepositoryTest {
 
 	@Autowired
 	RoleRepository roleRepo;
+	
+	@Autowired
+	UserRepository userRepo;
 
 	@Autowired
 	PermissionRepository permissionRepo;
@@ -47,10 +52,17 @@ public class RoleRepositoryTest {
 	@Test
 	public void testFindOneByName() {
 		String name = "NURSE";
-		Role r = roleRepo.findOneByName(name);
+		
+		Role r = mockRole();
+		r.setName(name);
+		
+		roleRepo.insertOne(r);
+		
+		
+		Role ret = roleRepo.findOneByName(name);
 
-		assertThat(r, notNullValue());
-		assertThat(r.getName(), equalTo(name));
+		assertThat(ret, notNullValue());
+		assertThat(ret.getName(), equalTo(name));
 	}
 
 	@Test
@@ -64,7 +76,14 @@ public class RoleRepositoryTest {
 
 	@Test
 	public void testFindByUserId() {
-		List<Role> roles = roleRepo.findByUserId(1L);
+		Role r = mockRole();
+		roleRepo.insertOne(r);
+		
+		User u = mockUser();
+		userRepo.insertOne(u);
+		
+		userRepo.addRole(mockUserRole(u.getId(), r.getId()));
+		List<Role> roles = roleRepo.findByUserId(u.getId());
 
 		assertThat(roles, notNullValue());
 		assertThat(roles.size(), greaterThan(0));
@@ -80,11 +99,11 @@ public class RoleRepositoryTest {
 
 	private Role mockRole() {
 		Role r = new Role();
-		r.setCode("ROLE_TEST-");
+		r.setCode("ROLE-TEST");
 		r.setCreateAt(new Date());
 		r.setName("ROLE-TEST-"+System.nanoTime());
 
-		r.setIsDeleted(false);
+		r.setDeleted(false);
 
 		return r;
 	}
@@ -166,7 +185,7 @@ public class RoleRepositoryTest {
 		rp.setRoleId(roleId);
 		rp.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
 		rp.setPermissionId(permissionId);
-		rp.setIsDeleted(false);
+		rp.setDeleted(false);
 
 		return rp;
 	}
@@ -247,6 +266,42 @@ public class RoleRepositoryTest {
 		assertThat(r1, notNullValue());
 		assertThat(r1.getPermissions(), notNullValue());
 		assertThat(r1.getPermissions().size(), equalTo(1));
+	}
+	
+	private UserRole mockUserRole(long userId, long roleId){
+		UserRole ur = new UserRole();
+		ur.setId(System.nanoTime());
+		ur.setUserId(userId);
+		ur.setRoleId(roleId);
+		ur.setDataSource("SYSTEM");
+		ur.setCreateBy(userId);
+		ur.setCreateAt(new Date());
+		ur.setDeleted(false);
+		
+		return ur;
+	}
+	
+	private User mockUser() {
+		User u = new User();
+		u.setId(System.nanoTime());
+		u.setUsername("user-test-" + System.nanoTime());
+		u.setName("USER-TEST");
+		u.setCode("code-test");
+		u.setTelephone("0755-89896666");
+		u.setPassword("123");
+		u.setCreateAt(new Date());
+		u.setActive(true);
+		u.setDeleted(false);
+		u.setLocked(false);
+		u.setCreateBy(1L);
+		u.setEmail("abcddd@lachesis.com");
+		u.setDataSource("SYSTEM");
+		u.setGender("M");
+		u.setMobilePhone("189252222211");
+		u.setUpdateAt(new Date());
+		u.setUpdateBy(2L);
+
+		return u;
 	}
 
 }

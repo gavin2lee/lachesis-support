@@ -53,8 +53,8 @@ public class RoleServiceImpl implements RoleService {
 			roleToSave.setCreateAt(new Date());
 		}
 		
-		if(roleToSave.isDeleted() == null){
-			roleToSave.setIsDeleted(false);
+		if(roleToSave.getDeleted() == null){
+			roleToSave.setDeleted(false);
 		}
 		
 		if(roleToSave.getDataSource() == null){
@@ -177,7 +177,7 @@ public class RoleServiceImpl implements RoleService {
 		rp.setPermissionId(permId);
 		rp.setCreateAt(new Date());
 		rp.setDataSource(AuthConstants.DATA_SOURCE_SYSTEM);
-		rp.setIsDeleted(false);
+		rp.setDeleted(false);
 
 		return rp;
 	}

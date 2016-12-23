@@ -6,7 +6,7 @@ public class UserRole {
 	private Long id;
 	private Long userId;
 	private Long roleId;
-	private Boolean isDeleted;
+	private Boolean deleted;
 	private Date createAt;
 	private Date updateAt;
 	private Long createBy;
@@ -37,12 +37,12 @@ public class UserRole {
 		this.roleId = roleId;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
+	public Boolean getDeleted() {
+		return deleted;
 	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Date getCreateAt() {

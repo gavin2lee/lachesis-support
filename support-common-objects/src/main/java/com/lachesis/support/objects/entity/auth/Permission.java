@@ -6,7 +6,7 @@ public class Permission {
 	private String name;
 	private String label;
 	private String description;
-	private Boolean isDeleted;
+	private Boolean deleted;
 
 	public Long getId() {
 		return id;
@@ -39,7 +39,7 @@ public class Permission {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -48,12 +48,12 @@ public class Permission {
 		this.description = description;
 	}
 
-	public Boolean isDeleted() {
-		return isDeleted;
+	public Boolean getDeleted() {
+		return deleted;
 	}
 
-	public void setDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	@Override
