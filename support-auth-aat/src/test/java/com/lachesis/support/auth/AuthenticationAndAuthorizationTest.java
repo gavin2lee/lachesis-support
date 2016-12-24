@@ -33,7 +33,7 @@ public class AuthenticationAndAuthorizationTest {
 	String authcHost = "192.168.0.107";
 	int authcPort = 9090;
 	String authcVersion = "v1";
-	String bizHost = "192.168.0.107";
+	String bizHost = "192.168.0.105";
 	int bizPort = 9091;
 	String bizVersion = "v1";
 
