@@ -106,7 +106,7 @@ public class UserDataController {
 
 	@RequestMapping(path = "/{userId}/roles/{roleId}", method = { RequestMethod.POST }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseVO deleteRole(long userId, long roleId) {
+	public ResponseVO deleteRole(@PathVariable("userId") long userId, @PathVariable("roleId") long roleId) {
 
 		if (LOG.isTraceEnabled()) {
 			LOG.trace(String.format("delete role %d from user %d", roleId, userId));
